@@ -1,0 +1,18 @@
+# Third-party binary used only as a reference; never commit it
+Farmer.exe
+*.exe
+
+# Build output
+target/
+build/
+out/
+*.class
+
+# IDE / OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# Local player data
+saves/
