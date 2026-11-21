@@ -1,5 +1,6 @@
-# Third-party binary used only as a reference; never commit it
+# Third-party game files; never commit them
 Farmer.exe
+/game/
 *.exe
 
 # Build output
