@@ -1,0 +1,3 @@
+# ERROR: ... (a variable number of arguments) is not supported in JavaFarmer
+# AT: ...
+f <- function(...) print(1)

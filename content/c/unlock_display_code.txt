@@ -1,0 +1,32 @@
+@auto_unlock
+unlock()
+@costs
+get_cost()
+@debug_2
+set_execution_speed()
+@dictionaries
+map_new(K, V)
+@import
+extern int x;
+@lists
+list_of(int, 1, 2, 3)
+@loops
+while
+@senses
+get_pos_x()
+@simulation
+simulate()
+@the_farmers_remains
+?
+@utilities
+random()
+@debug
+printf()
+@functions
+void f(void) { }
+@timing
+get_time()
+@variables
+int a = 2;
+@operators
+1 + 1

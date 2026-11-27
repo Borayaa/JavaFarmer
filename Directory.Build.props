@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <!-- Folder that contains TheFarmerWasReplaced_Data (override: dotnet build -p:GameDir=/path/to/game) -->
+    <GameDir Condition="'$(GameDir)' == ''">$(MSBuildThisFileDirectory)</GameDir>
+    <GameManaged>$(GameDir)TheFarmerWasReplaced_Data/Managed/</GameManaged>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+</Project>

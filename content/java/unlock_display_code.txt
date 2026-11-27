@@ -1,0 +1,32 @@
+@auto_unlock
+unlock()
+@costs
+getCost()
+@debug_2
+setExecutionSpeed()
+@dictionaries
+new HashMap<>()
+@import
+Utils.f()
+@lists
+List.of(1, 2, 3)
+@loops
+while
+@senses
+getPosX()
+@simulation
+simulate()
+@the_farmers_remains
+?
+@utilities
+Math.random()
+@debug
+println()
+@functions
+void f() { }
+@timing
+getTime()
+@variables
+int a = 2;
+@operators
+1 + 1

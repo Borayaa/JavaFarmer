@@ -1,0 +1,32 @@
+@auto_unlock
+unlock()
+@costs
+get_cost()
+@debug_2
+set_execution_speed()
+@dictionaries
+std::map<K, V>
+@import
+extern int x;
+@lists
+std::vector<int>
+@loops
+while
+@senses
+get_pos_x()
+@simulation
+simulate()
+@the_farmers_remains
+?
+@utilities
+farm::random()
+@debug
+std::println()
+@functions
+void f() { }
+@timing
+get_time()
+@variables
+int a = 2;
+@operators
+1 + 1

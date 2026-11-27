@@ -1,0 +1,11 @@
+-- C# docs exceptions: EN docs code spans the C# printer cannot express as compilable JavaFarmer C#.
+-- Format: <path relative to Languages/EN/docs>#<span index>: reason. Read by HarnessTests (f).
+-- The docs translator keeps these spans in Python; content/csharp/docs has hand-written C# for them.
+scripting/dicts.md#2: uses the variable dict from an earlier block; on its own its type is unknown (could be a list or a dictionary), so the printer cannot pick the indexer type
+scripting/dicts.md#6: uses the variable dict from an earlier block; on its own its type is unknown (could be a list or a dictionary)
+scripting/dicts.md#17: uses the variable dict from an earlier block; on its own its type is unknown (could be a list or a dictionary)
+scripting/functions.md#32: passes builtins with different parameter types (Move, UseItem) to the same parameter and calls g(arg); a C# delegate parameter has one signature
+scripting/import.md#8: from module2 import ...: C# uses other files by their class name (Module2.PrintX()); module2 does not exist in the check and there is no import statement for files
+scripting/import.md#10: from module2 import *: C# uses other files by their class name; module2 does not exist in the check
+scripting/import.md#35: import a / a.x: the other file a does not exist in the check, and C# has no import statement for files
+scripting/import.md#60: from a import *: the other file a does not exist in the check, and C# has no import statement for files

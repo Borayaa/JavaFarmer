@@ -1,0 +1,2 @@
+@new_hat_unlocked = ## New Hat Unlocked
+`ChangeHat(`{0}`);`

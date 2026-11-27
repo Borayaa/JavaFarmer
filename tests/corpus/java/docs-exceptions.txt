@@ -1,0 +1,19 @@
+-- Java docs exceptions: EN docs code spans the Java printer cannot express (or that need the Python frontend's help).
+-- Format: <path relative to Languages/EN/docs>#<span index>: reason. Read by HarnessTests (f) and Docs/DocsTranslatorTests.
+-- The docs translator keeps these spans in Python; content/java/docs has hand-written Java for them.
+scripting/dicts.md#1: dictionary key is a tuple (x, y); Java has no tuple literal (Position cannot be constructed)
+scripting/dicts.md#7: dictionary key is a tuple (get_pos_x(), get_pos_y()); Java has no tuple literal
+scripting/functions.md#32: passes builtins with parameters (move, use_item) as values and calls g(arg); Runnable/Supplier take no arguments
+scripting/import.md#8: from module2 import ...: Java uses other files by name (module2.printX()), there is no import statement for them
+scripting/import.md#10: from module2 import *: Java uses other files by name, there is no import statement for them
+scripting/import.md#33: import b: Java uses other files by name, there is no import statement for them
+scripting/import.md#35: import a / a.x: other file a does not exist in the check, and Java has no import statement for files
+scripting/import.md#58: from b import *: Java uses other files by name, there is no import statement for them
+scripting/import.md#60: from a import *: Java uses other files by name, there is no import statement for them
+scripting/tuples.md#0: tuple = 1, 2: Java has no tuples
+scripting/tuples.md#5: tuple = 1, 2: Java has no tuples
+scripting/tuples.md#9: tuples as dictionary keys and values: Java has no tuples
+scripting/tuples.md#11: returning several values (return 1, 2): Java methods return one value
+scripting/dicts.md#2: uses the variable dict from an earlier block; on its own its type is unknown (could be a list or a map), so the Java printer cannot pick get(int) vs get(key)
+scripting/dicts.md#6: uses the variable dict from an earlier block; on its own its type is unknown (could be a list or a map)
+scripting/dicts.md#17: uses the variable dict from an earlier block; on its own its type is unknown (could be a list or a map)

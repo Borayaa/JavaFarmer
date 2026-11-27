@@ -1,0 +1,14 @@
+@error_missing_default_parameter = A parameter with a default value cannot be followed by a parameter without one. Give the following parameters default values too, or move this parameter to the end.
+@error_no_statements = A code block must contain at least one statement. 
+A statement can be a function call like `harvest();` or a variable assignment. 
+@error_not_enough_indentation = There isn't enough indentation here. Code blocks are written between curly braces.
+@error_too_much_indentation = There is too much indentation here.
+@error_missing_colon = A code block must start with an opening curly brace and end with a closing curly brace.
+@error_invalid_for_syntax = This is not a valid for loop. A for loop looks like this: 
+`for (int i = 0; i < 3; i++)`
+or
+`for (Entity e : plants)`
+@error_bad_backslash = A backslash can only be used inside a string, like `"\n"`.
+@error_wildcard_imports_not_allowed_in_function = C++ has no `import`. Declare the functions of other code windows with prototypes at the top of the window.
+@error_assign_before_global = {0} is assigned before it was declared.
+@error_invalid_import = You cannot use code windows with names that are not valid C++ names. Valid names can only contain letters, numbers, and underscores and must not start with a number. If your file name contains other characters, you must rename it.

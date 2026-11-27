@@ -1,0 +1,264 @@
+@code_tooltip_vault_pin_length = `vault_pin_length()`
+Returns the number of digits of the current vault PIN. A PIN with `n` digits is a number from `0` to `10 ** n - 1`.
+
+returns the number of digits (`2` to `4`, one more per level of Brute Force).
+
+takes `1` tick to execute.
+
+example:
+`n = vault_pin_length()
+for pin in range(10 ** n):
+	if vault_try(pin):
+		break`
+@code_tooltip_vault_try = `vault_try(pin)`
+Tries `pin` on the vault. If it is right, you earn `5 * n * n` `Items.Bits` for a PIN of `n` digits and the vault is locked again with a new PIN.
+
+returns `True` if the PIN was right, `False` otherwise.
+
+takes `200` ticks to execute.
+
+example:
+`if vault_try(42):
+	print("cracked")`
+@code_tooltip_vault_check_digit = `vault_check_digit(i, d)`
+Measures how long the vault takes to reject a PIN, many times over. This leaks whether digit `i` of the PIN (`0` is the leftmost digit) is `d`. It does not open the vault.
+
+returns `True` if digit `i` of the PIN is `d`, `False` otherwise.
+
+takes `25` ticks to execute.
+
+example:
+`if vault_check_digit(0, 7):
+	print("the PIN starts with 7")`
+@code_tooltip_intercept_message = `intercept_message()`
+Gets the encrypted message that is currently being sent. It has only capital letters and single spaces. It stays the same until you decrypt it.
+
+returns the encrypted message as a string.
+
+takes `1` tick to execute.
+
+example:
+`text = intercept_message()
+print(text)`
+@code_tooltip_cipher_key_length = `cipher_key_length()`
+Gets the number of shifts in the key of the intercepted message. `1` means a Caesar cipher.
+
+returns the length of the key.
+
+takes `1` tick to execute.
+
+example:
+`if cipher_key_length() == 1:
+	print("Caesar")`
+@code_tooltip_decrypt_submit = `decrypt_submit(text)`
+Submits `text` as the decrypted message (case and surrounding spaces do not matter). If it is right, you earn `Items.Bits` and the next message arrives.
+
+returns `True` if the text was right, `False` otherwise.
+
+takes `200` ticks to execute.
+
+example:
+`if decrypt_submit("THE DRONE MEETS AT DAWN"):
+	print("solved")`
+@code_tooltip_char_code = `char_code(s, i)`
+Gets the character code of the character at index `i` of the string `s`. `"A"` is `65`, `"Z"` is `90`, `"a"` is `97` and a space is `32`.
+
+returns the character code as a number.
+
+takes `1` tick to execute.
+
+example:
+`letter = char_code("HAY", 0) - 65`
+@code_tooltip_from_char_code = `from_char_code(n)`
+Makes a string of one character from the character code `n` (`32` to `126`). It is the reverse of `char_code()`.
+
+returns a string with one character.
+
+takes `1` tick to execute.
+
+example:
+`d = from_char_code(65 + 3)`
+@code_tooltip_hash_text = `hash_text(s)`
+Computes the hash used by the leaked database. It starts with `0` and, for every character, multiplies the hash so far by `31`, adds the character code and keeps the remainder after dividing by `1000000007`.
+
+returns the hash as a number.
+
+takes `5` ticks to execute.
+
+example:
+`h = hash_text("dragon")`
+@code_tooltip_leaked_hash_count = `leaked_hash_count()`
+Gets the number of entries in the leaked password database.
+
+returns the number of entries (`8`).
+
+takes `1` tick to execute.
+
+example:
+`for i in range(leaked_hash_count()):
+	print(leaked_hash(i))`
+@code_tooltip_leaked_hash = `leaked_hash(i)`
+Gets the stored hash of entry `i` of the leaked database.
+
+returns the hash as a number.
+
+takes `1` tick to execute.
+
+example:
+`stored = leaked_hash(0)`
+@code_tooltip_leaked_salt = `leaked_salt(i)`
+Gets the salt of entry `i`. Its stored hash is `hash_text(salt + password)`. Without salts (level `1`) the salt is empty.
+
+returns the salt as a string, or `""`.
+
+takes `1` tick to execute.
+
+example:
+`salt = leaked_salt(0)
+if hash_text(salt + "dragon") == leaked_hash(0):
+	crack_submit(0, "dragon")`
+@code_tooltip_wordlist_size = `wordlist_size()`
+Gets the number of words in the wordlist of common passwords.
+
+returns the number of words.
+
+takes `1` tick to execute.
+
+example:
+`for w in range(wordlist_size()):
+	print(wordlist_word(w))`
+@code_tooltip_wordlist_word = `wordlist_word(i)`
+Gets word `i` of the wordlist. The most popular passwords come first.
+
+returns the word as a string.
+
+takes `1` tick to execute.
+
+example:
+`word = wordlist_word(0)`
+@code_tooltip_crack_submit = `crack_submit(i, password)`
+Submits `password` for entry `i` of the leak. If its hash matches, you earn `Items.Bits`. When all entries are cracked, a new leak arrives.
+
+returns `True` if the password was right and entry `i` was not cracked yet, `False` otherwise.
+
+takes `200` ticks to execute.
+
+example:
+`if crack_submit(0, "dragon"):
+	print("entry 0 cracked")`
+@code_tooltip_log_count = `log_count()`
+Gets the number of entries in the current login log.
+
+returns the number of entries.
+
+takes `1` tick to execute.
+
+example:
+`for i in range(log_count()):
+	print(log_ip(i))`
+@code_tooltip_log_ip = `log_ip(i)`
+Gets the address that entry `i` of the login log came from.
+
+returns the address as a string, for example `"10.0.3.17"`.
+
+takes `1` tick to execute.
+
+example:
+`ip = log_ip(0)`
+@code_tooltip_log_user = `log_user(i)`
+Gets the account name that entry `i` of the login log tried to log in to.
+
+returns the account name as a string.
+
+takes `1` tick to execute.
+
+example:
+`user = log_user(0)`
+@code_tooltip_log_success = `log_success(i)`
+Checks whether the login of entry `i` worked.
+
+returns `True` if the login succeeded, `False` if it failed.
+
+takes `1` tick to execute.
+
+example:
+`if not log_success(0):
+	print("failed login from", log_ip(0))`
+@code_tooltip_block_ip = `block_ip(ip)`
+Blocks the address `ip`. Blocking an attacker earns `Items.Bits`. Blocking a legit user costs Bits. An unknown or already blocked address does nothing.
+
+returns `True` if `ip` was an attacker, `False` otherwise.
+
+takes `200` ticks to execute.
+
+example:
+`if block_ip("203.0.113.45"):
+	print("attacker blocked")`
+@code_tooltip_log_next = `log_next()`
+Archives the current login log and loads the next one.
+
+returns `None`.
+
+takes `200` ticks to execute.
+
+example:
+`log_next()`
+@code_tooltip_packet_next = `packet_next()`
+Moves to the next packet of the batch. At the end of the batch, the batch is scored, you earn its `Items.Bits` and the next call starts a new batch.
+
+returns `True` if there is a new current packet, `False` at the end of the batch.
+
+takes `10` ticks to execute.
+
+example:
+`while packet_next():
+	if packet_port() == 443:
+		packet_allow()`
+@code_tooltip_packet_port = `packet_port()`
+Gets the destination port of the current packet, for example `80` for the web.
+
+returns the port as a number.
+
+takes `1` tick to execute.
+
+example:
+`if packet_port() == 53:
+	packet_allow()`
+@code_tooltip_packet_src = `packet_src()`
+Gets the source address of the current packet.
+
+returns the address as a string.
+
+takes `1` tick to execute.
+
+example:
+`if packet_src() == "203.0.113.9":
+	packet_deny()`
+@code_tooltip_packet_size = `packet_size()`
+Gets the size of the current packet in bytes.
+
+returns the size as a number.
+
+takes `1` tick to execute.
+
+example:
+`if packet_size() > 1500:
+	packet_deny()`
+@code_tooltip_packet_allow = `packet_allow()`
+Lets the current packet through the firewall.
+
+returns `None`.
+
+takes `10` ticks to execute.
+
+example:
+`packet_allow()`
+@code_tooltip_packet_deny = `packet_deny()`
+Drops the current packet. A packet you do not decide on is dropped too.
+
+returns `None`.
+
+takes `10` ticks to execute.
+
+example:
+`packet_deny()`

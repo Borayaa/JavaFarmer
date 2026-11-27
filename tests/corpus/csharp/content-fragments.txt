@@ -1,0 +1,9 @@
+-- C# content docs (content/csharp/docs): code blocks that are deliberately partial (syntax templates with placeholder names).
+-- Format: <page path relative to content/csharp/docs>#<span index>: reason. Read by CSharpDocsTests.
+scripting/for.md#18: syntax template (Type, variableName and collection are placeholders)
+scripting/scopes.md#2: deliberate error example (y is used outside the block that declares it)
+scripting/scopes.md#7: deliberate error example (the loop variable i is used after the loop)
+scripting/while.md#5: syntax template (condition is a placeholder)
+scripting/while.md#12: syntax template (condition is a placeholder)
+unlocks/cactus.md#18: not code: grids of cactus sizes
+unlocks/cactus.md#19: not code: a grid of cactus sizes

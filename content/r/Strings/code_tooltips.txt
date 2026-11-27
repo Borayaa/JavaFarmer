@@ -1,0 +1,689 @@
+@code_tooltip_harvest = `harvest()`
+Harvests the entity under the drone. 
+If you harvest an entity that can't be harvested, it will be destroyed.
+
+returns `TRUE` if an entity was removed, `FALSE` otherwise.
+
+takes `200` ticks to execute if an entity was removed, `1` tick otherwise.
+
+example:
+`harvest()`
+@code_tooltip_can_harvest = `can_harvest()`
+Used to find out if plants are fully grown.
+
+returns `TRUE` if there is an entity under the drone that is ready to be harvested, `FALSE` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`if (can_harvest()) {
+    harvest()
+}`
+@code_tooltip_range = R has no `range()`. Count with a sequence in a `for` loop instead:
+`seq_len(n)` counts from `1` to `n`.
+`seq_len(n) - 1` counts from `0` to `n - 1` (like Python's `range(n)`).
+`a:b` counts from `a` to `b`, both included.
+`seq(a, b, by = step)` counts from `a` to `b` in steps of size `step`.
+
+takes `1` tick to start the loop.
+
+example:
+`for (i in seq_len(10) - 1) {
+    print(i)
+}
+
+for (i in 2:5) {
+    print(i)
+}
+
+for (i in 10:1) {
+    print(i)
+}`
+@code_tooltip_plant = `plant(entity)`
+Spends the cost of the specified `entity` and plants it under the drone.
+It fails if you can't afford the plant, the ground type is wrong or there's already a plant there.
+
+returns `TRUE` if it succeeded, `FALSE` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`plant(Entities$Bush)`
+@code_tooltip_move = `move(direction)`
+Moves the drone into the specified `direction` by one tile.
+If the drone moves over the edge of the farm it wraps back to the other side of the farm.
+
+`East `  =  right
+`West `  =  left
+`North`  =  up
+`South`  =  down
+
+returns `TRUE` if the drone has moved, `FALSE` otherwise.
+
+takes `200` ticks to execute if the drone has moved, `1` tick otherwise.
+
+example:
+`move(North)`
+@code_tooltip_can_move = `can_move(direction)`
+Checks if the drone can move in the specified `direction`.
+
+returns `TRUE` if the drone can move, `FALSE` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`if (can_move(North)) {
+    move(North)
+}`
+@code_tooltip_swap = `swap(direction)`
+Swaps the entity under the drone with the entity next to the drone in the specified `direction`.
+Doesn't work on all entities.
+Also works if one (or both) of the entities are `NULL`.
+
+returns `TRUE` if it succeeded, `FALSE` otherwise.
+
+takes `200` ticks to execute on success, `1` tick otherwise.
+
+example:
+`swap(North)`
+@code_tooltip_till = `till()`
+Tills the ground under the drone into `Grounds$Soil`. If it's already soil it will change the ground back to `Grounds$Grassland`.
+
+returns `NULL`
+
+takes `200` ticks to execute.
+
+example:
+`till()`
+@code_tooltip_get_pos_x = `get_pos_x()`
+Gets the current x position of the drone.
+The x position starts at `0` in the west and increases in the east direction.
+
+returns a number representing the current x coordinate of the drone.
+
+takes `1` tick to execute.
+
+example:
+`x <- get_pos_x()
+y <- get_pos_y()`
+@code_tooltip_get_pos_y = `get_pos_y()`
+Gets the current y position of the drone.
+The y position starts at `0` in the south and increases in the north direction.
+
+returns a number representing the current y coordinate of the drone.
+
+takes `1` tick to execute.
+
+example:
+`x <- get_pos_x()
+y <- get_pos_y()`
+@code_tooltip_get_world_size = `get_world_size()`
+Get the current size of the farm.
+
+returns the side length of the grid in the north to south direction.
+
+takes `1` tick to execute.
+
+example:
+`for (i in seq_len(get_world_size())) {
+    move(North)
+}`
+@code_tooltip_get_entity_type = `get_entity_type()`
+Find out what kind of entity is under the drone.
+
+returns `NULL` if the tile is empty, otherwise returns the type of the entity under the drone.
+
+takes `1` tick to execute.
+
+example:
+`if (get_entity_type() == Entities$Grass) {
+    harvest()
+}`
+@code_tooltip_get_ground_type = `get_ground_type()`
+Find out what kind of ground is under the drone.
+
+returns the type of the ground under the drone.
+
+takes `1` tick to execute.
+
+example:
+`if (get_ground_type() != Grounds$Soil) {
+    till()
+}`
+@code_tooltip_get_time = `get_time()`
+Get the current game time.
+
+returns the time in seconds since the start of the game.
+
+takes `1` tick to execute.
+
+example:
+`start <- get_time()
+
+do_something()
+
+time_passed <- get_time() - start`
+@code_tooltip_get_tick_count = `get_tick_count()`
+Used to measure the number of ticks performed.
+
+returns the number of ticks performed since the start of execution.
+
+takes `0` tick to execute.
+
+example:
+`do_something()
+
+print(get_tick_count())`
+@code_tooltip_use_item = `use_item(item, n = 1)`
+Attempts to use the specified `item` `n` times. Can only be used with some items including `Items$Water`, `Items$Fertilizer`.
+
+returns `TRUE` if an item was used, `FALSE` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`use_item(Items$Fertilizer)
+use_item(Items$Water, n = 2)`
+@code_tooltip_get_water = `get_water()`
+Get the current water level under the drone.
+
+returns the water level under the drone as a number between `0` and `1`.
+
+takes `1` tick to execute.
+
+example:
+`if (get_water() < 0.5) {
+    use_item(Items$Water)
+}`
+@code_tooltip_do_a_flip = `do_a_flip()`
+Makes the drone do a flip! This action is not affected by speed upgrades.
+
+returns `NULL`
+
+takes 1s to execute.
+
+example:
+`repeat {
+    do_a_flip()
+}`
+@code_tooltip_pet_the_piggy = `pet_the_piggy()`
+Pets the piggy! This action is not affected by speed upgrades.
+
+returns `NULL`
+
+takes 1s to execute.
+
+example:
+`repeat {
+    pet_the_piggy()
+}`
+@code_tooltip_print = `print(value)`
+Prints `value` into the air above the drone using smoke. This action is not affected by speed upgrades.
+`print()` shows one value. To print several values at once, use `cat(a, b, "\n")`.
+
+returns `NULL`
+
+takes 1s to execute.
+
+example:
+`print(get_ground_type())
+cat("ground:", get_ground_type(), "\n")`
+@code_tooltip_len = `length(x)`
+R has no `len()`. `length(x)` gets the number of elements in a list or dictionary. For the number of characters in a text, use `nchar(text)`.
+
+returns the length of `x`.
+
+takes `1` tick to execute.
+
+example:
+`v <- c(1, 2, 3)
+for (i in seq_len(length(v))) {
+    v[[i]] <- v[[i]] + 1
+}`
+@code_tooltip_list = `list(...)` or `c(...)`
+Creates a new list with the given elements. `list()` and `c()` without arguments create an empty list.
+Use `c()` for a list of single values and `list()` for a list that contains other lists.
+Lists are values in R: `b <- a` gives `b` its own copy of the list `a`.
+
+returns a list.
+
+takes `1 + length(x)` ticks to execute.
+
+example:
+`new_list <- c(1, 2, 3)
+grid <- list(c(1, 2), c(3, 4))`
+@code_tooltip_dict = `list(key = value, ...)`
+R has no `dict()`. A dictionary is a named list: `list(hay = 1, wood = 2)` maps the texts `"hay"` and `"wood"` to numbers. `list()` creates an empty one, and `m[[key]] <- value` adds a key, which can also be a game constant like `Items$Hay`.
+`b <- a` gives `b` its own copy of the dictionary `a`.
+
+returns a dictionary.
+
+takes `1 + length(x)` ticks to execute.
+
+example:
+`new_dict <- list()
+new_dict[[Items$Hay]] <- 100`
+@code_tooltip_set = R has no sets. Use a list and only add an element if it is not in the list yet.
+
+example:
+`s <- c()
+x <- 1
+if (!(x %in% s)) {
+    s[[length(s) + 1]] <- x
+}`
+@code_tooltip_str = `as.character(x)`
+R has no `str()`. `as.character(x)` (or `paste0(x)`) turns a value into text.
+
+returns a string representation of `x`.
+
+takes `1` ticks to execute.
+
+example:
+`text <- as.character(1000)`
+@code_tooltip_set_execution_speed = `set_execution_speed(speed)`
+Limits the speed at which the program is executed to better see what's happening.
+
+A `speed` of `1` is the speed the drone has without any speed upgrades.
+A `speed` of `10` makes the code execute `10` times faster and corresponds to the speed of the drone after `9` speed upgrades.
+A `speed` of `0.5` makes the code execute at half of the speed without speed upgrades. This can be useful to see what the code is doing.
+
+If `speed` is faster than the execution can currently go it will just go at max speed.
+
+If `speed` is `0` or negative, the speed is changed back to max speed.
+The effect will also stop when the execution stops.
+
+returns `NULL`
+
+takes `200` ticks to execute.
+
+example:
+`set_execution_speed(1)`
+@code_tooltip_set_world_size = `set_world_size(size)`
+Limits the size of the farm to better see what's happening.
+Also clears the farm and resets the drone position.
+Sets the farm to a `size` x `size` grid.
+The smallest `size` possible is `3`.
+A `size` smaller than `3` will change the grid back to its full size.
+The effect will also stop when the execution stops.
+
+returns `NULL`
+
+takes `200` ticks to execute.
+
+example:
+`set_world_size(5)`
+@code_tooltip_num_items = `num_items(item)`
+Find out how much of `item` you currently have.
+
+returns the number of `item` currently in your inventory.
+
+takes `1` tick to execute.
+
+example:
+`if (num_items(Items$Fertilizer) > 0) {
+    use_item(Items$Fertilizer)
+}`
+@code_tooltip_get_cost = `get_cost(thing)`
+Gets the cost of a `thing`
+
+If `thing` is an entity get the cost of planting it.
+If `thing` is an unlock get the cost of unlocking it.
+
+returns a dictionary (a named list) with items as keys and numbers as values. Each item is mapped to how much of it is needed.
+returns an empty dictionary when used on an upgradeable unlock that is already at the max level.
+
+takes `1` tick to execute.
+
+example:
+`cost <- get_cost(Unlocks$Carrots)
+for (item in names(cost)) {
+    if (num_items(item) < cost[[item]]) {
+        print("not enough items to unlock carrots")
+    }
+}`
+@code_tooltip_clear = `clear()`
+Removes everything from the farm, moves the drone back to position `(0, 0)` and changes the hat back to the straw hat.
+
+returns `NULL`
+
+takes `200` ticks to execute.
+
+example:
+`clear()`
+@code_tooltip_get_companion = `get_companion()`
+Get the preferred companion of the plant under the drone.
+
+returns a list of the form `list(companion_type, c(companion_x_position, companion_y_position))`, or `NULL` if there is no plant with a companion preference under the drone.
+
+takes `1` tick to execute.
+
+example:
+`companion <- get_companion()
+if (!is.null(companion)) {
+    plant_type <- companion[[1]]
+    x <- companion[[2]][[1]]
+    y <- companion[[2]][[2]]
+}`
+@code_tooltip_unlock = `unlock(unlock)`
+Has exactly the same effect as clicking the button corresponding to `unlock` in the research tree.
+
+returns `TRUE` if the unlock was successful, `FALSE` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`unlock(Unlocks$Carrots)`
+@code_tooltip_num_unlocked = `num_unlocked(thing)`
+Used to check if an unlock, entity, ground or item is already unlocked.
+
+returns `1` plus the number of times `thing` has been upgraded if `thing` is upgradable. Otherwise returns `1` if `thing` is unlocked, `0` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`plant(Entities$Bush)
+n_substance <- get_world_size() * num_unlocked(Unlocks$Mazes)
+use_item(Items$Weird_Substance, n_substance)`
+@code_tooltip_reset = `reset()`
+Resets the farm back to a 1x1 square, removes all resources and locks most unlocks.
+It doesn't remove any of your code.
+
+returns `NULL`
+
+takes `200` ticks to execute.
+
+Note: the current version of the game has no `reset()` function in its list of builtins, so JavaFarmer reports it as an unknown function.
+@code_tooltip_measure = `measure(direction = NULL)`
+Can measure some values on some entities. The effect of this depends on the entity.
+
+If `direction` is not `NULL` it measures the neighboring entity in the given direction.
+
+returns the number of petals of a sunflower.
+returns the next position for a treasure or apple. Read its x and y with `[[1]]` and `[[2]]`.
+returns the size of a cactus.
+returns a mysterious number for a pumpkin.
+returns `NULL` for all other entities.
+
+takes `1` tick to execute.
+
+example:
+`num_petals <- measure()
+next_size <- measure(North)`
+@code_tooltip_leaderboard_run = `leaderboard_run(leaderboard, file_name, speedup)`
+Starts a timed simulation for the `leaderboard` using the specified `file_name` as a starting point.
+`speedup` sets the starting speedup.
+
+returns `NULL`
+
+takes `200` ticks to execute.
+
+example:
+`leaderboard_run(Leaderboards$Fastest_Reset, "full_run", 256)`
+@code_tooltip_simulate = `simulate(filename, sim_unlocks, sim_items, sim_globals, seed, speedup)`
+Starts a simulation for the leaderboard using the specified `filename` as a starting point.
+
+`sim_unlocks`: A list containing the starting unlocks, or `Unlocks` for all of them.
+`sim_items`: A dictionary mapping items to amounts. The simulation starts with these items.
+`sim_globals`: A dictionary mapping variable names to values. The simulation starts with these variables in the global scope.
+`seed`: The random seed of the simulation. Must be a positive integer.
+`speedup`: The starting speedup.
+
+returns the time it took to run the simulation.
+
+takes `200` ticks to execute.
+
+example:
+`filename <- "f1"
+sim_unlocks <- c(Unlocks$Carrots, Unlocks$Trees)
+sim_items <- list()
+sim_items[[Items$Carrot]] <- 10000
+sim_items[[Items$Hay]] <- 50
+sim_globals <- list(a = 13)
+seed <- 0
+speedup <- 64
+
+run_time <- simulate(filename, sim_unlocks, sim_items, sim_globals, seed, speedup)`
+@code_tooltip_spawn_drone = `spawn_drone(f)`
+Spawns a new drone in the same position as the drone that ran the `spawn_drone(f)` command. The new drone then begins executing the function `f`. After it is done, it will disappear automatically.
+`f` is the name of one of your functions, or a function written in place like `function() move_n(3)`.
+
+returns the handle of the new drone or `NULL` if all drones are already spawned.
+
+takes `200` ticks to execute if a drone was spawned, `1` otherwise.
+
+example:
+`harvest_column <- function() {
+    for (i in seq_len(get_world_size())) {
+        harvest()
+        move(North)
+    }
+}
+
+repeat {
+    if (!is.null(spawn_drone(harvest_column))) {
+        move(East)
+    }
+}`
+
+@code_tooltip_wait_for = `wait_for(drone)`
+Waits until the given `drone` terminates.
+
+returns the return value of the function that the `drone` was running.
+
+takes `1` tick to execute if the awaited `drone` is already done.
+
+example:
+`get_entity_type_in_direction <- function(dir) {
+    move(dir)
+    get_entity_type()
+}
+
+zero_arg_wrapper <- function() {
+    get_entity_type_in_direction(North)
+}
+handle <- spawn_drone(zero_arg_wrapper)
+print(wait_for(handle))`
+
+@code_tooltip_has_finished = `has_finished(drone)`
+Checks if the given `drone` has finished.
+
+returns `TRUE` if the `drone` has finished, `FALSE` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`drone <- spawn_drone(do_something)
+while (!has_finished(drone)) {
+    do_something_else()
+}
+result <- wait_for(drone)`
+
+@code_tooltip_max_drones = `max_drones()`
+
+returns the maximum number of drones that you can have in the farm.
+
+takes `1` tick to execute.
+
+example:
+`while (num_drones() < max_drones()) {
+    spawn_drone(do_something)
+    move(East)
+}`
+
+@code_tooltip_num_drones = `num_drones()`
+
+returns the number of drones currently in the farm.
+
+takes `1` tick to execute.
+
+example:
+`while (num_drones() < max_drones()) {
+    spawn_drone(do_something)
+    move(East)
+}`
+
+@code_tooltip_quick_print = `quick_print(...)`
+Prints values just like `print()` but it doesn't stop to write them into the air so they can only be found on the output page. It can print several values at once.
+
+returns `NULL`
+
+takes `0` ticks to execute.
+
+example:
+`quick_print("hi mom")
+quick_print("hay:", num_items(Items$Hay))`
+@code_tooltip_change_hat = `change_hat(hat)`
+Changes the hat of the drone to `hat`.
+
+returns `NULL`
+
+takes `200` ticks to execute.
+
+example:
+`change_hat(Hats$Dinosaur_Hat)`
+
+@code_tooltip_max = `max(a, b, ...)`
+Gets the maximum of several passed arguments.
+Can be used on numbers and strings.
+
+`max(a, b, c)`: Returns the maximum of `a`, `b` and `c`.
+
+takes #comparisons ticks to execute.
+
+example:
+`biggest <- max(3, 6, 34, 16)`
+@code_tooltip_min = `min(a, b, ...)`
+Gets the minimum of several passed arguments.
+Can be used on numbers and strings.
+
+`min(a, b, c)`: Returns the minimum of `a`, `b` and `c`.
+
+takes #comparisons ticks to execute.
+
+example:
+`smallest <- min(3, 6, 34, 16)`
+@code_tooltip_abs = `abs(number)`
+Computes the absolute value of a number.
+
+returns `number` if `number` is positive, `-number` otherwise.
+
+takes 1 tick to execute.
+
+example:
+`abs(-69)`
+@code_tooltip_random = `random()`
+Samples a random number between 0 (inclusive) and 1 (exclusive). Use it instead of R's `runif()` and `sample()`.
+
+returns the random number.
+
+takes `1` ticks to execute.
+
+example:
+`random_elem <- function(v) {
+    index <- floor(random() * length(v)) + 1
+    v[[index]]
+}`
+@code_tooltip_append = `v[[length(v) + 1]] <- element`
+R lists have no `append` method. This adds `element` to the end of the list `v`. `v <- c(v, element)` does the same.
+
+takes `1` ticks to execute.
+
+example:
+`v <- c()
+v[[length(v) + 1]] <- 1`
+@code_tooltip_add = R has no sets, so there is no `add`. To add `element` to a list that you use as a set, check first that it is not in it yet.
+
+takes `element size` ticks to execute.
+
+example:
+`s <- c(0)
+if (!(1 %in% s)) {
+    s[[length(s) + 1]] <- 1
+}`
+@code_tooltip_remove = `v <- v[-match(element, v)]`
+Removes the first occurrence of `element` from the list `v`. `match(element, v)` is the index of `element` in `v` (it fails if `element` is not in `v`), and `v[-i]` is the list without the element at the index `i`.
+On a dictionary, `m[[key]] <- NULL` removes the key and its value.
+
+takes #comparisions + #shifts ticks.
+
+example:
+`v <- c(TRUE, FALSE, TRUE)
+v <- v[-match(FALSE, v)]`
+@code_tooltip_pop = `v <- v[-i]`
+Removes the element at index `i` from the list `v`. Indices start at `1`. Use `v <- v[-length(v)]` to remove the last element.
+`m[[key]] <- NULL` removes a key from a dictionary.
+Read the element first if you still need it.
+
+takes `key size` ticks to execute on a dictionary, `length(v) - i + 1` ticks on a list.
+
+example:
+`v <- c(4, 5, 6)
+first <- v[[1]]
+v <- v[-1]`
+@code_tooltip_insert = `v <- append(v, element, after = i)`
+Inserts `element` into the list `v` after the index `i`, so that it gets the index `i + 1`. `v <- c(element, v)` inserts it at the front.
+
+takes `length(v) - i + 1` ticks.
+
+example:
+`v <- c(1, 2)
+v <- append(v, 0, after = 0)`
+@code_tooltip_Items = Contains all items that can be in the inventory, like `Items$Hay`.
+@code_tooltip_Entities = Contains all plant types, like `Entities$Bush`.
+@code_tooltip_Grounds = Contains all possible ground types, like `Grounds$Soil`.
+@code_tooltip_Unlocks = Contains all the unlocks and upgrades in the research menu, like `Unlocks$Speed`.
+@code_tooltip_Hats = Contains all hat types, like `Hats$Straw_Hat`.
+@code_tooltip_Leaderboards = Contains all leaderboard categories, like `Leaderboards$Hay`.
+@code_tooltip_for = A loop that runs its body once for every element of a sequence: `for (x in v) { ... }`. Count with `for (i in seq_len(n))` (`1` to `n`) or `for (i in 1:10)`. Some programming languages call this a "foreach" loop.
+@code_tooltip_while = Loops as long as the condition is `TRUE`: `while (condition) { ... }`
+@code_tooltip_def = R has no `def`. Define a function with `function` and store it in a name: `f <- function(n) { ... }`
+@code_tooltip_True = R writes it `TRUE`: a boolean value that is always true.
+@code_tooltip_False = R writes it `FALSE`: a boolean value that is always false.
+@code_tooltip_if = Executes code if the condition is `TRUE`: `if (condition) { ... }`
+@code_tooltip_else = Executes code if the previous `if` condition was `FALSE`. Write it on the same line as the closing brace: `} else {`
+@code_tooltip_elif = R has no `elif`. `} else if (condition) {` does the same thing as:
+`} else {
+    if (condition) {
+        ...
+    }
+}`
+@code_tooltip_None = R writes it `NULL`: a value representing that there is no value. Check for it with `is.null(x)`.
+@code_tooltip_continue = R writes it `next`. Immediately continue with the next loop iteration. If there are nested loops, this will always affect the innermost loop.
+@code_tooltip_break = Break out of a loop and continue executing the statements after the loop. If there are nested loops, this will always affect the innermost loop.
+@code_tooltip_North = The up direction on the screen. Unless you turn your screen around.
+@code_tooltip_East = The right direction on the screen. Unless you turn your screen around.
+@code_tooltip_South = The down direction on the screen. Unless you turn your screen around.
+@code_tooltip_West = The left direction on the screen. Unless you turn your screen around.
+@code_tooltip_not = `!TRUE` is `FALSE` and `!FALSE` is `TRUE`.
+@code_tooltip_and = `a && b` is `TRUE` only if both `a` and `b` are `TRUE`. If `a` is `FALSE`, `b` is not evaluated at all. Use `&&`, not the single `&`.
+@code_tooltip_or = `a || b` is `TRUE` if at least one of `a` and `b` is `TRUE`. If `a` is `TRUE`, `b` is not evaluated at all. Use `||`, not the single `|`.
+@code_tooltip_return = Leaves a function and gives back a value: `return(value)`. Without it, a function returns the value of its last expression.
+@code_tooltip_pass = R has no `pass`. An empty block `{ }` is allowed.
+@code_tooltip_global = R has no `global`. Use `<<-` instead of `<-` to change a global (top-level) variable from inside a function: `count <<- count + 1`
+@code_tooltip_import = R uses `source("utils.R")` to use the functions and variables of the code window `utils`. After it, call them by their names.
+@code_tooltip_TRUE = A boolean value that is always true.
+@code_tooltip_FALSE = A boolean value that is always false.
+@code_tooltip_NULL = A value representing that there is no value. Check for it with `is.null(x)`, not with `x == NULL`.
+@code_tooltip_function = Creates a function. Store it in a name to call it later:
+`f <- function(a, b = 1) {
+    a + b
+}`
+The function returns the value of its last expression. `b = 1` is a default value.
+@code_tooltip_repeat = Repeats the code between the braces forever: `repeat { ... }`. Use `break` to leave the loop.
+@code_tooltip_next = Immediately continue with the next loop iteration. If there are nested loops, this will always affect the innermost loop.
+@code_tooltip_in = Used in a `for` loop: `for (x in v)` runs once for every element of `v`. `x %in% v` is `TRUE` if `x` is an element of `v`.
+@code_tooltip_c = `c(...)` combines values into a list (a vector): `c(1, 2, 3)`. `c()` is an empty list.
+@code_tooltip_length = `length(x)` returns the number of elements in a list or dictionary.
+@code_tooltip_seq_len = `seq_len(n)` is the sequence `1, 2, ..., n` for a `for` loop. It is empty when `n` is `0`. `seq_len(n) - 1` counts from `0` to `n - 1`.
+@code_tooltip_seq_along = `seq_along(v)` is the sequence of the indices of `v`, from `1` to `length(v)`, for a `for` loop.
+@code_tooltip_seq = `seq(a, b, by = step)` counts from `a` to `b` in steps of size `step`, for a `for` loop.
+@code_tooltip_names = `names(m)` returns the keys of the dictionary `m`. Loop over them with `for (key in names(m))`, and check for a key with `key %in% names(m)`.
+@code_tooltip_source = `source("utils.R")` lets this file use the functions and global variables of the code window `utils`. Write it at the top of the file.
+@code_tooltip_cat = `cat(a, b, ...)` prints several values on one line, separated by spaces, into the air above the drone like `print()`. End it with `"\n"`: `cat("hay:", num_items(Items$Hay), "\n")`
+@code_tooltip_paste = `paste(a, b, ...)` joins values into one text, separated by spaces: `paste("x is", 3)` is `"x is 3"`. `paste(a, b, sep = "-")` uses another separator.
+@code_tooltip_paste0 = `paste0(a, b, ...)` joins values into one text without spaces: `paste0("a", 1)` is `"a1"`.
+@code_tooltip_is.null = `is.null(x)` is `TRUE` if `x` is `NULL`, `FALSE` otherwise.
+@code_tooltip_as.character = `as.character(x)` turns a value into text: `as.character(5)` is `"5"`.
+@code_tooltip_switch = Chooses code depending on a text: `switch(name, a = { ... }, b = { ... }, { ... })`. The last arm without a name runs when no name matches.
+@code_tooltip_floor = `floor(x)` rounds `x` down to a whole number. Use `floor(x + 0.5)` to round to the nearest whole number.
+@code_tooltip_nchar = `nchar(text)` returns the number of characters in a text.

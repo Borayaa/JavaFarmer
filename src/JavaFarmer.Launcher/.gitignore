@@ -1,0 +1,4 @@
+# Build outputs: never commit binaries or the generated Windows resources (they hold the game's icon).
+*.exe
+*.syso
+/winres/

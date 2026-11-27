@@ -1,0 +1,713 @@
+@code_tooltip_harvest = `fn harvest() -> bool`
+Harvests the entity under the drone. 
+If you harvest an entity that can't be harvested, it will be destroyed.
+
+returns `true` if an entity was removed, `false` otherwise.
+
+takes `200` ticks to execute if an entity was removed, `1` tick otherwise.
+
+example:
+`harvest();`
+@code_tooltip_can_harvest = `fn can_harvest() -> bool`
+Used to find out if plants are fully grown.
+
+returns `true` if there is an entity under the drone that is ready to be harvested, `false` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`if can_harvest() {
+	harvest();
+}`
+@code_tooltip_range = Rust has no `range()`. A range is written `start..end`: it counts from `start` up to (but not including) `end`. `start..=end` includes `end`, `(start..end).rev()` counts down and `(start..end).step_by(step)` takes steps of size `step`.
+
+takes `1` tick to start the loop.
+
+example:
+`for i in 0..10 {
+	println!("{}", i);
+}
+
+for i in 2..6 {
+	println!("{}", i);
+}
+
+for i in (1..=10).rev() {
+	println!("{}", i);
+}`
+@code_tooltip_plant = `fn plant(entity: Entity) -> bool`
+Spends the cost of the specified `entity` and plants it under the drone.
+It fails if you can't afford the plant, the ground type is wrong or there's already a plant there.
+
+returns `true` if it succeeded, `false` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`plant(Entity::Bush);`
+@code_tooltip_move = `fn move_to(direction: Direction) -> bool`
+The game's `move()` is called `move_to()` in Rust, because `move` is a Rust keyword (`r#move(North)` works too).
+Moves the drone into the specified `direction` by one tile.
+If the drone moves over the edge of the farm it wraps back to the other side of the farm.
+
+`East `  =  right
+`West `  =  left
+`North`  =  up
+`South`  =  down
+
+returns `true` if the drone has moved, `false` otherwise.
+
+takes `200` ticks to execute if the drone has moved, `1` tick otherwise.
+
+The keyword `move` in front of a closure (`move || harvest()`) makes the closure take its own copy of the variables it uses.
+
+example:
+`move_to(North);`
+@code_tooltip_can_move = `fn can_move(direction: Direction) -> bool`
+Checks if the drone can move in the specified `direction`.
+
+returns `true` if the drone can move, `false` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`if can_move(North) {
+	move_to(North);
+}`
+@code_tooltip_swap = `fn swap(direction: Direction) -> bool`
+Swaps the entity under the drone with the entity next to the drone in the specified `direction`.
+Doesn't work on all entities.
+Also works if one (or both) of the tiles are empty (`None`).
+
+returns `true` if it succeeded, `false` otherwise.
+
+takes `200` ticks to execute on success, `1` tick otherwise.
+
+example:
+`swap(North);`
+@code_tooltip_till = `fn till()`
+Tills the ground under the drone into `Ground::Soil`. If it's already soil it will change the ground back to `Ground::Grassland`.
+
+returns nothing
+
+takes `200` ticks to execute.
+
+example:
+`till();`
+@code_tooltip_get_pos_x = `fn get_pos_x() -> i32`
+Gets the current x position of the drone.
+The x position starts at `0` in the west and increases in the east direction.
+
+returns a number representing the current x coordinate of the drone.
+
+takes `1` tick to execute.
+
+example:
+`let (x, y) = (get_pos_x(), get_pos_y());`
+@code_tooltip_get_pos_y = `fn get_pos_y() -> i32`
+Gets the current y position of the drone.
+The y position starts at `0` in the south and increases in the north direction.
+
+returns a number representing the current y coordinate of the drone.
+
+takes `1` tick to execute.
+
+example:
+`let (x, y) = (get_pos_x(), get_pos_y());`
+@code_tooltip_get_world_size = `fn get_world_size() -> i32`
+Get the current size of the farm.
+
+returns the side length of the grid in the north to south direction.
+
+takes `1` tick to execute.
+
+example:
+`for _ in 0..get_world_size() {
+	move_to(North);
+}`
+@code_tooltip_get_entity_type = `fn get_entity_type() -> Option<Entity>`
+Find out what kind of entity is under the drone.
+
+returns `None` if the tile is empty, otherwise returns `Some` with the type of the entity under the drone.
+
+takes `1` tick to execute.
+
+example:
+`if get_entity_type() == Some(Entity::Grass) {
+	harvest();
+}
+
+if let Some(entity) = get_entity_type() {
+	println!("{}", entity);
+}`
+@code_tooltip_get_ground_type = `fn get_ground_type() -> Ground`
+Find out what kind of ground is under the drone.
+
+returns the type of the ground under the drone.
+
+takes `1` tick to execute.
+
+example:
+`if get_ground_type() != Ground::Soil {
+	till();
+}`
+@code_tooltip_get_time = `fn get_time() -> f64`
+Get the current game time.
+
+returns the time in seconds since the start of the game.
+
+takes `1` tick to execute.
+
+example:
+`let start = get_time();
+
+move_to(North);
+
+let time_passed = get_time() - start;`
+@code_tooltip_get_tick_count = `fn get_tick_count() -> f64`
+Used to measure the number of ticks performed.
+
+returns the number of ticks performed since the start of execution.
+
+takes `0` tick to execute.
+
+example:
+`harvest();
+
+println!("{}", get_tick_count());`
+@code_tooltip_use_item = `fn use_item(item: Item) -> bool` and `fn use_item_with(item: Item, n: i32) -> bool`
+Attempts to use the specified `item` once (`use_item`) or `n` times (`use_item_with`). Rust has no default arguments, so the game's optional `n` is the second function. Can only be used with some items including `Item::Water`, `Item::Fertilizer`.
+
+returns `true` if an item was used, `false` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`use_item(Item::Fertilizer);
+use_item_with(Item::Water, 2);`
+@code_tooltip_get_water = `fn get_water() -> f64`
+Get the current water level under the drone.
+
+returns the water level under the drone as a number between `0.0` and `1.0`.
+
+takes `1` tick to execute.
+
+example:
+`if get_water() < 0.5 {
+	use_item(Item::Water);
+}`
+@code_tooltip_do_a_flip = `fn do_a_flip()`
+Makes the drone do a flip! This action is not affected by speed upgrades.
+
+returns nothing
+
+takes 1s to execute.
+
+example:
+`loop {
+	do_a_flip();
+}`
+@code_tooltip_pet_the_piggy = `fn pet_the_piggy()`
+Pets the piggy! This action is not affected by speed upgrades.
+
+returns nothing
+
+takes 1s to execute.
+
+example:
+`loop {
+	pet_the_piggy();
+}`
+@code_tooltip_print = `println!("{}", value)`
+Prints `value` into the air above the drone using smoke. This action is not affected by speed upgrades.
+`println!` is a macro: the first argument is a format string, and every `{}` in it is replaced by the next value. `println!("{} {}", a, b)` prints two values, `println!("{x}")` prints the variable `x`.
+`print!` does the same (in the game it also ends the line).
+
+returns nothing
+
+takes 1s to execute.
+
+example:
+`println!("ground: {}", get_ground_type());`
+@code_tooltip_len = Rust has no `len()`. Every collection has a `.len()` method: `v.len()` for a `Vec`, `m.len()` for a `HashMap`, `s.len()` for a `HashSet` or a `String`.
+It returns a `usize`: write `v.len() as i32` to compare it with an `i32`.
+
+takes `1` tick to execute.
+
+example:
+`let mut v = Vec::from([1, 2, 3]);
+for i in 0..v.len() {
+	v[i] += 1;
+}`
+@code_tooltip_list = `Vec::new()` or `Vec::from([a, b, c])`
+Creates a new list. Lists are called `Vec` in Rust.
+`Vec::new()` creates an empty list.
+`Vec::from([a, b, c])` creates a list with these elements, and `v.clone()` creates a copy of the list `v`.
+Real Rust also has the vec macro, which works too.
+
+returns a `Vec`.
+
+takes `1 + v.len()` ticks to execute.
+
+example:
+`let new_list = Vec::from([1, 2, 3]);
+let copy = new_list.clone();`
+@code_tooltip_dict = `HashMap::new()` or `HashMap::from([(key, value)])`
+Creates a new map (a dictionary). Dictionaries are called `HashMap` in Rust and need `use std::collections::HashMap;` at the top of the file.
+`HashMap::new()` creates an empty map. Rust needs to know the types of its keys and values, so give the variable a type (or insert something later).
+`HashMap::from([(k1, v1), (k2, v2)])` creates a map with these pairs, and `m.clone()` creates a copy of the map `m`.
+
+returns a `HashMap`.
+
+takes `1 + m.len()` ticks to execute.
+
+example:
+`let new_map: HashMap<Item, f64> = HashMap::new();
+let right_of = HashMap::from([(North, East), (East, South)]);`
+@code_tooltip_set = `HashSet::new()` or `HashSet::from([a, b, c])`
+Creates a new set. Sets are called `HashSet` in Rust and need `use std::collections::HashSet;` at the top of the file.
+`HashSet::new()` creates an empty set.
+`HashSet::from([a, b, c])` creates a set with these values in it, and `s.clone()` creates a copy of the set `s`.
+
+returns a `HashSet`.
+
+takes `1 + s.len()` ticks to execute.
+
+example:
+`let new_set = HashSet::from([1, 2, 3]);`
+@code_tooltip_str = `value.to_string()` or `format!("{}", value)`
+Rust has no `str()`.
+
+returns a `String` representation of `value`.
+
+takes `1` ticks to execute.
+
+example:
+`let n = 1000;
+let text = n.to_string();
+let text2 = format!("{} items", n);`
+@code_tooltip_set_execution_speed = `fn set_execution_speed(speed: f64)`
+Limits the speed at which the program is executed to better see what's happening.
+
+A `speed` of `1.0` is the speed the drone has without any speed upgrades.
+A `speed` of `10.0` makes the code execute `10` times faster and corresponds to the speed of the drone after `9` speed upgrades.
+A `speed` of `0.5` makes the code execute at half of the speed without speed upgrades. This can be useful to see what the code is doing.
+
+If `speed` is faster than the execution can currently go it will just go at max speed.
+
+If `speed` is `0.0` or negative, the speed is changed back to max speed.
+The effect will also stop when the execution stops.
+
+returns nothing
+
+takes `200` ticks to execute.
+
+example:
+`set_execution_speed(1.0);`
+@code_tooltip_set_world_size = `fn set_world_size(size: f64)`
+Limits the size of the farm to better see what's happening.
+Also clears the farm and resets the drone position.
+Sets the farm to a `size` x `size` grid.
+The smallest `size` possible is `3`.
+A `size` smaller than `3` will change the grid back to its full size.
+The effect will also stop when the execution stops.
+
+returns nothing
+
+takes `200` ticks to execute.
+
+example:
+`set_world_size(5.0);`
+@code_tooltip_num_items = `fn num_items(item: Item) -> f64`
+Find out how much of `item` you currently have.
+
+returns the number of `item` currently in your inventory (an `f64`: compare it with `0.0`, not `0`).
+
+takes `1` tick to execute.
+
+example:
+`if num_items(Item::Fertilizer) > 0.0 {
+	use_item(Item::Fertilizer);
+}`
+@code_tooltip_get_cost = `fn get_cost(thing: T) -> Option<HashMap<Item, f64>>` and `fn get_cost_with(thing: T, level: i32) -> Option<HashMap<Item, f64>>`
+Gets the cost of a `thing` (an `Entity`, `Item` or `Unlock`). `get_cost_with` gets the cost of the given `level` of an unlock.
+
+If `thing` is an entity get the cost of planting it.
+If `thing` is an unlock get the cost of unlocking it.
+
+returns `Some` map with items as keys and numbers as values. Each item is mapped to how much of it is needed.
+returns an empty map or `None` when used on an upgradeable unlock that is already at the max level.
+
+takes `1` tick to execute.
+
+example:
+`if let Some(cost) = get_cost(Unlock::Carrots) {
+	for (item, amount) in &cost {
+		if num_items(*item) < *amount {
+			println!("not enough items to unlock carrots");
+		}
+	}
+}`
+@code_tooltip_clear = `fn clear()`
+Removes everything from the farm, moves the drone back to position `(0, 0)` and changes the hat back to the straw hat.
+
+returns nothing
+
+takes `200` ticks to execute.
+
+example:
+`clear();`
+@code_tooltip_get_companion = `fn get_companion() -> Option<Companion>`
+Get the preferred companion of the plant under the drone.
+
+returns `Some` tuple of the form `(companion_type, (companion_x, companion_y))` (`Companion` is `(Entity, (i32, i32))`), or `None` if there is no plant with a companion preference.
+
+takes `1` tick to execute.
+
+example:
+`if let Some((plant_type, (x, y))) = get_companion() {
+	println!("{} at {} {}", plant_type, x, y);
+}`
+@code_tooltip_unlock = `fn unlock(unlock: Unlock) -> bool`
+Has exactly the same effect as clicking the button corresponding to `unlock` in the research tree.
+
+returns `true` if the unlock was successful, `false` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`unlock(Unlock::Carrots);`
+@code_tooltip_num_unlocked = `fn num_unlocked(thing: T) -> i32`
+Used to check if an unlock, entity, ground or item is already unlocked.
+
+returns `1` plus the number of times `thing` has been upgraded if `thing` is upgradable. Otherwise returns `1` if `thing` is unlocked, `0` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`plant(Entity::Bush);
+let n_substance = get_world_size() * num_unlocked(Unlock::Mazes);
+use_item_with(Item::Weird_Substance, n_substance);`
+@code_tooltip_reset = `fn reset()`
+Resets the farm back to a 1x1 square, removes all resources and locks most unlocks.
+It doesn't remove any of your code.
+
+returns nothing
+
+takes `200` ticks to execute.
+@code_tooltip_measure = `fn measure<T>() -> T` and `fn measure_with<T>(direction: Direction) -> T`
+Can measure some values on some entities. The effect of this depends on the entity.
+
+`measure_with` measures the neighboring entity in the given `direction`.
+
+returns the number of petals of a sunflower.
+returns the next position for a treasure or apple.
+returns the size of a cactus.
+returns a mysterious number for a pumpkin.
+returns `None` for all other entities.
+Tell Rust which type you expect: `f64`, `i32`, `Position` or an `Option` of them (`Option` when the result may be `None`).
+
+takes `1` tick to execute.
+
+example:
+`let num_petals: f64 = measure();
+let next: Option<Position> = measure_with(North);
+if let Some((x, y)) = next {
+	println!("{} {}", x, y);
+}`
+@code_tooltip_leaderboard_run = `fn leaderboard_run(leaderboard: Leaderboard, file_name: &str, speedup: f64)`
+Starts a timed simulation for the `leaderboard` using the specified `file_name` as a starting point.
+`speedup` sets the starting speedup.
+With JavaFarmer active, scores are not uploaded.
+
+returns nothing
+
+takes `200` ticks to execute.
+
+example:
+`leaderboard_run(Leaderboard::Fastest_Reset, "full_run", 256.0);`
+@code_tooltip_simulate = `fn simulate(file_name: &str, sim_unlocks: U, sim_items: HashMap<Item, f64>, sim_globals: HashMap<&str, G>, seed: f64, speedup: f64) -> f64`
+Starts a simulation using the specified `file_name` as a starting point.
+
+`sim_unlocks`: A `Vec` of the starting unlocks, or a `HashMap` from unlocks to levels.
+`sim_items`: A `HashMap` from items to amounts. The simulation starts with these items.
+`sim_globals`: A `HashMap` from variable names to values. The simulation starts with these variables in the global scope.
+`seed`: The random seed of the simulation. Must be a positive integer.
+`speedup`: The starting speedup.
+
+returns the time it took to run the simulation.
+
+takes `200` ticks to execute.
+
+example:
+`let sim_unlocks = Vec::from([Unlock::Carrots]);
+let mut sim_items = HashMap::new();
+sim_items.insert(Item::Carrot, 10000.0);
+sim_items.insert(Item::Hay, 50.0);
+let mut sim_globals = HashMap::new();
+sim_globals.insert("a", 13);
+
+let run_time = simulate("f1", sim_unlocks, sim_items, sim_globals, 0.0, 64.0);`
+@code_tooltip_spawn_drone = `fn spawn_drone(task: F) -> Option<Drone<T>>`
+Spawns a new drone in the same position as the drone that ran the `spawn_drone(task)` command. The new drone then begins executing the specified task. After it is done, it will disappear automatically.
+`task` is a function without parameters (`spawn_drone(harvest_column)`) or a closure (`spawn_drone(|| harvest())`, `spawn_drone(move || plant_row(x))`). `T` is what the task returns.
+
+returns `Some` handle of the new drone, or `None` if all drones are already spawned.
+
+takes `200` ticks to execute if a drone was spawned, `1` otherwise.
+
+example:
+`fn harvest_column() {
+	for _ in 0..get_world_size() {
+		harvest();
+		move_to(North);
+	}
+}
+
+loop {
+	if spawn_drone(harvest_column).is_some() {
+		move_to(East);
+	}
+}`
+@code_tooltip_wait_for = `fn wait_for(drone: Drone<T>) -> T`
+Waits until the given `drone` terminates.
+
+returns the return value of the task that the `drone` was running.
+
+takes `1` tick to execute if the awaited `drone` is already done.
+
+example:
+`fn entity_north() -> Option<Entity> {
+	move_to(North);
+	get_entity_type()
+}
+
+if let Some(handle) = spawn_drone(entity_north) {
+	println!("{:?}", wait_for(handle));
+}`
+@code_tooltip_has_finished = `fn has_finished(drone: Drone<T>) -> bool`
+Checks if the given `drone` has finished.
+
+returns `true` if the `drone` has finished, `false` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`fn task() -> f64 {
+	harvest();
+	num_items(Item::Hay)
+}
+
+if let Some(drone) = spawn_drone(task) {
+	while !has_finished(drone) {
+		do_a_flip();
+	}
+	let result = wait_for(drone);
+}`
+@code_tooltip_max_drones = `fn max_drones() -> i32`
+
+returns the maximum number of drones that you can have in the farm.
+
+takes `1` tick to execute.
+
+example:
+`fn harvest_column() {
+	for _ in 0..get_world_size() {
+		harvest();
+		move_to(North);
+	}
+}
+
+while num_drones() < max_drones() {
+	spawn_drone(harvest_column);
+	move_to(East);
+}`
+@code_tooltip_num_drones = `fn num_drones() -> i32`
+
+returns the number of drones currently in the farm.
+
+takes `1` tick to execute.
+
+example:
+`fn harvest_column() {
+	for _ in 0..get_world_size() {
+		harvest();
+		move_to(North);
+	}
+}
+
+while num_drones() < max_drones() {
+	spawn_drone(harvest_column);
+	move_to(East);
+}`
+@code_tooltip_quick_print = `quick_print!("{}", value)`
+Prints a value just like `println!` but it doesn't stop to write it into the air so it can only be found on the output page. It takes the same format string as `println!`.
+
+returns nothing
+
+takes `0` ticks to execute.
+
+example:
+`quick_print!("hi mom");`
+@code_tooltip_change_hat = `fn change_hat(hat: Hat)`
+Changes the hat of the drone to `hat`.
+
+returns nothing
+
+takes `200` ticks to execute.
+
+example:
+`change_hat(Hat::Dinosaur_Hat);`
+@code_tooltip_max = `fn max(a: T, b: T) -> T`
+Gets the larger of two values. Both must have the same type (two `i32` or two `f64`).
+For more values, nest the calls: `max(a, max(b, c))`. For the largest value of a `Vec`, loop over it.
+
+takes #comparisons ticks to execute.
+
+example:
+`let biggest = max(3, max(6, 34));`
+@code_tooltip_min = `fn min(a: T, b: T) -> T`
+Gets the smaller of two values. Both must have the same type (two `i32` or two `f64`).
+For more values, nest the calls: `min(a, min(b, c))`. For the smallest value of a `Vec`, loop over it.
+
+takes #comparisons ticks to execute.
+
+example:
+`let smallest = min(3, min(6, 34));`
+@code_tooltip_abs = `fn abs(x: T) -> T`
+Computes the absolute value of a number (an `i32` or an `f64`).
+
+returns `x` if `x` is positive, `-x` otherwise.
+
+takes 1 tick to execute.
+
+example:
+`let distance = abs(-69);`
+@code_tooltip_random = `fn random() -> f64`
+Samples a random number between 0 (inclusive) and 1 (exclusive).
+
+returns the random number.
+
+takes `1` ticks to execute.
+
+example:
+`fn random_elem(v: &Vec<Entity>) -> Entity {
+	let index = (random() * v.len() as f64) as usize;
+	v[index]
+}`
+@code_tooltip_append = `v.push(element)`
+Rust has no `append()` for single elements. `v.push(element)` adds `element` to the end of the `Vec` `v` (it must be `let mut`).
+
+returns nothing
+
+takes `1` ticks to execute.
+
+example:
+`let mut v = Vec::new();
+v.push(1);`
+@code_tooltip_add = `s.insert(element)`
+Rust has no `add()`. `s.insert(element)` adds `element` to the `HashSet` `s` (it must be `let mut`).
+
+takes `element size` ticks to execute.
+
+example:
+`let mut s = HashSet::new();
+s.insert(0);
+s.insert(1);`
+@code_tooltip_remove = `v.remove_value(&element)`, `v.remove(i)`, `s.remove(&element)` or `m.remove(&key)`
+`v.remove_value(&element)` removes the first occurrence of `element` from the `Vec` `v` (a JavaFarmer helper).
+`v.remove(i)` removes the element at index `i` and returns it.
+`s.remove(&element)` removes `element` from the `HashSet` `s`, `m.remove(&key)` removes the key and its value from the `HashMap` `m`.
+
+takes `element size` ticks to execute on a set, #comparisions + #shifts ticks on a list.
+
+example:
+`let mut v = Vec::from([Entity::Bush, Entity::Tree, Entity::Grass]);
+v.remove_value(&Entity::Tree);`
+@code_tooltip_pop = `v.pop()` or `v.remove(i)`
+`v.pop()` removes the last element of the `Vec` `v`. It returns an `Option`: `Some(element)`, or `None` if `v` was empty.
+`v.remove(i)` removes the element at the index `i` and returns it. `m.remove(&key)` removes a key from a `HashMap`.
+
+returns the removed element
+
+takes `key size` ticks to execute on a map, `v.len() - i + 1` ticks on a list.
+
+example:
+`let mut v = Vec::from([4, 5, 6]);
+let last = v.pop();
+let first = v.remove(0);`
+@code_tooltip_insert = `v.insert(i, element)`
+Inserts `element` into the `Vec` `v` at index `i` (a `usize`).
+On a `HashMap`, `m.insert(key, value)` sets the value of a key; on a `HashSet`, `s.insert(element)` adds an element.
+
+returns nothing
+
+takes `v.len() - i + 1` ticks.
+
+example:
+`let mut v = Vec::from([1, 2]);
+v.insert(0, 0);`
+@code_tooltip_Items = The game's items, like `Item::Hay`. In Rust the category is the enum `Item`.
+@code_tooltip_Entities = The game's plant types, like `Entity::Bush`. In Rust the category is the enum `Entity`.
+@code_tooltip_Grounds = The game's ground types, like `Ground::Soil`. In Rust the category is the enum `Ground`.
+@code_tooltip_Unlocks = The unlocks and upgrades in the research menu, like `Unlock::Speed`. In Rust the category is the enum `Unlock`.
+@code_tooltip_Hats = The game's hat types, like `Hat::Straw_Hat`. In Rust the category is the enum `Hat`.
+@code_tooltip_Leaderboards = The leaderboard categories, like `Leaderboard::Hay`. In Rust the category is the enum `Leaderboard`.
+@code_tooltip_for = A loop. `for i in 0..n` counts from `0` to `n - 1`. `for x in &v` runs once for every element of a `Vec`, `HashSet` or `HashMap` (a "foreach" loop).
+@code_tooltip_while = Loops as long as the condition is `true`. `loop` loops forever (until `break`).
+@code_tooltip_def = Rust has no `def`. Functions are declared with `fn`, and every parameter needs a type: `fn f(n: i32) -> i32 { ... }`
+@code_tooltip_True = Rust writes `true` (lowercase): a boolean value that is always true.
+@code_tooltip_False = Rust writes `false` (lowercase): a boolean value that is always false.
+@code_tooltip_if = Executes code if the condition is `true`. The condition must be a `bool`: Rust has no "truthy" values, so write `if v.len() > 0` or `if x.is_some()`.
+@code_tooltip_else = Executes code if the previous `if` condition was `false`.
+@code_tooltip_elif = Rust has no `elif`. `else if condition` does the same thing as:
+`else {
+	if condition {
+		...
+	}
+}`
+@code_tooltip_None = `None` is an `Option` that holds no value (the other kind is `Some(value)`). The game's functions that can give "no value" return an `Option`, like `get_entity_type()`.
+@code_tooltip_continue = Immediately continue with the next loop iteration. If there are nested loops, this will always affect the innermost loop.
+@code_tooltip_break = Break out of a loop and continue executing the statements after the loop. If there are nested loops, this will always affect the innermost loop.
+@code_tooltip_North = The up direction on the screen. Unless you turn your screen around.
+@code_tooltip_East = The right direction on the screen. Unless you turn your screen around.
+@code_tooltip_South = The down direction on the screen. Unless you turn your screen around.
+@code_tooltip_West = The left direction on the screen. Unless you turn your screen around.
+@code_tooltip_not = Rust writes `!` instead of `not`: `!true` is `false` and `!false` is `true`.
+@code_tooltip_and = Rust writes `&&` instead of `and`: `a && b` is `true` only if both `a` and `b` are `true`. If `a` is `false`, `b` is not evaluated at all.
+@code_tooltip_or = Rust writes `||` instead of `or`: `a || b` is `true` if at least one of `a` and `b` is `true`. If `a` is `true`, `b` is not evaluated at all.
+@code_tooltip_return = Used to leave a function and give back a value: `return value;` (or just `return;`). The last expression of a function, written without `;`, is its value too.
+@code_tooltip_pass = Rust has no `pass`. An empty block `{ }` is allowed.
+@code_tooltip_true = A boolean value (`bool`) that is always true.
+@code_tooltip_false = A boolean value (`bool`) that is always false.
+@code_tooltip_fn = Declares a function: `fn name(a: i32, b: f64) -> i32 { ... }`. Every parameter needs a type, and `-> T` is the type of the value it returns (leave it out if it returns nothing). Another window can only use it if it is `pub fn`.
+@code_tooltip_let = Declares a variable: `let x = 5;`. A `let` variable can't be changed; write `let mut x = 5;` for a variable you want to change. `let (a, b) = pair;` takes a tuple apart.
+@code_tooltip_mut = Makes a variable changeable: `let mut count = 0;` and then `count += 1;`. A function that changes a collection takes it as `&mut`: `fn fill(v: &mut Vec<i32>)`.
+@code_tooltip_const = Declares a constant at the top of a file: `const SIZE: i32 = 6;`. It can never change, and its type must be written.
+@code_tooltip_static = Declares a global value at the top of a file: `static LIMIT: i32 = 10;`. A `static mut` can be changed, but every read and write of it must be inside `unsafe { ... }`. Passing values as parameters is usually simpler.
+@code_tooltip_loop = Repeats its block forever, until a `break` (or `return`) leaves it.
+@code_tooltip_match = Chooses a branch depending on a value: `match x { 1 => a(), 2 | 3 => b(), _ => c(), }`. `_` matches everything else. It also takes apart an `Option`: `Some(e) => ...` and `None => ...`.
+@code_tooltip_mod = `mod utils;` makes the code window named utils a module of this file. Use its `pub` items as `utils::f()`, or bring them in with `use utils::f;`.
+@code_tooltip_use = Brings names into scope. `use farm::*;` gives you the game's functions and constants (every program starts with it), `use std::collections::{HashMap, HashSet};` gives you maps and sets, and `use utils::f;` a function of another code window.
+@code_tooltip_pub = Makes an item visible to other code windows: `pub fn f()`, `pub const N: i32 = 3;`. Without `pub` an item is private to its window.
+@code_tooltip_unsafe = `unsafe { ... }` is needed around every read or write of a `static mut` variable.
+@code_tooltip_as = Converts a number to another type: `x as f64`, `f as i32` (drops the decimals), `i as usize` to use an `i32` as an index.
+@code_tooltip_in = Part of a for loop: `for x in collection` or `for i in 0..n`.
+@code_tooltip_keyword_move = `move` before a closure (`move || { ... }`) makes the closure keep its own copy of the variables it uses. In JavaFarmer every closure works like that, with or without `move`: it can read the variables around it, but it cannot assign them.
+The game's `move()` function is called `move_to()` in Rust.
+
+example:
+`let row = get_pos_y();
+spawn_drone(move || {
+	println!("{}", row);
+});`
+@code_tooltip_Some = `Some(value)` is an `Option` that holds a value. Check for it with `if let Some(e) = get_entity_type() { ... }` or compare with `== Some(Entity::Bush)`.
+@code_tooltip_Option = `Option<T>` is a value that may be missing: `Some(value)` or `None`. The game's functions that can give "no value" return one, like `get_entity_type()` and `get_companion()`. Use `if let Some(x) = ...`, `.is_some()`, `.is_none()` or `.unwrap()` (an error if it is `None`).
+@code_tooltip_Vec = `Vec<T>` is a list of values of type `T`: `Vec::new()` or `Vec::from([1, 2, 3])`. `v.push(x)`, `v.pop()`, `v.len()`, `v[i]` (the index is a `usize`).
+@code_tooltip_HashMap = `HashMap<K, V>` is a dictionary from keys of type `K` to values of type `V`: `HashMap::new()`, `m.insert(k, v)`, `m.get(&k)` (an `Option`), `m[&k]`, `m.contains_key(&k)`. Needs `use std::collections::HashMap;`.
+@code_tooltip_HashSet = `HashSet<T>` is a set of values: `HashSet::new()`, `s.insert(x)`, `s.contains(&x)`, `s.remove(&x)`. Needs `use std::collections::HashSet;`.
+@code_tooltip_String = A piece of text that you own, like `String::from("hello")` or `x.to_string()`. A literal `"hello"` is a `&str`. `format!("{} {}", a, b)` builds a `String`.
+@code_tooltip_i32 = A whole number like `5` or `-3`. Positions and the world size are `i32`.
+@code_tooltip_f64 = A number with a decimal point like `0.25`. `num_items()`, `get_water()`, `get_time()` and `random()` return `f64`, so compare them with `1.0`, not `1`.
+@code_tooltip_bool = `true` or `false`. Conditions of `if` and `while` must be a `bool`.
+@code_tooltip_usize = A whole number that can't be negative, used for indexes and lengths: `v[i as usize]`, `v.len()`.

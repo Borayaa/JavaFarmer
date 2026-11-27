@@ -1,0 +1,13 @@
+@error_missing_default_parameter = All parameters with a default value have to be at the end of the parameter list, like `function(a, b = 1)`.
+@error_no_statements = A code block must contain at least one statement. 
+A statement can be a function call like `harvest()` or a variable assignment. 
+@error_not_enough_indentation = There isn't enough indentation here. In R, code blocks are written between curly braces.
+@error_too_much_indentation = There is too much indentation here. In R, code blocks are written between curly braces.
+@error_missing_colon = In R, a code block must start with an opening curly brace and end with a closing curly brace.
+@error_invalid_for_syntax = This is not a valid for loop. A for loop looks like this: 
+`for (n in seq_len(3))`
+The `for` is always followed by parentheses with the loop variable, an `in` and then a sequence. In this example the `n` is the variable name, but it can be replaced by any other name.
+@error_bad_backslash = A backslash can only be used inside a text, like `"\n"`.
+@error_wildcard_imports_not_allowed_in_function = `source()` is only allowed at the top level of a file, not inside functions.
+@error_assign_before_global = {0} is assigned before it was declared global.
+@error_invalid_import = You cannot use files with names that are not valid names. Valid names can only contain letters, numbers, and underscores and must not start with a number. If your file name contains other characters, you must rename it.

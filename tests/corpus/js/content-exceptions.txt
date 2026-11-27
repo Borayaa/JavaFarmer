@@ -1,0 +1,8 @@
+-- JavaScript content exceptions: blocks of content/js/docs that are deliberately not compiled.
+-- Format: <path relative to content/js/docs>#<span index (DocsTranslator.Spans)>: reason. Read by JavaScript/JavaScriptContentDocsTests.cs.
+scripting/while.md#11: syntax template: "condition" is a placeholder the text tells the player to replace
+unlocks/cactus.md#13: a grid of cactus sizes, not code
+unlocks/cactus.md#14: a grid of cactus sizes, not code
+unlocks/leaderboard.md#21: const unlocks = Unlocks (everything unlocked) compiles, but the headless game parser cannot resolve the bare constant container Unlocks without the running game's ResourceManager (same as docs-exceptions.txt)
+unlocks/leaderboard.md#25: const unlocks = Unlocks: same headless game-parser limitation as leaderboard.md#21
+unlocks/simulation.md#3: const simUnlocks = Unlocks: same headless game-parser limitation as leaderboard.md#21

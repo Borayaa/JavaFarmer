@@ -1,0 +1,10 @@
+-- C++ docs exceptions: EN docs code blocks the C++ printer cannot express. Format: <md path>#<span index>: reason.
+scripting/functions.md#17: create_new_function_object() is pseudo code with an unknown return type
+scripting/functions.md#32: passes builtins with parameters (move, use_item) as values to one function: C++ function values have fixed types
+scripting/import.md#8: from module2 import print_x: module2 does not exist in the check (C++ declares other windows' functions with prototypes)
+scripting/import.md#10: from module2 import *: module2 does not exist in the check
+scripting/import.md#35: import a / a.x: the other window a does not exist in the check (C++ uses extern int x;)
+scripting/import.md#60: from a import *: the other window a does not exist in the check
+scripting/lists.md#0: a list holding a number, a bool and an item: std::vector holds one element type
+scripting/lists.md#21: a list holding an Entity and Items: std::vector holds one element type
+unlocks/megafarm.md#15: wait_for returns the drone function's result; JavaFarmer's spawn_drone in C++ takes void functions / lambdas

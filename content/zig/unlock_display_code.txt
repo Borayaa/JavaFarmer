@@ -1,0 +1,32 @@
+@auto_unlock
+farm.unlock(.Megafarm)
+@costs
+farm.getCost(farm.Entity.Carrot)
+@debug_2
+farm.setExecutionSpeed(1)
+@dictionaries
+std.AutoHashMap(i32, i32).init(farm.allocator)
+@import
+utils.f()
+@lists
+const xs = [_]i32{ 1, 2, 3 };
+@loops
+while (true) {}
+@senses
+farm.getPosX()
+@simulation
+farm.simulate()
+@the_farmers_remains
+?
+@utilities
+farm.random()
+@debug
+std.debug.print("hi\n", .{})
+@functions
+fn f() void {}
+@timing
+farm.getTime()
+@variables
+var a: i32 = 2;
+@operators
+1 + 1

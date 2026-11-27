@@ -1,0 +1,15 @@
+-- Rust docs exceptions: EN docs code blocks the Rust printer cannot express as compilable JavaFarmer Rust.
+-- Format: <path relative to Languages/EN/docs>#<span index>: reason. Read by HarnessTests (f).
+-- The docs translator keeps these spans in Python; content/rust/docs has hand-written Rust for them.
+scripting/break.md#2: prints the loop variable i after the loop; a Rust for-loop variable only exists inside the loop
+scripting/scopes.md#30: reads the loop variable i after the loop; a Rust for-loop variable only exists inside the loop
+scripting/functions.md#32: passes builtins with different parameter types (move, use_item) to one parameter and calls g(arg); a Rust fn type has one signature
+scripting/import.md#8: from module2 import print_x: module2 does not exist in the check (Rust uses other windows with mod module2; and module2::print_x())
+scripting/import.md#10: from module2 import *: module2 does not exist in the check
+scripting/import.md#35: import a / a.x: the other window a does not exist in the check
+scripting/import.md#60: from a import *: the other window a does not exist in the check
+scripting/lists.md#0: a list holding a number, a bool and an item: a Rust Vec holds one element type
+scripting/lists.md#21: a list holding an Entity and Items: a Rust Vec holds one element type
+unlocks/mazes.md#26: index comes from an earlier block and is read before this block assigns it (Rust: used binding isn't initialized)
+unlocks/mazes.md#27: index comes from an earlier block and is read before this block assigns it (Rust: used binding isn't initialized)
+unlocks/megafarm.md#15: wait_for returns the drone task's result (here Option<Entity>); the printer cannot see that type through the drone handle to pick {:?}

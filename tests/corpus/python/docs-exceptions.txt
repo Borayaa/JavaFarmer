@@ -1,0 +1,17 @@
+-- EN docs code spans the Python frontend does not accept (format "<md path>#<span index>: reason").
+-- Span indexes follow DocsCorpus.Spans (every single-backtick span of a file, counted from 0).
+backup.md#1: a file extension (".py"), not code
+external_editor.md#3: a file extension (".py"), not code
+scripting/continue.md#11: mixes a tab and spaces in one indentation (the game rejects it too: error_mixed_indentation)
+scripting/import.md#17: an unfinished statement ("from file import") in prose
+scripting/lists.md#31: names the function len() without its argument
+scripting/scopes.md#5: a def header without a body (the lesson shows the body in the next span)
+unlocks/cactus.md#13: a grid of numbers, not code
+unlocks/cactus.md#14: a grid of numbers, not code
+unlocks/mazes.md#23: an expression fragment ("% 4")
+unlocks/pumpkins.md#2: math notation ("1*1*1 = 1"), not code
+unlocks/pumpkins.md#3: math notation, not code
+unlocks/pumpkins.md#5: math notation, not code
+unlocks/pumpkins.md#7: math notation, not code
+unlocks/pumpkins.md#9: math notation, not code
+unlocks/trees.md#0: math notation ("2*2*2*2 = 16"), not code

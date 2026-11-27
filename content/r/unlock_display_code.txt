@@ -1,0 +1,32 @@
+@auto_unlock
+unlock()
+@costs
+get_cost()
+@debug_2
+set_execution_speed()
+@dictionaries
+list(a = 1)
+@import
+source("utils.R")
+@lists
+c(1, 2, 3)
+@loops
+while
+@senses
+get_pos_x()
+@simulation
+simulate()
+@the_farmers_remains
+?
+@utilities
+random()
+@debug
+print()
+@functions
+f <- function() { }
+@timing
+get_time()
+@variables
+a <- 2
+@operators
+1 + 1

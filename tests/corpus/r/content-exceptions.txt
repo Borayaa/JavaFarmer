@@ -1,0 +1,3 @@
+-- R content exceptions: code blocks of content/r/docs that deliberately do not compile (format "<md path>#<span index>: reason").
+-- Read by tests/JavaFarmer.Languages.Tests/R/RContentDocsTests.cs; span numbering = DocsTranslator.Spans. Stale entries fail the test.
+scripting/functions.md#22: shows the error of calling func() before it is defined; JavaFarmer reports could not find function "func" at compile time

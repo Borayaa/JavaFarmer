@@ -1,0 +1,6 @@
+@warning_weird_substance_not_divisible = You used a number of Weird Substance that isn't exactly the number needed to create the maze. Don't forget that the amount of Weird Substance required increases as you upgrade the maze.
+
+To spawn a full-size maze do:
+`plant(Entity::Bush);
+let substance = get_world_size() * 2_i32.pow((num_unlocked(Unlock::Mazes) - 1) as u32);
+use_item_with(Item::Weird_Substance, substance);`

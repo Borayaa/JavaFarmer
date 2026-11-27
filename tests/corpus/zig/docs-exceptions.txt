@@ -1,0 +1,25 @@
+-- Zig docs exceptions: EN docs code blocks the Zig printer cannot express as compilable JavaFarmer Zig.
+-- Format: <path relative to Languages/EN/docs>#<span index>: reason. Read by HarnessTests (f).
+-- The docs translator keeps these spans in Python; content/zig/docs has hand-written Zig for them.
+scripting/break.md#2: prints the loop variable i after the loop; a Zig for-loop capture only exists inside the loop
+scripting/scopes.md#30: reads the loop variable i after the loop; a Zig for-loop capture only exists inside the loop
+scripting/dicts.md#2: uses the variable dict from an earlier block; on its own its type is unknown (a list or a map), so the printer cannot pick items[i] vs get(key)
+scripting/dicts.md#3: uses the map right_of from an earlier block; on its own its key and value types are unknown
+scripting/dicts.md#6: uses the variable dict from an earlier block; on its own its type is unknown (a list or a map)
+scripting/lists.md#28: uses the list from an earlier block; on its own its element type is unknown
+scripting/tuples.md#6: uses the tuple from an earlier block; on its own its type is unknown
+scripting/lists.md#0: a list holding a number, a bool and an item: a Zig ArrayList holds one element type
+scripting/lists.md#21: a list holding an Entity and Items: a Zig ArrayList holds one element type
+scripting/lists.md#35: b = a makes two names for one list in Python; Zig arrays and ArrayLists are values (b would be a copy)
+scripting/functions.md#27: a function defined inside a function and returned (a closure): Zig has no closures
+scripting/functions.md#32: passes builtins with different parameter types (move, use_item) to one parameter and calls g(arg); Zig function types have one signature (anytype parameters are not supported)
+unlocks/megafarm.md#8: a function defined inside a loop that captures the loop variable dir: Zig has no closures
+unlocks/megafarm.md#10: functions defined inside a function (row captures f): Zig has no closures
+scripting/import.md#8: from module2 import print_x: module2 does not exist in the check (Zig uses other files with const module2 = @import("module2.zig");)
+scripting/import.md#10: from module2 import *: module2 does not exist in the check
+scripting/import.md#35: import a / a.x: the other file a does not exist in the check
+scripting/import.md#60: from a import *: the other file a does not exist in the check
+unlocks/leaderboard.md#7: simulate() with empty {} dictionaries: their key and value types are unknown, and Zig maps need both
+unlocks/leaderboard.md#12: passes the Unlocks container itself as a value and an empty {} dictionary of unknown types
+unlocks/leaderboard.md#16: simulate() with an empty {} dictionary: its key and value types are unknown, and Zig maps need both
+scripting/dicts.md#17: iterates and indexes the variable dict from an earlier block; on its own its type is unknown (a list or a map)

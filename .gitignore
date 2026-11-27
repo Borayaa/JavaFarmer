@@ -17,3 +17,25 @@ out/
 
 # Local player data
 saves/
+
+# Game install copied into the repo for local builds/tests (proprietary, never commit)
+TheFarmerWasReplaced_Data/
+MonoBleedingEdge/
+D3D12/
+UnityPlayer.dll
+UnityCrashHandler64.exe
+# BepInEx / Doorstop installed into the game copy (third-party binaries, installed by scripts/install.sh)
+BepInEx/
+winhttp.dll
+doorstop_config.ini
+.doorstop_version
+changelog.txt
+# Decompiled game code: local reference only, never commit
+.decompiled/
+
+# .NET
+bin/
+obj/
+*.user
+TestResults/
+dist/

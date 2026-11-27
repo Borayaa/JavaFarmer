@@ -1,0 +1,3 @@
+@item_descr_fertilizer = Call `useItem(Items.Fertilizer);` to instantly remove 2s from the plants remaining grow time.
+@item_descr_weird_substance = Call `useItem(Items.Weird_Substance);` on a bush to grow a maze, or on other plants to toggle their infection status. Obtained from infected plants. Fertilizing plants infects them.
+@item_descr_water = Used to water the ground by calling `useItem(Items.Water);`.

@@ -1,0 +1,649 @@
+@code_tooltip_harvest = `bool harvest()`
+Harvests the entity under the drone. 
+If you harvest an entity that can't be harvested, it will be destroyed.
+
+returns `true` if an entity was removed, `false` otherwise.
+
+takes `200` ticks to execute if an entity was removed, `1` tick otherwise.
+
+example:
+`harvest();`
+@code_tooltip_can_harvest = `bool can_harvest()`
+Used to find out if plants are fully grown.
+
+returns `true` if there is an entity under the drone that is ready to be harvested, `false` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`if (can_harvest()) {
+	harvest();
+}`
+@code_tooltip_range = C++ has no `range()`. To count from `start` up to (but not including) `end`, use a classic `for` loop.
+
+takes `1` tick to start the loop.
+
+example:
+`for (int i = 0; i < 10; i++) {
+	std::cout << i << std::endl;
+}
+
+for (int i = 2; i < 6; i++) {
+	std::cout << i << std::endl;
+}
+
+for (int i = 10; i > 0; i--) {
+	std::cout << i << std::endl;
+}`
+@code_tooltip_plant = `bool plant(Entity entity)`
+Spends the cost of the specified `entity` and plants it under the drone.
+It fails if you can't afford the plant, the ground type is wrong or there's already a plant there.
+
+returns `true` if it succeeded, `false` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`plant(Entities::Bush);`
+@code_tooltip_move = `bool move(Direction direction)`
+Moves the drone into the specified `direction` by one tile.
+If the drone moves over the edge of the farm it wraps back to the other side of the farm.
+
+`East `  =  right
+`West `  =  left
+`North`  =  up
+`South`  =  down
+
+returns `true` if the drone has moved, `false` otherwise.
+
+takes `200` ticks to execute if the drone has moved, `1` tick otherwise.
+
+example:
+`move(North);`
+@code_tooltip_can_move = `bool can_move(Direction direction)`
+Checks if the drone can move in the specified `direction`.
+
+returns `true` if the drone can move, `false` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`if (can_move(North)) {
+	move(North);
+}`
+@code_tooltip_swap = `bool swap(Direction direction)`
+Swaps the entity under the drone with the entity next to the drone in the specified `direction`.
+Doesn't work on all entities.
+Also works if one (or both) of the entities are `nullptr`.
+
+returns `true` if it succeeded, `false` otherwise.
+
+takes `200` ticks to execute on success, `1` tick otherwise.
+
+example:
+`swap(North);`
+@code_tooltip_till = `void till()`
+Tills the ground under the drone into `Grounds::Soil`. If it's already soil it will change the ground back to `Grounds::Grassland`.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`till();`
+@code_tooltip_get_pos_x = `int get_pos_x()`
+Gets the current x position of the drone.
+The x position starts at `0` in the west and increases in the east direction.
+
+returns a number representing the current x coordinate of the drone.
+
+takes `1` tick to execute.
+
+example:
+`int x = get_pos_x();`
+@code_tooltip_get_pos_y = `int get_pos_y()`
+Gets the current y position of the drone.
+The y position starts at `0` in the south and increases in the north direction.
+
+returns a number representing the current y coordinate of the drone.
+
+takes `1` tick to execute.
+
+example:
+`int y = get_pos_y();`
+@code_tooltip_get_world_size = `int get_world_size()`
+Get the current size of the farm.
+
+returns the side length of the grid in the north to south direction.
+
+takes `1` tick to execute.
+
+example:
+`for (int i = 0; i < get_world_size(); i++) {
+	move(North);
+}`
+@code_tooltip_get_entity_type = `Entity get_entity_type()`
+Find out what kind of entity is under the drone.
+
+returns `nullptr` if the tile is empty, otherwise returns the type of the entity under the drone.
+
+takes `1` tick to execute.
+
+example:
+`if (get_entity_type() == Entities::Grass) {
+	harvest();
+}`
+@code_tooltip_get_ground_type = `Ground get_ground_type()`
+Find out what kind of ground is under the drone.
+
+returns the type of the ground under the drone.
+
+takes `1` tick to execute.
+
+example:
+`if (get_ground_type() != Grounds::Soil) {
+	till();
+}`
+@code_tooltip_get_time = `double get_time()`
+Get the current game time.
+
+returns the time in seconds since the start of the game.
+
+takes `1` tick to execute.
+
+example:
+`double start = get_time();
+
+do_something();
+
+double time_passed = get_time() - start;`
+@code_tooltip_get_tick_count = `double get_tick_count()`
+Used to measure the number of ticks performed.
+
+returns the number of ticks performed since the start of execution.
+
+takes `0` tick to execute.
+
+example:
+`do_something();
+
+std::println("{}", get_tick_count());`
+@code_tooltip_use_item = `bool use_item(Item item)` or `bool use_item(Item item, int n)`
+Attempts to use the specified `item` `n` times (`1` time if `n` is left out). Can only be used with some items including `Items::Water`, `Items::Fertilizer`.
+
+returns `true` if an item was used, `false` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`use_item(Items::Fertilizer);`
+@code_tooltip_get_water = `double get_water()`
+Get the current water level under the drone.
+
+returns the water level under the drone as a number between `0` and `1`.
+
+takes `1` tick to execute.
+
+example:
+`if (get_water() < 0.5) {
+	use_item(Items::Water);
+}`
+@code_tooltip_do_a_flip = `void do_a_flip()`
+Makes the drone do a flip! This action is not affected by speed upgrades.
+
+returns nothing (`void`)
+
+takes 1s to execute.
+
+example:
+`while (true) {
+	do_a_flip();
+}`
+@code_tooltip_pet_the_piggy = `void pet_the_piggy()`
+Pets the piggy! This action is not affected by speed upgrades.
+
+returns nothing (`void`)
+
+takes 1s to execute.
+
+example:
+`while (true) {
+	pet_the_piggy();
+}`
+@code_tooltip_print = `std::println(format, args...)` or `std::cout << value << std::endl`
+Prints into the air above the drone using smoke. This action is not affected by speed upgrades.
+Every `{}` in `format` is replaced by the next argument. With `std::cout`, join several values with `<<` and end the line with `std::endl` (write `std::boolalpha` before a `bool`).
+One line is printed for every finished line: text from `std::print` or `std::cout` without `std::endl` waits until a later output ends the line.
+
+returns nothing (`void`)
+
+takes 1s to execute.
+
+example:
+`std::println("ground: {}", get_ground_type());
+std::cout << "x: " << get_pos_x() << std::endl;`
+@code_tooltip_len = C++ has no `len()`. Use `v.size()` for vectors, maps and sets and `text.size()` for a `std::string`.
+
+takes `1` tick to execute.
+
+example:
+`for (int i = 0; i < numbers.size(); i++) {
+	numbers[i] += 1;
+}`
+@code_tooltip_list = `std::vector<T> v = {a, b, c};` or `std::vector<T> v(n, value);`
+Creates a new vector (from `#include <vector>`). 
+`std::vector<int> v;` creates an empty vector.
+`std::vector<int> v(n, value);` creates a vector with `n` copies of `value`.
+Assigning a vector to another variable (`std::vector<int> b = a;`) makes a copy.
+
+takes `1 + v.size()` ticks to execute.
+
+example:
+`std::vector<int> new_vector = {1, 2, 3};`
+@code_tooltip_dict = `std::map<K, V> m;`
+Creates a new map (from `#include <map>`).
+`std::map<Item, int> m;` creates an empty map, `m[key] = value;` adds a key-value pair.
+Assigning a map to another variable makes a copy.
+
+takes `1 + m.size()` ticks to execute.
+
+example:
+`std::map<Item, int> new_map;
+new_map[Items::Hay] = 5;`
+@code_tooltip_set = `std::set<T> s = {a, b, c};`
+Creates a new set (from `#include <set>`).
+`std::set<int> s;` creates an empty set.
+Assigning a set to another variable makes a copy.
+
+takes `1 + s.size()` ticks to execute.
+
+example:
+`std::set<int> new_set = {1, 2, 3};`
+@code_tooltip_str = `std::to_string(number)` or `std::format("{}", value)`
+
+returns a `std::string` representation of the value.
+
+takes `1` ticks to execute.
+
+example:
+`std::string text = std::to_string(1000);`
+@code_tooltip_set_execution_speed = `void set_execution_speed(double speed)`
+Limits the speed at which the program is executed to better see what's happening.
+
+A `speed` of `1` is the speed the drone has without any speed upgrades.
+A `speed` of `10` makes the code execute `10` times faster and corresponds to the speed of the drone after `9` speed upgrades.
+A `speed` of `0.5` makes the code execute at half of the speed without speed upgrades. This can be useful to see what the code is doing.
+
+If `speed` is faster than the execution can currently go it will just go at max speed.
+
+If `speed` is `0` or negative, the speed is changed back to max speed.
+The effect will also stop when the execution stops.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`set_execution_speed(1);`
+@code_tooltip_set_world_size = `void set_world_size(double size)`
+Limits the size of the farm to better see what's happening.
+Also clears the farm and resets the drone position.
+Sets the farm to a `size` x `size` grid.
+The smallest `size` possible is `3`.
+A `size` smaller than `3` will change the grid back to its full size.
+The effect will also stop when the execution stops.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`set_world_size(5);`
+@code_tooltip_num_items = `double num_items(Item item)`
+Find out how much of `item` you currently have.
+
+returns the number of `item` currently in your inventory.
+
+takes `1` tick to execute.
+
+example:
+`if (num_items(Items::Fertilizer) > 0) {
+	use_item(Items::Fertilizer);
+}`
+@code_tooltip_get_cost = `std::optional<std::map<Item, double>> get_cost(thing)` or `get_cost(thing, level)`
+Gets the cost of a `thing` (an `Entity`, `Item` or `Unlock`).
+
+If `thing` is an entity get the cost of planting it.
+If `thing` is an unlock get the cost of unlocking it. `level` chooses the unlock level, otherwise it's the next one.
+
+returns a map with items as keys and numbers as values. Each item is mapped to how much of it is needed.
+returns an empty `std::optional` (`std::nullopt`) when used on an upgradeable unlock that is already at the max level, so check it with `if (cost)`.
+
+takes `1` tick to execute.
+
+example:
+`auto cost = get_cost(Unlocks::Carrots);
+if (cost) {
+	for (auto& [item, amount] : *cost) {
+		if (num_items(item) < amount) {
+			std::println("not enough items to unlock carrots");
+		}
+	}
+}`
+@code_tooltip_clear = `void clear()`
+Removes everything from the farm, moves the drone back to position `(0, 0)` and changes the hat back to the straw hat.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`clear();`
+@code_tooltip_get_companion = `std::optional<Companion> get_companion()`
+Get the preferred companion of the plant under the drone.
+
+returns a `Companion`: `c->entity` is the companion type and `c->position` is where it wants it. Returns an empty `std::optional` if there is no plant with a companion preference.
+
+takes `1` tick to execute.
+
+example:
+`auto companion = get_companion();
+if (companion) {
+	auto [kind, where] = *companion;
+	std::println("{} at {}", kind, where);
+}`
+@code_tooltip_unlock = `bool unlock(Unlock unlock)`
+Has exactly the same effect as clicking the button corresponding to `unlock` in the research tree.
+
+returns `true` if the unlock was successful, `false` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`unlock(Unlocks::Carrots);`
+@code_tooltip_num_unlocked = `int num_unlocked(thing)`
+Used to check if an unlock, entity, ground or item is already unlocked.
+
+returns `1` plus the number of times `thing` has been upgraded if `thing` is upgradable. Otherwise returns `1` if `thing` is unlocked, `0` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`plant(Entities::Bush);
+int substance = get_world_size() * num_unlocked(Unlocks::Mazes);
+use_item(Items::Weird_Substance, substance);`
+@code_tooltip_reset = `void reset()`
+Resets the farm back to a 1x1 square, removes all resources and locks most unlocks.
+It doesn't remove any of your code.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+@code_tooltip_measure = `farm::Value measure()` or `farm::Value measure(Direction direction)`
+Can measure some values on some entities. The effect of this depends on the entity.
+
+With a `direction` it measures the neighboring entity in the given direction.
+
+returns the number of petals of a sunflower.
+returns the next `Position` for a treasure or apple.
+returns the size of a cactus.
+returns a mysterious number for a pumpkin.
+returns nothing for all other entities.
+Store the result in an `int`, a `double` or a `Position`, depending on what you expect.
+
+takes `1` tick to execute.
+
+example:
+`int num_petals = measure();
+Position treasure = measure();`
+@code_tooltip_leaderboard_run = `void leaderboard_run(Leaderboard leaderboard, std::string file_name, double speedup)`
+Starts a timed simulation for the `leaderboard` using the specified `file_name` as a starting point.
+`speedup` sets the starting speedup.
+With JavaFarmer active, scores are not uploaded.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`leaderboard_run(Leaderboards::Fastest_Reset, "full_run", 256);`
+@code_tooltip_simulate = `double simulate(std::string filename, std::map<Unlock, int> sim_unlocks, std::map<Item, double> sim_items, std::map<std::string, int> sim_globals, double seed, double speedup)`
+Starts a simulation using the specified `filename` as a starting point.
+
+`sim_unlocks`: A map from unlocks to levels (negative levels mean the maximum level).
+`sim_items`: A map from items to amounts. The simulation starts with these items.
+`sim_globals`: A map from variable names to values. The simulation starts with these variables in the global scope.
+`seed`: The random seed of the simulation. Must be a positive integer.
+`speedup`: The starting speedup.
+
+returns the time it took to run the simulation.
+
+takes `200` ticks to execute.
+
+example:
+`std::map<Unlock, int> sim_unlocks;
+sim_unlocks[Unlocks::Carrots] = -1;
+std::map<Item, double> sim_items;
+sim_items[Items::Carrot] = 10000;
+std::map<std::string, int> sim_globals;
+double run_time = simulate("f1", sim_unlocks, sim_items, sim_globals, 0, 64);`
+@code_tooltip_spawn_drone = `Drone spawn_drone(task)`
+Spawns a new drone in the same position as the drone that ran the `spawn_drone(task)` command. The new drone then begins executing the specified task. After it is done, it will disappear automatically.
+`task` is a function without parameters: a function name, a lambda (`[&] { ... }`) or a `std::function<void()>`.
+
+returns the handle of the new drone or `nullptr` if all drones are already spawned.
+
+takes `200` ticks to execute if a drone was spawned, `1` otherwise.
+
+example:
+`void harvest_column() {
+	for (int i = 0; i < get_world_size(); i++) {
+		harvest();
+		move(North);
+	}
+}
+
+int main() {
+	while (true) {
+		if (spawn_drone(harvest_column)) {
+			move(East);
+		}
+	}
+}`
+@code_tooltip_wait_for = `void wait_for(Drone drone)`
+Waits until the given `drone` terminates.
+
+returns nothing in C++ (drone tasks don't return values).
+
+takes `1` tick to execute if the awaited `drone` is already done.
+
+example:
+`Drone handle = spawn_drone(harvest_column);
+wait_for(handle);`
+@code_tooltip_has_finished = `bool has_finished(Drone drone)`
+Checks if the given `drone` has finished.
+
+returns `true` if the `drone` has finished, `false` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`Drone drone = spawn_drone(harvest_column);
+while (!has_finished(drone)) {
+	do_something_else();
+}`
+@code_tooltip_max_drones = `int max_drones()`
+
+returns the maximum number of drones that you can have in the farm.
+
+takes `1` tick to execute.
+
+example:
+`while (num_drones() < max_drones()) {
+	spawn_drone(harvest_column);
+	move(East);
+}`
+@code_tooltip_num_drones = `int num_drones()`
+
+returns the number of drones currently in the farm.
+
+takes `1` tick to execute.
+
+example:
+`while (num_drones() < max_drones()) {
+	spawn_drone(harvest_column);
+	move(East);
+}`
+@code_tooltip_quick_print = `void quick_print(format, args...)`
+Prints a line just like `std::println(format, args...)` but it doesn't stop to write it into the air so it can only be found on the output page.
+
+returns nothing (`void`)
+
+takes `0` ticks to execute.
+
+example:
+`quick_print("hi mom");
+quick_print("x = {}", get_pos_x());`
+@code_tooltip_change_hat = `void change_hat(Hat hat)`
+Changes the hat of the drone to `hat`.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`change_hat(Hats::Dinosaur_Hat);`
+@code_tooltip_max = `std::max(a, b)`
+Gets the larger of two numbers. Both numbers must have the same type (both `int` or both `double`).
+
+takes #comparisons ticks to execute.
+
+example:
+`int biggest = std::max(3, std::max(6, 34));`
+@code_tooltip_min = `std::min(a, b)`
+Gets the smaller of two numbers. Both numbers must have the same type (both `int` or both `double`).
+
+takes #comparisons ticks to execute.
+
+example:
+`int smallest = std::min(3, std::min(6, 34));`
+@code_tooltip_abs = `std::abs(number)`
+Computes the absolute value of a number.
+
+returns `number` if `number` is positive, `-number` otherwise.
+
+takes 1 tick to execute.
+
+example:
+`int distance = std::abs(-69);`
+@code_tooltip_random = `double farm::random()`
+Samples a random number between 0 (inclusive) and 1 (exclusive).
+Write `farm::random()`: a plain `random()` would mean the C library's function.
+
+returns the random number.
+
+takes `1` ticks to execute.
+
+example:
+`Entity random_elem(std::vector<Entity> v) {
+	int index = (int) (farm::random() * v.size());
+	return v[index];
+}`
+@code_tooltip_append = `v.push_back(element)`
+Adds `element` to the end of the vector `v`.
+
+returns nothing (`void`)
+
+takes `1` ticks to execute.
+
+example:
+`std::vector<int> v;
+v.push_back(1);`
+@code_tooltip_add = `s.insert(element)`
+Adds `element` to the set `s`. Nothing changes if it is already in the set.
+
+takes `element size` ticks to execute.
+
+example:
+`std::set<int> s;
+s.insert(1);`
+@code_tooltip_remove = `s.erase(element)` or `v.erase(std::find(v.begin(), v.end(), element))`
+Removes `element` from the set `s`, or its first occurrence from the vector `v`.
+On a map, `m.erase(key)` removes the key and its value.
+
+takes `element size` ticks to execute on a set, #comparisions + #shifts ticks on a vector.
+
+example:
+`std::vector<Entity> v = {Entities::Bush, Entities::Tree};
+v.erase(std::find(v.begin(), v.end(), Entities::Tree));`
+@code_tooltip_pop = `v.pop_back()` or `v.erase(v.begin() + i)`
+`v.pop_back()` removes the last element of the vector `v`, `v.erase(v.begin() + i)` removes the element at index `i`. Read the element with `v.back()` or `v[i]` first if you need it.
+`m.erase(key)` removes a key from a map.
+
+takes `key size` ticks to execute on a map, `v.size() - i + 1` ticks on a vector.
+
+example:
+`std::vector<int> v = {4, 5, 6};
+int first = v[0];
+v.erase(v.begin() + 0);`
+@code_tooltip_insert = `v.insert(v.begin() + i, element)`
+Inserts `element` into the vector `v` at index `i`.
+
+takes `v.size() - i + 1` ticks.
+
+example:
+`std::vector<int> v = {1, 2};
+v.insert(v.begin() + 0, 0);`
+@code_tooltip_Items = Contains all items that can be in the inventory, like `Items::Hay`.
+@code_tooltip_Entities = Contains all plant types, like `Entities::Bush`.
+@code_tooltip_Grounds = Contains all possible ground types, like `Grounds::Soil`.
+@code_tooltip_Unlocks = Contains all the unlocks and upgrades in the research menu, like `Unlocks::Speed`.
+@code_tooltip_Hats = Contains all hat types, like `Hats::Straw_Hat`.
+@code_tooltip_Leaderboards = Contains all leaderboard categories, like `Leaderboards::Hay`.
+@code_tooltip_for = A loop. `for (int i = 0; i < n; i++)` counts from `0` to `n - 1`. `for (auto x : collection)` runs once for every element of a vector, map or set (a range-for loop).
+@code_tooltip_while = Loops as long as the condition is `true`.
+@code_tooltip_def = C++ has no `def`. Define a function by writing its return type, name and parameters: `void f(int n) { ... }`
+@code_tooltip_True = `true` is a boolean value that is always true.
+@code_tooltip_False = `false` is a boolean value that is always false.
+@code_tooltip_if = Executes code if the condition is `true`.
+@code_tooltip_else = Executes code if the previous `if` condition was `false`.
+@code_tooltip_elif = `else if (condition)` does the same thing as:
+`else {
+	if (condition) {
+		...
+	}
+}`
+@code_tooltip_None = `nullptr` is a value representing that there is no value.
+@code_tooltip_continue = Immediately continue with the next loop iteration. If there are nested loops, this will always affect the innermost loop.
+@code_tooltip_break = Break out of a loop and continue executing the statements after the loop. If there are nested loops, this will always affect the innermost loop.
+@code_tooltip_not = `!true` is `false` and `!false` is `true`.
+@code_tooltip_and = `a && b` is `true` only if both `a` and `b` are `true`. If `a` is `false`, `b` is not evaluated at all.
+@code_tooltip_or = `a || b` is `true` if at least one of `a` and `b` is `true`. If `a` is `true`, `b` is not evaluated at all.
+@code_tooltip_return = Used to leave a function and give back a value: `return value;` (or just `return;` in a `void` function).
+@code_tooltip_pass = C++ has no `pass`. An empty block `{ }` is allowed.
+@code_tooltip_global = C++ has no `global`. Variables declared outside of all functions (globals) can be changed from every function.
+@code_tooltip_import = C++ has no `import`. Declare the functions and globals of another code window with a prototype like `void plant_row(Entity e);` or with `extern int count;`.
+@code_tooltip_true = A boolean value that is always true.
+@code_tooltip_false = A boolean value that is always false.
+@code_tooltip_nullptr = A value representing that there is no value, for example `get_entity_type() == nullptr` on an empty tile.
+@code_tooltip_void = Written instead of a return type when a function doesn't return a value.
+@code_tooltip_int = A whole number like `5` or `-3`.
+@code_tooltip_long = The same as `int` in JavaFarmer: a whole number.
+@code_tooltip_double = A number with a decimal point like `0.25`.
+@code_tooltip_float = The same as `double` in JavaFarmer: a number with a decimal point.
+@code_tooltip_bool = `true` or `false`.
+@code_tooltip_string = `std::string` is a piece of text like `"hello"` (from `#include <string>`).
+@code_tooltip_auto = Declares a variable whose type is taken from its value: `auto plant_type = Entities::Carrot;`
+@code_tooltip_const = A `const` variable can't be changed after it got its value.
+@code_tooltip_constexpr = A constant whose value is known before the program runs: `constexpr int rows = 4;`
+@code_tooltip_static = Marks a function or global that belongs to this code window only. Other windows can't use it.
+@code_tooltip_extern = Declares a global variable that is defined in another code window: `extern int count;`
+@code_tooltip_do = `do { ... } while (condition);` runs the body first and then repeats it as long as the condition is `true`.
+@code_tooltip_switch = Chooses a block of code depending on an `int` value: `switch (n) { case 1: ... break; }`
+@code_tooltip_case = One choice of a `switch`: `case 1:` runs if the value is `1`. End it with `break;`.
+@code_tooltip_default = The choice of a `switch` that runs if no `case` matches.
+@code_tooltip_using = `using namespace std;` lets you write `vector` instead of `std::vector`. Other `using` declarations are not supported in JavaFarmer.
+@code_tooltip_namespace = `using namespace std;` is allowed. Your own namespaces are not supported in JavaFarmer.
+@code_tooltip_new = `new` and `delete` are not supported in JavaFarmer. Create values directly, like `std::vector<int> v;`.
+@code_tooltip_class = Classes are not supported in JavaFarmer. Use functions, globals and the game types like `Position`.
+@code_tooltip_struct = Structs are not supported in JavaFarmer. Use the game types like `Position` or several variables.

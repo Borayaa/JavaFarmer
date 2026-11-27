@@ -1,0 +1,2 @@
+-- c content docs blocks that are deliberately not compilable code (format: <page>#<span index>: reason).
+-- Currently none: number grids are recognised as prose by CFamilyDocsCheck.IsProse.

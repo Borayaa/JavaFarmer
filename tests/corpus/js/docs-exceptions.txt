@@ -1,0 +1,5 @@
+-- JavaScript docs exceptions: EN docs code spans the JS printer cannot express or the headless check cannot verify.
+-- Format: <path relative to Languages/EN/docs>#<span index>: reason. Read by HarnessTests (f).
+unlocks/leaderboard.md#12: uses the constant container Unlocks as a value (unlocks = Unlocks); the JS prints and compiles to the docs' own Python, but the headless game parser cannot resolve a bare Unlocks without the running game's ResourceManager
+unlocks/leaderboard.md#16: uses the constant container Unlocks as a value (unlocks = Unlocks); same headless game-parser limitation as #12
+unlocks/simulation.md#2: sim_unlocks = Unlocks: same headless game-parser limitation (bare constant container) as leaderboard.md#12

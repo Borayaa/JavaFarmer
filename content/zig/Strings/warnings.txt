@@ -1,0 +1,6 @@
+@warning_weird_substance_not_divisible = You used a number of Weird Substance that isn't exactly the number needed to create the maze. Don't forget that the amount of Weird Substance required increases as you upgrade the maze.
+
+To spawn a full-size maze do:
+`_ = farm.plant(.Bush);
+const substance = farm.getWorldSize() * std.math.pow(usize, 2, farm.numUnlocked(farm.Unlock.Mazes) - 1);
+_ = farm.useItemN(.Weird_Substance, substance);`

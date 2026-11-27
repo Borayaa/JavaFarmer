@@ -1,0 +1,2 @@
+@new_hat_unlocked = ## New Hat Unlocked
+`change_hat(`{0}`);`

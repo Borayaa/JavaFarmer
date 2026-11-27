@@ -1,0 +1,119 @@
+@unlock_descr_trees = Unlocks trees.
+
+`_ = farm.plant(.Tree);`
+@unlock_descr_plant = Unlocks planting.
+
+`_ = farm.plant(.Bush);`
+@unlock_descr_loops = Unlocks a simple while loop.
+
+`while (true) {
+    _ = farm.harvest();
+}`
+@unlock_descr_hats = Hats for your drone.
+
+`farm.changeHat(.Green_Hat);`
+@unlock_descr_senses = The drone can see what's under it and where it is.
+
+`if (farm.getPosX() < 5 and farm.numItems(.Wood) < 200) {
+    _ = farm.plant(.Bush);
+}`
+@unlock_descr_operators = Arithmetic, comparison and logic operators.
+
+`if (!farm.canHarvest() and (1 + 1 == 4 / 2)) {
+    farm.doAFlip();
+}`
+@unlock_descr_pumpkin = Pumpkins!
+
+`_ = farm.plant(.Pumpkin);`
+@unlock_descr_variables = Declare variables with `const` and `var` and assign values to them.
+
+`const next_plant = farm.Entity.Bush;
+_ = farm.plant(next_plant);`
+@unlock_descr_functions = Define your own functions with `fn`.
+
+`fn doTwoFlips() void {
+    farm.doAFlip();
+    farm.doAFlip();
+}
+
+doTwoFlips();`
+@unlock_descr_watering = Water the plants to make them grow faster.
+
+`_ = farm.useItem(.Water);`
+@unlock_descr_carrots = Till the soil and plant carrots.
+
+`farm.till();
+_ = farm.plant(.Carrot);`
+@unlock_descr_lists = Use arrays and `std.ArrayList` lists to store lots of values.
+
+`const plants = [_]farm.Entity{ .Grass, .Bush, .Tree };
+
+for (plants) |p| {
+    _ = farm.plant(p);
+    _ = farm.move(.North);
+}`
+@unlock_descr_costs = Allows access to the cost of things.
+
+`if (farm.getCost(farm.Entity.Carrot)) |cost| {
+    var it = cost.iterator();
+    while (it.next()) |entry| {
+        const amount_needed = entry.value_ptr.*;
+        std.debug.print("{d}\n", .{amount_needed});
+    }
+}`
+@unlock_descr_fertilizer = Grow plants instantly.
+
+`_ = farm.useItem(.Fertilizer);`
+@unlock_descr_mazes = A maze with a treasure in the middle.
+
+`if (farm.getEntityType()) |e| {
+    if (e == .Treasure) {
+        _ = farm.harvest();
+    }
+}`
+@unlock_descr_debug = Tools to help with debugging programs.
+
+`std.debug.print("hi\n", .{});`
+@unlock_descr_debug2 = Functions to temporarily slow down the execution and make the farm smaller.
+
+`farm.setWorldSize(3);
+farm.setExecutionSpeed(1);`
+@unlock_descr_auto_unlock = Automatically unlock things.
+
+`_ = farm.unlock(.Megafarm);`
+@unlock_descr_polyculture = Use companion planting to increase the yield.
+
+`if (farm.getCompanion()) |c| {
+    std.debug.print("{} {d} {d}\n", .{ c.entity, c.x, c.y });
+}`
+@unlock_descr_sunflowers = Sunflowers and Power.
+
+`_ = farm.plant(.Sunflower);`
+@unlock_descr_leaderboard = Enter the leaderboard for the fastest times. (JavaFarmer does not upload scores.)
+
+`farm.leaderboardRun(.Hay, "hay_file", speedup);`
+@unlock_descr_dicts = Get access to maps and sets (`std.AutoHashMap`).
+
+`var right_of = std.AutoHashMap(farm.Direction, farm.Direction).init(farm.allocator);
+try right_of.put(.North, .East);
+try right_of.put(.East, .South);`
+@unlock_descr_utilities = Unlocks the `@min()`, `@max()`, `@abs()` and `farm.random()` functions.
+
+`const random_index: usize = @intFromFloat(farm.random() * @as(f64, @floatFromInt(xs.len)));`
+@unlock_descr_cactus = Cactus!
+
+`_ = farm.plant(.Cactus);`
+@unlock_descr_simulation = Test faster and under reproducible conditions.
+
+`const run_time = farm.simulate(file_name, sim_unlocks, sim_items, sim_globals, seed, speedup);`
+@unlock_descr_timing = It's about time!
+
+`const passed_time = farm.getTime();`
+@unlock_descr_import = Use functions and variables from other code windows.
+
+`const other_file = @import("other_file.zig");
+
+other_file.doWork();`
+@unlock_descr_megafarm = More drones!
+
+`_ = farm.spawnDrone(harvestColumn);`

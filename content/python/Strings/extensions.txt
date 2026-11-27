@@ -1,0 +1,64 @@
+@cybersecurity = Cybersecurity
+@unlock_descr_cybersecurity = Crack the farm vault to earn `Items.Bits`. Each level adds a digit to the PIN.
+
+`if vault_try(1234):
+	print("cracked")`
+@side_channels = Side Channels
+@unlock_descr_side_channels = The vault leaks how many digits of a guess are right. Crack it digit by digit.
+
+`if vault_check_digit(0, 7):
+	print("first digit is 7")`
+@cryptography = Cryptography
+@unlock_descr_cryptography = Intercept encrypted messages and break Caesar and Vigenere ciphers. Each level uses a longer key.
+
+`secret = intercept_message()`
+@hashing = Hashing
+@unlock_descr_hashing = Crack a leaked password database with a dictionary attack. Level 2 adds salts.
+
+`h = hash_text("carrot")`
+@intrusion_detection = Intrusion Detection
+@unlock_descr_intrusion_detection = Read the login log, find the attackers and block them. Blocking a real user costs Bits.
+
+`if not log_success(0):
+	block_ip(log_ip(0))`
+@firewall = Firewall
+@unlock_descr_firewall = Filter network packets by the farm's security policy. Each level adds rules.
+
+`while packet_next():
+	if packet_port() == 443:
+		packet_allow()`
+@secure_farm = Secure Farm
+@unlock_descr_secure_farm = Defense in depth pays off: every harvest yields more.
+@ext_bonus_yield = Harvest yield: +{0}%
+@machine_learning = Machine Learning
+@unlock_descr_machine_learning = Learn from farm data to earn `Items.Insight`. Start by predicting the average yield.
+
+`error = submit_prediction(5)`
+@linear_regression = Linear Regression
+@unlock_descr_linear_regression = Fit a straight line through the data: yield versus water.
+
+`r2 = submit_line(2, 1)`
+@classification = Classification
+@unlock_descr_classification = Train a perceptron that tells crops from weeds.
+
+`accuracy = submit_classifier(1, -1, 0)`
+@clustering = Clustering
+@unlock_descr_clustering = Group points with k-means to split the field between drones.
+
+`submit_centroid(0, 5, 5)
+inertia = evaluate_clusters()`
+@reinforcement_learning = Reinforcement Learning
+@unlock_descr_reinforcement_learning = Teach a drone to cross a muddy field by trial and error (Q-learning).
+
+`state = env_reset()
+reward = env_step(1)`
+@neural_networks = Neural Networks
+@unlock_descr_neural_networks = Build and train a tiny neural network that solves XOR.
+
+`accuracy = nn_evaluate()`
+@smart_farm = Smart Farm
+@unlock_descr_smart_farm = Data-driven farming: every plant grows faster.
+@ext_bonus_growth = Growth speed: +{0}%
+@item_descr_bits = Earned by solving Cybersecurity challenges. Spent on Cybersecurity unlocks.
+@item_descr_insight = Earned by training good models in the AI / ML extension. Spent on AI / ML unlocks.
+@table_of_contents_section_mods = Mods

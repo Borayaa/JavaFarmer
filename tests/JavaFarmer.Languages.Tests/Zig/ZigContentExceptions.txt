@@ -1,0 +1,7 @@
+-- content/zig code that is deliberately not a complete Zig program (read by ZigContentTests).
+-- "<docs path>#<span index>: reason" for docs blocks (span numbering = DocsCorpus.Spans), "@<unlock>: reason" for unlock boxes.
+scripting/while.md#5: syntax template: "condition" is a placeholder for any bool expression
+scripting/while.md#12: syntax template: "condition" is a placeholder the text tells the player to replace
+@import: uses a function of another code window (utils.f()); a lone snippet has no utils module
+@simulation: the box shows only the function name; a real call needs six arguments
+@the_farmers_remains: "?" is a placeholder, not code

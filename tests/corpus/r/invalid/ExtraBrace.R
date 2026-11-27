@@ -1,0 +1,4 @@
+# ERROR: unexpected '}'
+# AT: }
+harvest()
+}

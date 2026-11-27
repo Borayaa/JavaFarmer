@@ -1,0 +1,32 @@
+@auto_unlock
+unlock(Unlock::Megafarm)
+@costs
+get_cost(Entity::Carrot)
+@debug_2
+set_execution_speed(1.0)
+@dictionaries
+HashMap::from([(1, 2)])
+@import
+utils::f()
+@lists
+Vec::from([1, 2, 3])
+@loops
+loop { }
+@senses
+get_pos_x()
+@simulation
+simulate()
+@the_farmers_remains
+?
+@utilities
+random()
+@debug
+println!("hi")
+@functions
+fn f() { }
+@timing
+get_time()
+@variables
+let a = 2;
+@operators
+1 + 1

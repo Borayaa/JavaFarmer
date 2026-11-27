@@ -1,0 +1,32 @@
+@auto_unlock
+unlock()
+@costs
+getCost()
+@debug_2
+setExecutionSpeed()
+@dictionaries
+new Map()
+@import
+Utils.f()
+@lists
+[1, 2, 3]
+@loops
+while
+@senses
+getPosX()
+@simulation
+simulate()
+@the_farmers_remains
+?
+@utilities
+Math.random()
+@debug
+console.log()
+@functions
+function f() { }
+@timing
+getTime()
+@variables
+let a = 2;
+@operators
+1 + 1

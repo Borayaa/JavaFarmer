@@ -1,0 +1,32 @@
+@auto_unlock
+Unlock()
+@costs
+GetCost()
+@debug_2
+SetExecutionSpeed()
+@dictionaries
+new Dictionary<Item, int>()
+@import
+Utils.F()
+@lists
+List<int> xs = [1, 2, 3];
+@loops
+while
+@senses
+GetPosX()
+@simulation
+Simulate()
+@the_farmers_remains
+?
+@utilities
+Math.Min()
+@debug
+Console.WriteLine()
+@functions
+void F() { }
+@timing
+GetTime()
+@variables
+int a = 2;
+@operators
+1 + 1

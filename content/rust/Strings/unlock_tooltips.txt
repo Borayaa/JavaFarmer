@@ -1,0 +1,113 @@
+@unlock_descr_trees = Unlocks trees.
+
+`plant(Entity::Tree);`
+@unlock_descr_plant = Unlocks planting.
+
+`plant(Entity::Bush);`
+@unlock_descr_loops = Unlocks loops: `loop` and `while`.
+
+`loop {
+	harvest();
+}`
+@unlock_descr_hats = Hats for your drone.
+
+`change_hat(Hat::Green_Hat);`
+@unlock_descr_senses = The drone can see what's under it and where it is.
+
+`if get_pos_x() < 5 && num_items(Item::Wood) < 200.0 {
+	plant(Entity::Bush);
+}`
+@unlock_descr_operators = Arithmetic, comparison and logic operators.
+
+`if !can_harvest() && (1 + 1 == 4 / 2) {
+	do_a_flip();
+}`
+@unlock_descr_pumpkin = Pumpkins!
+
+`plant(Entity::Pumpkin);`
+@unlock_descr_variables = Declare variables with `let` and assign values to them.
+
+`let next_plant = Entity::Bush;
+plant(next_plant);`
+@unlock_descr_functions = Define your own functions with `fn`.
+
+`fn do_two_flips() {
+	do_a_flip();
+	do_a_flip();
+}
+
+do_two_flips();`
+@unlock_descr_watering = Water the plants to make them grow faster.
+
+`use_item(Item::Water);`
+@unlock_descr_carrots = Till the soil and plant carrots.
+
+`till();
+plant(Entity::Carrot);`
+@unlock_descr_lists = Use `Vec` lists to store lots of values.
+
+`let plants = Vec::from([Entity::Grass, Entity::Bush, Entity::Tree]);
+
+for p in &plants {
+	plant(*p);
+	move_to(North);
+}`
+@unlock_descr_costs = Allows access to the cost of things.
+
+`if let Some(cost) = get_cost(Entity::Carrot) {
+	for (item, amount_needed) in &cost {
+		println!("{} {}", item, amount_needed);
+	}
+}`
+@unlock_descr_fertilizer = Grow plants instantly.
+
+`use_item(Item::Fertilizer);`
+@unlock_descr_mazes = A maze with a treasure in the middle.
+
+`if get_entity_type() == Some(Entity::Treasure) {
+	harvest();
+}`
+@unlock_descr_debug = Tools to help with debugging programs.
+
+`println!("hi");`
+@unlock_descr_debug2 = Functions to temporarily slow down the execution and make the farm smaller.
+
+`set_world_size(3.0);
+set_execution_speed(1.0);`
+@unlock_descr_auto_unlock = Automatically unlock things.
+
+`unlock(Unlock::Megafarm);`
+@unlock_descr_polyculture = Use companion planting to increase the yield.
+
+`if let Some((plant_type, (x, y))) = get_companion() {
+	println!("{} {} {}", plant_type, x, y);
+}`
+@unlock_descr_sunflowers = Sunflowers and Power.
+
+`plant(Entity::Sunflower);`
+@unlock_descr_leaderboard = Enter the leaderboard for the fastest times. (JavaFarmer does not upload scores.)
+
+`leaderboard_run(Leaderboard::Hay, "hay_file", speedup);`
+@unlock_descr_dicts = Get access to HashMap and HashSet.
+
+`let right_of = HashMap::from([(North, East), (East, South), (South, West), (West, North)]);`
+@unlock_descr_utilities = Unlocks the `min()`, `max()`, `abs()` and `random()` functions.
+
+`let random_index = (random() * v.len() as f64) as usize;`
+@unlock_descr_cactus = Cactus!
+
+`plant(Entity::Cactus);`
+@unlock_descr_simulation = Test faster and under reproducible conditions.
+
+`let run_time = simulate(file_name, sim_unlocks, sim_items, sim_globals, seed, speedup);`
+@unlock_descr_timing = It's about time!
+
+`let passed_time = get_time();`
+@unlock_descr_import = Use functions and constants from other code windows.
+
+`mod other_file;
+
+other_file::function();`
+@unlock_descr_megafarm = More drones!
+
+`spawn_drone(harvest_column);`

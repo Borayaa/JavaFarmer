@@ -1,0 +1,643 @@
+@code_tooltip_harvest = `bool harvest(void)`
+Harvests the entity under the drone. 
+If you harvest an entity that can't be harvested, it will be destroyed.
+
+returns `true` if an entity was removed, `false` otherwise.
+
+takes `200` ticks to execute if an entity was removed, `1` tick otherwise.
+
+example:
+`harvest();`
+@code_tooltip_can_harvest = `bool can_harvest(void)`
+Used to find out if plants are fully grown.
+
+returns `true` if there is an entity under the drone that is ready to be harvested, `false` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`if (can_harvest()) {
+	harvest();
+}`
+@code_tooltip_range = C has no `range()`. To count from `start` up to (but not including) `end`, use a `for` loop.
+
+takes `1` tick to start the loop.
+
+example:
+`for (int i = 0; i < 10; i++) {
+	printf("%d\n", i);
+}
+
+for (int i = 2; i < 6; i++) {
+	printf("%d\n", i);
+}
+
+for (int i = 10; i > 0; i--) {
+	printf("%d\n", i);
+}`
+@code_tooltip_plant = `bool plant(Entity entity)`
+Spends the cost of the specified `entity` and plants it under the drone.
+It fails if you can't afford the plant, the ground type is wrong or there's already a plant there.
+
+returns `true` if it succeeded, `false` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`plant(Entities.Bush);`
+@code_tooltip_move = `bool move(Direction direction)`
+Moves the drone into the specified `direction` by one tile.
+If the drone moves over the edge of the farm it wraps back to the other side of the farm.
+
+`East `  =  right
+`West `  =  left
+`North`  =  up
+`South`  =  down
+
+returns `true` if the drone has moved, `false` otherwise.
+
+takes `200` ticks to execute if the drone has moved, `1` tick otherwise.
+
+example:
+`move(North);`
+@code_tooltip_can_move = `bool can_move(Direction direction)`
+Checks if the drone can move in the specified `direction`.
+
+returns `true` if the drone can move, `false` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`if (can_move(North)) {
+	move(North);
+}`
+@code_tooltip_swap = `bool swap(Direction direction)`
+Swaps the entity under the drone with the entity next to the drone in the specified `direction`.
+Doesn't work on all entities.
+Also works if one (or both) of the entities are `NULL`.
+
+returns `true` if it succeeded, `false` otherwise.
+
+takes `200` ticks to execute on success, `1` tick otherwise.
+
+example:
+`swap(North);`
+@code_tooltip_till = `void till(void)`
+Tills the ground under the drone into `Grounds.Soil`. If it's already soil it will change the ground back to `Grounds.Grassland`.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`till();`
+@code_tooltip_get_pos_x = `int get_pos_x(void)`
+Gets the current x position of the drone.
+The x position starts at `0` in the west and increases in the east direction.
+
+returns a number representing the current x coordinate of the drone.
+
+takes `1` tick to execute.
+
+example:
+`int x = get_pos_x();`
+@code_tooltip_get_pos_y = `int get_pos_y(void)`
+Gets the current y position of the drone.
+The y position starts at `0` in the south and increases in the north direction.
+
+returns a number representing the current y coordinate of the drone.
+
+takes `1` tick to execute.
+
+example:
+`int y = get_pos_y();`
+@code_tooltip_get_world_size = `int get_world_size(void)`
+Get the current size of the farm.
+
+returns the side length of the grid in the north to south direction.
+
+takes `1` tick to execute.
+
+example:
+`for (int i = 0; i < get_world_size(); i++) {
+	move(North);
+}`
+@code_tooltip_get_entity_type = `Entity get_entity_type(void)`
+Find out what kind of entity is under the drone.
+
+returns `NULL` if the tile is empty, otherwise returns the type of the entity under the drone.
+
+takes `1` tick to execute.
+
+example:
+`if (get_entity_type() == Entities.Grass) {
+	harvest();
+}`
+@code_tooltip_get_ground_type = `Ground get_ground_type(void)`
+Find out what kind of ground is under the drone.
+
+returns the type of the ground under the drone.
+
+takes `1` tick to execute.
+
+example:
+`if (get_ground_type() != Grounds.Soil) {
+	till();
+}`
+@code_tooltip_get_time = `double get_time(void)`
+Get the current game time.
+
+returns the time in seconds since the start of the game.
+
+takes `1` tick to execute.
+
+example:
+`double start = get_time();
+
+do_something();
+
+double time_passed = get_time() - start;`
+@code_tooltip_get_tick_count = `double get_tick_count(void)`
+Used to measure the number of ticks performed.
+
+returns the number of ticks performed since the start of execution.
+
+takes `0` tick to execute.
+
+example:
+`do_something();
+
+printf("%g\n", get_tick_count());`
+@code_tooltip_use_item = `bool use_item(Item item)` or `bool use_item(Item item, int n)`
+Attempts to use the specified `item` `n` times (`1` time if `n` is left out). Can only be used with some items including `Items.Water`, `Items.Fertilizer`.
+
+returns `true` if an item was used, `false` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`use_item(Items.Fertilizer);`
+@code_tooltip_get_water = `double get_water(void)`
+Get the current water level under the drone.
+
+returns the water level under the drone as a number between `0` and `1`.
+
+takes `1` tick to execute.
+
+example:
+`if (get_water() < 0.5) {
+	use_item(Items.Water);
+}`
+@code_tooltip_do_a_flip = `void do_a_flip(void)`
+Makes the drone do a flip! This action is not affected by speed upgrades.
+
+returns nothing (`void`)
+
+takes 1s to execute.
+
+example:
+`while (true) {
+	do_a_flip();
+}`
+@code_tooltip_pet_the_piggy = `void pet_the_piggy(void)`
+Pets the piggy! This action is not affected by speed upgrades.
+
+returns nothing (`void`)
+
+takes 1s to execute.
+
+example:
+`while (true) {
+	pet_the_piggy();
+}`
+@code_tooltip_print = `printf(format, ...)` or `puts(text)`
+Prints text into the air above the drone using smoke. This action is not affected by speed upgrades.
+Each `%` placeholder in `format` is replaced by the next value: `%d` for an `int`, `%f` or `%g` for a `double`, `%s` for a string. Use `str_of(value)` with `%s` for any other value.
+One line is printed for every `\n`. Text without a `\n` at the end waits for the rest of the line.
+`puts(text)` prints `text` as one line.
+
+returns nothing
+
+takes 1s to execute.
+
+example:
+`printf("ground: %s\n", str_of(get_ground_type()));`
+@code_tooltip_len = C has no `len()`. Use `list_len(list)`, `set_len(set)` or `map_len(map)` for collections, `strlen(text)` for strings and `sizeof(array) / sizeof(array[0])` for arrays.
+
+takes `1` tick to execute.
+
+example:
+`for (int i = 0; i < list_len(numbers); i++) {
+	list_set(numbers, i, list_get(numbers, i) + 1);
+}`
+@code_tooltip_list = `list_new(T)`, `list_of(T, a, b, ...)` or `list_copy(list)`
+Creates a new list of elements of type `T`. 
+`list_new` creates an empty list.
+`list_of` creates a list with the given elements.
+`list_copy` creates a new list with the elements of another list.
+
+returns a `List(T)`.
+
+takes `1 + list_len(list)` ticks to execute.
+
+example:
+`List(int) new_list = list_of(int, 1, 2, 3);`
+@code_tooltip_dict = `map_new(K, V)`, `map_of(K, V, ...)` or `map_copy(map)`
+Creates a new map with keys of type `K` and values of type `V`.
+`map_new` creates an empty map.
+`map_of` takes the key-value pairs in braces, like `map_of(Item, double, {Items.Hay, 5})`.
+`map_copy` creates a copy of another map.
+
+returns a `Map(K, V)`.
+
+takes `1 + map_len(map)` ticks to execute.
+
+example:
+`Map(Item, int) new_map = map_new(Item, int);`
+@code_tooltip_set = `set_new(T)`, `set_of(T, a, b, ...)` or `set_copy(set)`
+Creates a new set of elements of type `T`.
+`set_new` creates an empty set.
+`set_of` creates a set with the given elements in it.
+`set_copy` creates a copy of another set.
+
+returns a `Set(T)`.
+
+takes `1 + set_len(set)` ticks to execute.
+
+example:
+`Set(int) new_set = set_of(int, 1, 2, 3);`
+@code_tooltip_str = `string str_of(value)`
+
+returns a string representation of `value`, written the way the game prints it.
+
+takes `1` ticks to execute.
+
+example:
+`string text = str_of(1000);`
+@code_tooltip_set_execution_speed = `void set_execution_speed(double speed)`
+Limits the speed at which the program is executed to better see what's happening.
+
+A `speed` of `1` is the speed the drone has without any speed upgrades.
+A `speed` of `10` makes the code execute `10` times faster and corresponds to the speed of the drone after `9` speed upgrades.
+A `speed` of `0.5` makes the code execute at half of the speed without speed upgrades. This can be useful to see what the code is doing.
+
+If `speed` is faster than the execution can currently go it will just go at max speed.
+
+If `speed` is `0` or negative, the speed is changed back to max speed.
+The effect will also stop when the execution stops.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`set_execution_speed(1);`
+@code_tooltip_set_world_size = `void set_world_size(double size)`
+Limits the size of the farm to better see what's happening.
+Also clears the farm and resets the drone position.
+Sets the farm to a `size` x `size` grid.
+The smallest `size` possible is `3`.
+A `size` smaller than `3` will change the grid back to its full size.
+The effect will also stop when the execution stops.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`set_world_size(5);`
+@code_tooltip_num_items = `double num_items(Item item)`
+Find out how much of `item` you currently have.
+
+returns the number of `item` currently in your inventory.
+
+takes `1` tick to execute.
+
+example:
+`if (num_items(Items.Fertilizer) > 0) {
+	use_item(Items.Fertilizer);
+}`
+@code_tooltip_get_cost = `Map(Item, double) get_cost(thing)` or `Map(Item, double) get_cost(thing, int level)`
+Gets the cost of a `thing` (an `Entity`, `Item` or `Unlock`).
+
+If `thing` is an entity get the cost of planting it.
+If `thing` is an unlock get the cost of unlocking it, at the current level or at `level`.
+
+returns a map with items as keys and numbers as values. Each item is mapped to how much of it is needed.
+returns an empty map or `NULL` when used on an upgradeable unlock that is already at the max level.
+
+takes `1` tick to execute.
+
+example:
+`Map(Item, double) cost = get_cost(Unlocks.Carrots);
+for_each (Item item, cost) {
+	if (num_items(item) < map_get(cost, item)) {
+		printf("not enough items to unlock carrots\n");
+	}
+}`
+@code_tooltip_clear = `void clear(void)`
+Removes everything from the farm, moves the drone back to position `(0, 0)` and changes the hat back to the straw hat.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`clear();`
+@code_tooltip_get_companion = `Companion get_companion(void)`
+Get the preferred companion of the plant under the drone.
+
+returns a `Companion`: `c->entity` is the companion type and `c->x`, `c->y` (or `c->position`) is where it wants it. Returns `NULL` if there is no plant with a companion preference.
+
+takes `1` tick to execute.
+
+example:
+`Companion companion = get_companion();
+if (companion != NULL) {
+	printf("%s\n", str_of(companion->entity));
+}`
+@code_tooltip_unlock = `bool unlock(Unlock unlock)`
+Has exactly the same effect as clicking the button corresponding to `unlock` in the research tree.
+
+returns `true` if the unlock was successful, `false` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`unlock(Unlocks.Carrots);`
+@code_tooltip_num_unlocked = `int num_unlocked(thing)`
+Used to check if an unlock, entity, ground or item is already unlocked.
+
+returns `1` plus the number of times `thing` has been upgraded if `thing` is upgradable. Otherwise returns `1` if `thing` is unlocked, `0` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`plant(Entities.Bush);
+int substance = get_world_size() * num_unlocked(Unlocks.Mazes);
+use_item(Items.Weird_Substance, substance);`
+@code_tooltip_reset = `void reset(void)`
+Resets the farm back to a 1x1 square, removes all resources and locks most unlocks.
+It doesn't remove any of your code.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+@code_tooltip_measure = `double measure(void)` or `double measure(Direction direction)`
+Can measure some values on some entities. The effect of this depends on the entity.
+
+With a `direction` it measures the neighboring entity in the given direction.
+
+returns the number of petals of a sunflower.
+returns the size of a cactus.
+returns a mysterious number for a pumpkin.
+For a treasure or an apple the result is a position: use `Position measure_pos(void)` (or `measure_pos(direction)`) instead.
+
+takes `1` tick to execute.
+
+example:
+`double petals = measure();
+Position treasure = measure_pos();`
+@code_tooltip_leaderboard_run = `void leaderboard_run(Leaderboard leaderboard, string file_name, double speedup)`
+Starts a timed simulation for the `leaderboard` using the specified `file_name` as a starting point.
+`speedup` sets the starting speedup.
+With JavaFarmer active, scores are not uploaded.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`leaderboard_run(Leaderboards.Fastest_Reset, "full_run", 256);`
+@code_tooltip_simulate = `double simulate(string file_name, Map(Unlock, int) sim_unlocks, Map(Item, double) sim_items, Map(string, int) sim_globals, double seed, double speedup)`
+Starts a simulation using the specified `file_name` as a starting point.
+
+`sim_unlocks`: A map from unlocks to levels. `-1` means the maximum level.
+`sim_items`: A map from items to amounts. The simulation starts with these items.
+`sim_globals`: A map from variable names to values. The simulation starts with these variables in the global scope.
+`seed`: The random seed of the simulation. Must be a positive integer.
+`speedup`: The starting speedup.
+
+returns the time it took to run the simulation.
+
+takes `200` ticks to execute.
+
+example:
+`Map(Unlock, int) sim_unlocks = map_of(Unlock, int, {Unlocks.Carrots, -1});
+Map(Item, double) sim_items = map_of(Item, double, {Items.Carrot, 10000});
+double run_time = simulate("f1", sim_unlocks, sim_items, map_new(string, int), 0, 64);`
+@code_tooltip_spawn_drone = `Drone spawn_drone(void (*task)(void))`
+Spawns a new drone in the same position as the drone that ran the `spawn_drone(task)` command. The new drone then begins executing the specified function. After it is done, it will disappear automatically.
+`task` is the name of a function without parameters that returns nothing, like `void harvest_column(void)`. To tell the drone what to do, set a global variable before spawning it.
+
+returns the handle of the new drone or `NULL` if all drones are already spawned.
+
+takes `200` ticks to execute if a drone was spawned, `1` otherwise.
+
+example:
+`void harvest_column(void) {
+	for (int i = 0; i < get_world_size(); i++) {
+		harvest();
+		move(North);
+	}
+}
+
+int main(void) {
+	while (true) {
+		if (spawn_drone(harvest_column) != NULL) {
+			move(East);
+		}
+	}
+}`
+@code_tooltip_wait_for = `void wait_for(Drone drone)`
+Waits until the given `drone` terminates.
+
+returns nothing: in C the function of a drone returns nothing.
+
+takes `1` tick to execute if the awaited `drone` is already done.
+
+example:
+`Drone helper = spawn_drone(harvest_column);
+if (helper != NULL) {
+	wait_for(helper);
+}`
+@code_tooltip_has_finished = `bool has_finished(Drone drone)`
+Checks if the given `drone` has finished.
+
+returns `true` if the `drone` has finished, `false` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`Drone drone = spawn_drone(task);
+while (!has_finished(drone)) {
+	do_something_else();
+}`
+@code_tooltip_max_drones = `int max_drones(void)`
+
+returns the maximum number of drones that you can have in the farm.
+
+takes `1` tick to execute.
+
+example:
+`while (num_drones() < max_drones()) {
+	spawn_drone(harvest_column);
+	move(East);
+}`
+@code_tooltip_num_drones = `int num_drones(void)`
+
+returns the number of drones currently in the farm.
+
+takes `1` tick to execute.
+
+example:
+`while (num_drones() < max_drones()) {
+	spawn_drone(harvest_column);
+	move(East);
+}`
+@code_tooltip_quick_print = `void quick_print(format, ...)`
+Prints a line just like `printf(format, ...)` but it doesn't stop to write it into the air so it can only be found on the output page. It always prints one whole line, so no `\n` is needed.
+
+returns nothing (`void`)
+
+takes `0` ticks to execute.
+
+example:
+`quick_print("hi mom");`
+@code_tooltip_change_hat = `void change_hat(Hat hat)`
+Changes the hat of the drone to `hat`.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`change_hat(Hats.Dinosaur_Hat);`
+@code_tooltip_max = `max(a, b)`
+Gets the larger of two numbers.
+The result is an `int` if both numbers are `int`s, otherwise a `double`.
+
+takes #comparisons ticks to execute.
+
+example:
+`int biggest = max(3, max(6, 34));`
+@code_tooltip_min = `min(a, b)`
+Gets the smaller of two numbers.
+The result is an `int` if both numbers are `int`s, otherwise a `double`.
+
+takes #comparisons ticks to execute.
+
+example:
+`int smallest = min(3, min(6, 34));`
+@code_tooltip_abs = `abs(number)`
+Computes the absolute value of a number.
+
+returns `number` if `number` is positive, `-number` otherwise.
+
+takes 1 tick to execute.
+
+example:
+`int distance = abs(-69);`
+@code_tooltip_random = `double random(void)`
+Samples a random number between 0 (inclusive) and 1 (exclusive).
+
+returns the random number.
+
+takes `1` ticks to execute.
+
+example:
+`Entity random_elem(List(Entity) list) {
+	int index = (int) (random() * list_len(list));
+	return list_get(list, index);
+}`
+@code_tooltip_append = `list_add(list, element)`
+Adds `element` to the end of the `list`.
+
+returns nothing
+
+takes `1` ticks to execute.
+
+example:
+`List(int) list = list_new(int);
+list_add(list, 1);`
+@code_tooltip_add = `set_add(set, element)` or `list_add(list, element)`
+Adds `element` to the `set` or to the end of the `list`.
+`list_insert(list, i, element)` inserts `element` at index `i`.
+
+takes `element size` ticks to execute on a set.
+
+example:
+`Set(int) set = set_new(int);
+set_add(set, 1);`
+@code_tooltip_remove = `list_remove(list, element)`, `set_remove(set, element)` or `map_remove(map, key)`
+Removes the first occurrence of `element` from the list, or `element` from the set.
+`list_remove_at(list, i)` removes the element at index `i` instead and returns it.
+`map_remove(map, key)` removes the key and its value from a map and returns the value.
+
+takes `element size` ticks to execute on a set, #comparisions + #shifts ticks on a list.
+
+example:
+`List(Entity) list = list_of(Entity, Entities.Bush, Entities.Tree);
+list_remove(list, Entities.Tree);`
+@code_tooltip_pop = `list_pop(list)` or `list_remove_at(list, i)`
+`list_pop` removes the last element of the `list`, `list_remove_at` removes the element at index `i`.
+`map_remove(map, key)` removes a key from a map.
+
+returns the removed element
+
+takes `key size` ticks to execute on a map, `list_len(list) - i + 1` ticks on a list.
+
+example:
+`List(int) list = list_of(int, 4, 5, 6);
+int first = list_remove_at(list, 0);`
+@code_tooltip_insert = `list_insert(list, i, element)`
+Inserts `element` into the `list` at index `i`.
+
+takes `list_len(list) - i + 1` ticks.
+
+example:
+`List(int) list = list_of(int, 1, 2);
+list_insert(list, 0, 0);`
+@code_tooltip_Items = Contains all items that can be in the inventory, like `Items.Hay`.
+@code_tooltip_Entities = Contains all plant types, like `Entities.Bush`.
+@code_tooltip_Grounds = Contains all possible ground types, like `Grounds.Soil`.
+@code_tooltip_Unlocks = Contains all the unlocks and upgrades in the research menu, like `Unlocks.Speed`.
+@code_tooltip_Hats = Contains all hat types, like `Hats.Straw_Hat`.
+@code_tooltip_Leaderboards = Contains all leaderboard categories, like `Leaderboards.Hay`.
+@code_tooltip_for = A loop. `for (int i = 0; i < n; i++)` counts from `0` to `n - 1`. `for_each (T x, collection)` from `farm.h` runs once for every element of a list, set or map (a "foreach" loop).
+@code_tooltip_while = Loops as long as the condition is `true`.
+@code_tooltip_def = C has no `def`. Define a function by writing its return type, name and parameters, followed by its code block in braces: `void f(int n)`
+@code_tooltip_True = `true` is a boolean value that is always true.
+@code_tooltip_False = `false` is a boolean value that is always false.
+@code_tooltip_if = Executes code if the condition is `true`.
+@code_tooltip_else = Executes code if the previous `if` condition was `false`.
+@code_tooltip_elif = `else if (condition)` does the same thing as:
+`else {
+	if (condition) {
+		...
+	}
+}`
+@code_tooltip_None = `NULL` is a value representing that there is no value, for example `get_entity_type()` on an empty tile.
+@code_tooltip_continue = Immediately continue with the next loop iteration. If there are nested loops, this will always affect the innermost loop.
+@code_tooltip_break = Break out of a loop and continue executing the statements after the loop. If there are nested loops, this will always affect the innermost loop.
+@code_tooltip_not = `!true` is `false` and `!false` is `true`.
+@code_tooltip_and = `a && b` is `true` only if both `a` and `b` are `true`. If `a` is `false`, `b` is not evaluated at all.
+@code_tooltip_or = `a || b` is `true` if at least one of `a` and `b` is `true`. If `a` is `true`, `b` is not evaluated at all.
+@code_tooltip_return = Used to leave a function and give back a value: `return value;` (or just `return;` in a `void` function).
+@code_tooltip_pass = C has no `pass`. An empty block `{ }` is allowed.
+@code_tooltip_global = C has no `global`. Variables declared outside of all functions (global variables) can be changed from every function.
+@code_tooltip_import = C has no `import`. To use a function or a global variable of another window, declare it at the top of your window: `void plant_row(Entity e);` or `extern int rows_done;`
+@code_tooltip_true = A boolean value that is always true.
+@code_tooltip_false = A boolean value that is always false.
+@code_tooltip_void = Written instead of a return type when a function doesn't return a value, and in `(void)` for a function without parameters.
+@code_tooltip_int = A whole number like `5` or `-3`.
+@code_tooltip_double = A number with a decimal point like `0.25`.
+@code_tooltip_bool = `true` or `false`.
+@code_tooltip_const = A `const` variable can't be changed after it got its value: `const int max_flips = 3;`
+@code_tooltip_static = Marks a function or global variable as private to its window. Other windows can't use it.
+@code_tooltip_extern = Declares a global variable that is defined in another window, like `extern int rows_done;`
+@code_tooltip_do = `do ... while (condition);` runs the body first and then repeats it as long as the condition is `true`.
+@code_tooltip_switch = Chooses a block of code depending on an `int` value: `switch (n)` with `case 1:` labels. End each case with `break;`.
+@code_tooltip_case = A label inside a `switch`: `case 1:` runs the code after it when the value is `1`. End it with `break;`.
+@code_tooltip_default = The label inside a `switch` that runs when no `case` matches.
+@code_tooltip_sizeof = `sizeof(array) / sizeof(array[0])` is the number of elements of an array.

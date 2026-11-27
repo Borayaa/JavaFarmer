@@ -1,0 +1,14 @@
+# Code spans of the extension docs that a language cannot express (DocsTests tolerates them and logs them; the plugin
+# then shows the Python text of that span). Format: language | page (cybersecurity/x.md), @strings_key or * | text the
+# failure message contains. Printer crashes ("internal printer error") and languages whose printer cannot print yet
+# (ContentStore.CanPrint) are always tolerated and logged: they are bugs / work in progress of that language.
+
+# Zig: no runtime string building, loop captures do not outlive the loop, untyped values have no Zig type.
+zig | * | string concatenation
+zig | * | the loop variable
+zig | * | the type of
+zig | * | indexing a value of unknown type
+zig | * | converting a value to a string
+zig | * | a list literal used as a value
+zig | * | a function value
+zig | * | a compound assignment to a dictionary entry

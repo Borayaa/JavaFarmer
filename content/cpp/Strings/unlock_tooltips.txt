@@ -1,0 +1,109 @@
+@unlock_descr_trees = Unlocks trees.
+
+`plant(Entities::Tree);`
+@unlock_descr_plant = Unlocks planting.
+
+`plant(Entities::Bush);`
+@unlock_descr_loops = Unlocks a simple while loop.
+
+`while (true) {
+	harvest();
+}`
+@unlock_descr_hats = Hats for your drone.
+
+`change_hat(Hats::Green_Hat);`
+@unlock_descr_senses = The drone can see what's under it and where it is.
+
+`if (get_pos_x() < 5 && num_items(Items::Wood) < 200) {
+	plant(Entities::Bush);
+}`
+@unlock_descr_operators = Arithmetic, comparison and logic operators.
+
+`if (!can_harvest() && (1 + 1 == 4 / 2)) {
+	do_a_flip();
+}`
+@unlock_descr_pumpkin = Pumpkins!
+
+`plant(Entities::Pumpkin);`
+@unlock_descr_variables = Declare variables and assign values to them.
+
+`Entity next_plant = Entities::Bush;
+plant(next_plant);`
+@unlock_descr_functions = Define your own functions.
+
+`void do_two_flips() {
+	do_a_flip();
+	do_a_flip();
+}`
+@unlock_descr_watering = Water the plants to make them grow faster.
+
+`use_item(Items::Water);`
+@unlock_descr_carrots = Till the soil and plant carrots.
+
+`till();
+plant(Entities::Carrot);`
+@unlock_descr_lists = Use std::vector to store lots of values.
+
+`std::vector<Entity> plants = {Entities::Grass, Entities::Bush, Entities::Tree};
+
+for (Entity p : plants) {
+	plant(p);
+	move(North);
+}`
+@unlock_descr_costs = Allows access to the cost of things.
+
+`auto cost = get_cost(Entities::Carrot);
+if (cost) {
+	for (auto& [item, amount_needed] : *cost) {
+		std::println("{} {}", amount_needed, item);
+	}
+}`
+@unlock_descr_fertilizer = Grow plants instantly.
+
+`use_item(Items::Fertilizer);`
+@unlock_descr_mazes = A maze with a treasure in the middle.
+
+`if (get_entity_type() == Entities::Treasure) {
+	harvest();
+}`
+@unlock_descr_debug = Tools to help with debugging programs.
+
+`std::println("hi");`
+@unlock_descr_debug2 = Functions to temporarily slow down the execution and make the farm smaller.
+
+`set_world_size(3);
+set_execution_speed(1);`
+@unlock_descr_auto_unlock = Automatically unlock things.
+
+`unlock(Unlocks::Megafarm);`
+@unlock_descr_polyculture = Use companion planting to increase the yield.
+
+`auto companion = get_companion();`
+@unlock_descr_sunflowers = Sunflowers and Power.
+
+`plant(Entities::Sunflower);`
+@unlock_descr_leaderboard = Enter the leaderboard for the fastest times. (JavaFarmer does not upload scores.)
+
+`leaderboard_run(Leaderboards::Hay, "hay_run", speedup);`
+@unlock_descr_dicts = Get access to std::map and std::set.
+
+`std::map<Direction, Direction> right_of = { {North, East}, {East, South}, {South, West}, {West, North} };`
+@unlock_descr_utilities = Unlocks `std::min()`, `std::max()`, `std::abs()` and `farm::random()`.
+
+`int random_index = (int) (farm::random() * v.size());`
+@unlock_descr_cactus = Cactus!
+
+`plant(Entities::Cactus);`
+@unlock_descr_simulation = Test faster and under reproducible conditions.
+
+`double run_time = simulate(filename, sim_unlocks, sim_items, sim_globals, seed, speedup);`
+@unlock_descr_timing = It's about time!
+
+`double passed_time = get_time();`
+@unlock_descr_import = Use functions and globals from other code windows.
+
+`void plant_row(Entity plant_type);
+extern int rows_done;`
+@unlock_descr_megafarm = More drones!
+
+`spawn_drone(harvest_column);`

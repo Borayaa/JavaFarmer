@@ -1,0 +1,42 @@
+@error_wrong_number_args = {0} takes {1} arguments.
+@error_bool_op_not_used_on_bool = A logic operator can only be used on boolean expressions that evaluate to `true` or `false`.
+@error_index_on_tuple = You can't change a value that the game gave you, like a `farm.Position` or a `farm.Companion`. Make a new one instead.
+@error_bad_key = {0} cannot be used as a key.
+@error_slice_dict = Can't slice a map.
+@error_key = {0} is not a key in the map. Check it first with `m.contains(key)`, or use `m.get(key)`, which gives `null` for a missing key.
+@error_condition_not_bool = {0} is not a valid condition. The condition must be a boolean value. This means it must be an expression that is always either `true` or `false`.
+@error_for_requires_iterable = {0} can't be iterated in a for loop. The for loop must be given a range or a collection to iterate over. Example:
+
+`for (0..5) |i|`
+Here `0..5` is the sequence `0, 1, 2, 3, 4`.
+@error_no_function_to_return_from = `return` can only be used inside a function.
+@error_name_not_defined = {0} has never been defined. You must declare a variable with `const` or `var` and give it a value before using it.
+@error_missing_import = {0} has never been defined. It does appear to be defined in the file {1}. Did you forget `const` {1} `= @import(`"{1}.zig"`);` at the top of this file, or the file name in front of it, like {1}`.`{0}? It must also be `pub` in the other file.
+If you did, the two files might depend on each other while they are being loaded (see the Import doc page).
+@error_missing_import_before_unlock = {0} has never been defined. It does appear to be defined in the file {1}. You have to unlock imports to be able to use things from other files.
+@error_missing_module_access = {0} has never been defined. It does appear to be defined in the file {1}. You need to access it through the file name like this:
+
+{1}`.`{0}
+@error_call_before_def = {0} is not defined yet. It appears to be defined somewhere in this file, but that part of the file hasn't been loaded yet.
+@error_not_a_function = You tried to call something that is not a function. A common mistake that can cause this is having a variable with the same name as the function.
+@error_max_stack_size_reached = The maximum call stack size has been reached. This is most likely due to too many recursive function calls.
+@error_max_comparison_depth = The maximum comparison depth has been reached. This could happen, for example, if you are comparing lists that contain themselves.
+@error_assign_type_mismatch = The left hand side of the assignment didn't match the right hand side.
+@error_too_many_values_to_unpack = The right hand side doesn't contain enough values.
+@error_not_enough_values = The right side contains too many values.
+@error_empty_print = `std.debug.print` requires a format string and a tuple of values to print.
+@error_in_string = Cannot check if {0} is contained in a string.
+@error_collection_changed_size_during_iteration = The size of this collection cannot be changed within a for loop iterating over it. This is because changing the size of the collection would invalidate the iterator that the for loop is using.
+@error_function_as_condition = Trying to check if the function {0} is `true`. This is the function itself, not the function's return value. Did you mean to call the function with `()`? 
+
+This is a safeguard error message, you can turn it off in the options if it gets in your way.
+@error_function_in_operator = Trying to use {1} on the function {0}. This is the function itself, not the function's return value. Did you mean to call the function with `()`? 
+
+This is a safeguard error message, you can turn it off in the options if it gets in your way.
+@error_invalid_sim_unlocks = The starting unlocks were invalid. It needs to be an array of unlocks like `[_]farm.Unlock` with `.Carrots` in it, or a map from unlocks to levels.
+@error_invalid_sim_items = The starting items were invalid. It needs to be a `std.AutoHashMap(farm.Item, f64)` from items to numbers, filled like `m.put(.Hay, 100)`.
+@error_invalid_sim_globals = The starting globals were invalid. It needs to be a `std.StringHashMap` from variable names to values, filled like `m.put("x", 42)`.
+@error_use_before_assign = Tried to read the variable {0} before a value was assigned to it.
+@error_attribute_on_non_module = You can't assign a field of {0}.
+@error_spawn_drone_builtin = You can't use `farm.spawnDrone()` with built-in functions directly. Write your own function without parameters, like `fn work() void`, and pass its name: `farm.spawnDrone(work)`.
+@error_syntax_error_in_import = The other code window has an error. Fix the error in that file first.

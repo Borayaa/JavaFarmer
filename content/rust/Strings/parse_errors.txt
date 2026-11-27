@@ -1,0 +1,16 @@
+@error_missing_default_parameter = Rust has no default arguments. Write a second function with another name and more parameters instead, like the game's `use_item` and `use_item_with`.
+@error_no_statements = A code block must contain at least one statement. 
+A statement can be a function call like `harvest();` or a variable assignment. 
+@error_not_enough_indentation = There isn't enough indentation here. In Rust, code blocks are written between curly braces.
+@error_too_much_indentation = There is too much indentation here.
+@error_missing_colon = A code block must start with an opening curly brace and end with a closing curly brace.
+@error_invalid_for_syntax = This is not a valid for loop. A for loop looks like this: 
+`for i in 0..3`
+or
+`for p in &plants`
+The `for` is always followed by the loop variable, an `in` and then a range or a collection. In this example the `i` is the variable name, but it can be replaced by any other name.
+@error_bad_backslash = A backslash can only be used inside a string, like `"say \"hi\""`.
+@error_wildcard_imports_not_allowed_in_function = `mod` and `use` lines belong at the top of a file, not inside a function.
+@error_assign_before_global = {0} is assigned before it was declared.
+@error_invalid_import = You cannot use code windows with names that are not valid Rust names. Valid names can only contain letters, numbers, and underscores and must not start with a number. If your file name contains other characters, you must rename it.
+@error_wrong_dict_literal = A HashMap is made from (key, value) pairs, like `HashMap::from([(North, East), (East, South)])`.

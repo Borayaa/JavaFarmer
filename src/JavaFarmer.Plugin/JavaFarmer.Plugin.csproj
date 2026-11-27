@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>JavaFarmer.Plugin</AssemblyName>
+    <RootNamespace>JavaFarmer.Plugin</RootNamespace>
+    <Nullable>disable</Nullable>
+    <Version>0.1.0</Version>
+    <!-- BepInEx packages live on the BepInEx feed. -->
+    <RestoreAdditionalProjectSources>https://nuget.bepinex.dev/v3/index.json</RestoreAdditionalProjectSources>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Override to build against another copy of the compiler (e.g. a stub while the compiler is mid-edit). -->
+    <JavaFarmerCompilerProject Condition="'$(JavaFarmerCompilerProject)' == ''">..\JavaFarmer.Compiler\JavaFarmer.Compiler.csproj</JavaFarmerCompilerProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(JavaFarmerCompilerProject)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- BepInEx 5 + HarmonyX (provided by BepInEx at runtime: never copied). -->
+    <PackageReference Include="BepInEx.Core" Version="5.4.21" PrivateAssets="all" ExcludeAssets="runtime" />
+  </ItemGroup>
+
+  <!-- Game DLLs: compile-time only, never shipped. -->
+  <ItemGroup>
+    <Reference Include="Core"><HintPath>$(GameManaged)Core.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Utils"><HintPath>$(GameManaged)Utils.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine"><HintPath>$(GameManaged)UnityEngine.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(GameManaged)UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UI"><HintPath>$(GameManaged)UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Unity.TextMeshPro"><HintPath>$(GameManaged)Unity.TextMeshPro.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="com.rlabrecque.steamworks.net"><HintPath>$(GameManaged)com.rlabrecque.steamworks.net.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+
+</Project>

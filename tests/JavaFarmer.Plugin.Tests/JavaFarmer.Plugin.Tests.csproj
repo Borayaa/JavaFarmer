@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <NoWarn>$(NoWarn);CS8632;xUnit1026</NoWarn>
+    <JavaFarmerCompilerProject Condition="'$(JavaFarmerCompilerProject)' == ''">..\..\src\JavaFarmer.Compiler\JavaFarmer.Compiler.csproj</JavaFarmerCompilerProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.12.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="Xunit.SkippableFact" Version="1.5.85" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="4.0.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="10.1.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <!-- HarmonyX with .NET 8 support, to apply the plugin's patches headless. -->
+    <PackageReference Include="HarmonyX" Version="2.16.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\JavaFarmer.Plugin\JavaFarmer.Plugin.csproj" />
+    <ProjectReference Include="$(JavaFarmerCompilerProject)" />
+  </ItemGroup>
+
+  <!-- BepInEx at test runtime (ConfigFile / ConfigEntry: ExtensionRegistry, config binding). The plugin's BepInEx.Core
+       package never copies it; the DLL comes from the BepInEx.BaseLib package that the plugin's restore downloads. -->
+  <ItemGroup>
+    <Reference Include="BepInEx"><HintPath>$(NuGetPackageRoot)bepinex.baselib/5.4.20/lib/netstandard2.0/BepInEx.dll</HintPath><Private>true</Private></Reference>
+  </ItemGroup>
+
+  <!-- Real game DLLs: the bridge runs the game's own Tokenizer and Parser headless. -->
+  <ItemGroup>
+    <Reference Include="Core"><HintPath>$(GameManaged)Core.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="Utils"><HintPath>$(GameManaged)Utils.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(GameManaged)UnityEngine.CoreModule.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="UnityEngine"><HintPath>$(GameManaged)UnityEngine.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="UnityEngine.UI"><HintPath>$(GameManaged)UnityEngine.UI.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="Unity.TextMeshPro"><HintPath>$(GameManaged)Unity.TextMeshPro.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="com.rlabrecque.steamworks.net"><HintPath>$(GameManaged)com.rlabrecque.steamworks.net.dll</HintPath><Private>true</Private></Reference>
+  </ItemGroup>
+
+</Project>

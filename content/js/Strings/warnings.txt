@@ -1,0 +1,6 @@
+@warning_weird_substance_not_divisible = You used a number of Weird Substance that isn't exactly the number needed to create the maze. Don't forget that the amount of Weird Substance required increases as you upgrade the maze.
+
+To spawn a full-size maze do:
+`plant(Entities.Bush);
+const substance = getWorldSize() * 2 ** (numUnlocked(Unlocks.Mazes) - 1);
+useItem(Items.Weird_Substance, substance);`

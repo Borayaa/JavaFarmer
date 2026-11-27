@@ -1,0 +1,10 @@
+-- R docs exceptions: EN docs code blocks the R printer cannot express (format "<md path>#<span index>: reason").
+-- Read by HarnessTests (f). The docs translator keeps these blocks in Python; content/r/docs gets hand-written R for them.
+scripting/dicts.md#1: unpacks a tuple (x, y = ...) and uses the tuple (x, y) as a dictionary key; R has no tuples and named lists are keyed by text
+scripting/tuples.md#9: tuples as dictionary keys; R named lists are keyed by text (use paste(x, y) as the key instead)
+scripting/functions.md#19: calls func() before it is defined, to show the error; JavaFarmer reports could not find function "func" at compile time
+unlocks/mazes.md#26: a fragment that reads index before assigning it (part of a longer program); R reports object 'index' not found
+unlocks/mazes.md#27: a fragment that reads index before assigning it (part of a longer program); R reports object 'index' not found
+unlocks/leaderboard.md#12: passes the bare constant bag Unlocks to simulate(); the R code compiles, but the headless game parser (oracle) cannot resolve a bare Unlocks without the game's resources
+unlocks/leaderboard.md#16: passes the bare constant bag Unlocks to simulate(); the R code compiles, but the headless game parser (oracle) cannot resolve a bare Unlocks without the game's resources
+unlocks/simulation.md#2: assigns the bare constant bag Unlocks; the R code compiles, but the headless game parser (oracle) cannot resolve a bare Unlocks without the game's resources

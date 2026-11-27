@@ -1,0 +1,2 @@
+@option_tooltip_error_forgot_call = When enabled, the game will throw a safeguard error if you use a function itself as a condition instead of calling it, because this usually means that you forgot the `()`.
+@option_tooltip_error_shadow = When enabled, the game will throw a safeguard error if there is a local variable that has the same name as a global variable (a `static`).

@@ -1,0 +1,1991 @@
+// JavaFarmer content code samples, extracted from content/docs, content/Strings and content/unlock_display_code.txt.
+// Format: each sample starts with a line "### <source> [<kind>] expect=<expectation>", followed by the code up to the next "### " line.
+// <source> is the content file (Strings entries as "file#key").
+// Kinds:
+//   program     complete file. Compact source file (void main()) or a class "public class Name" (file name = class name).
+//               Class-form samples in the same doc belong together (e.g. Utils + the program that calls Utils.plantRow).
+//   methods     top-level method declarations: compile as a compact file and add "void main() {}" if missing.
+//   statements  statements: wrap in "void main() { ... }".
+//   call        one call or expression: wrap as "void main() { <code>; }".
+// expect=ok              compiled with real javac (JDK 27) against game API stubs (SPEC 5 signatures), wrapped as above,
+//                        with the context declarations below available as fields.
+// expect=compile-error   intentional error examples from the lessons (wrong type, out of scope, redeclared, wrong args).
+// expect=not-standalone  references to names in prose (move(), list.add(elem), Math.max(a, b), ...): not meant to compile.
+// Context declarations used when checking snippets (snippets may use names declared in an earlier block of the same page):
+//   boolean condition = true, condition1 = true, condition2 = false;
+//   Runnable task = () -> {};
+//   int n = 3;
+//   String filename = "f1";
+//   double speedup = 1;
+//   Leaderboard leaderboard = Leaderboards.Hay;
+//   Item item = Items.Hay;
+//   Unlock unlock = Unlocks.Speed;
+//   Direction direction = North;
+//   ArrayList<Integer> list = new ArrayList<>();
+//   int[] numbers = new int[3];
+//   Position p = null;
+//   Companion c = null;
+//   Drone drone = null;
+//   Entity entity = null;
+//   int i = 0;
+//   int a = 0;
+//   int x = 0;
+//   int index = 0;
+//   Direction[] directions = new Direction[]{North, East, South, West};
+//   Map<Direction, Direction> rightOf = Map.of(North, East);
+// Single-word / prose fragments (like `true`, `North`, `for`) are not listed.
+
+### content/docs/first_program.md [program] expect=ok
+void main() {
+    
+}
+
+### content/docs/first_program.md [statements] expect=ok
+harvest();
+
+### content/docs/first_program.md [statements] expect=ok
+doAFlip();
+
+### content/docs/first_program.md [statements] expect=ok
+;
+
+### content/docs/first_program.md [program] expect=ok
+void main() {
+    harvest();
+}
+
+### content/docs/first_program.md [program] expect=ok
+void main() {
+    harvest();
+    doAFlip();
+    harvest();
+}
+
+### content/docs/external_editor.md [call] expect=ok
+harvest()
+
+### content/docs/scripting/while.md [statements] expect=ok
+while (condition) {
+    // loop body
+}
+
+### content/docs/scripting/while.md [call] expect=ok
+harvest()
+
+### content/docs/scripting/while.md [statements] expect=ok
+harvest();
+harvest();
+harvest();
+
+### content/docs/scripting/while.md [statements] expect=ok
+while (condition) {
+    // loop body
+    // loop body
+    // ...
+}
+
+### content/docs/scripting/while.md [statements] expect=ok
+while (true) {
+    doAFlip();
+}
+
+### content/docs/scripting/while.md [program] expect=ok
+void main() {
+    while (true) {
+        harvest();
+    }
+}
+
+### content/docs/scripting/while.md [statements] expect=ok
+do {
+    doAFlip();
+} while (false);
+
+### content/docs/scripting/if.md [statements] expect=ok
+if (condition1) {
+    doAFlip();
+} else if (condition2) {
+    harvest();
+} else {
+    doAFlip();
+    harvest();
+}
+
+### content/docs/scripting/if.md [statements] expect=ok
+// do a flip if condition is true
+if (condition) {
+    doAFlip();
+}
+
+### content/docs/scripting/if.md [statements] expect=ok
+if (condition) {
+    doAFlip();
+} else {
+    harvest();
+}
+
+### content/docs/scripting/if.md [statements] expect=ok
+if (condition1) {
+    // a
+} else {
+    if (condition2) {
+        // b
+    } else {
+        // c
+    }
+}
+
+### content/docs/scripting/if.md [statements] expect=ok
+if (condition1) {
+    // a
+} else if (condition2) {
+    // b
+} else {
+    // c
+}
+
+### content/docs/scripting/break.md [statements] expect=not-standalone (prose reference or placeholder names)
+break;
+
+### content/docs/scripting/break.md [statements] expect=ok
+while (true) {
+    if (canHarvest()) {
+        break;
+    }
+}
+harvest();
+
+### content/docs/scripting/break.md [call] expect=ok
+canHarvest()
+
+### content/docs/scripting/break.md [statements] expect=ok
+while (!canHarvest()) {
+}
+harvest();
+
+### content/docs/scripting/break.md [statements] expect=ok
+for (int i = 0; i < 10; i++) {
+    if (i == 3) {
+        break;
+    }
+    System.out.println(i);
+}
+
+### content/docs/scripting/break.md [statements] expect=ok
+for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 10; j++) {
+        if (j == 0) {
+            break;
+        }
+        System.out.println("this is never printed");
+    }
+    System.out.println("this is printed 10 times");
+}
+
+### content/docs/scripting/break.md [statements] expect=not-standalone (prose reference or placeholder names)
+break;
+
+### content/docs/scripting/break.md [statements] expect=not-standalone (prose reference or placeholder names)
+break;
+
+### content/docs/scripting/continue.md [statements] expect=ok
+while (true) {
+    if (!canHarvest()) {
+        continue;
+    }
+    harvest();
+}
+
+### content/docs/scripting/continue.md [call] expect=ok
+harvest()
+
+### content/docs/scripting/continue.md [call] expect=ok
+canHarvest()
+
+### content/docs/scripting/continue.md [statements] expect=ok
+while (true) {
+    if (canHarvest()) {
+        harvest();
+    }
+}
+
+### content/docs/scripting/continue.md [statements] expect=ok
+for (int i = 0; i < 10; i++) {
+    if (i % 2 == 0) {
+        continue;
+    }
+    System.out.println(i);
+}
+
+### content/docs/scripting/continue.md [statements] expect=ok
+System.out.println(i);
+
+### content/docs/scripting/continue.md [statements] expect=ok
+for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 10; j++) {
+        System.out.println("this is printed 100 times");
+        if (j >= 0) {
+            continue;
+        }
+        System.out.println("this is never printed");
+    }
+    System.out.println("this is printed 10 times");
+}
+
+### content/docs/scripting/comments.md [statements] expect=ok
+// this is a comment
+harvest(); // this is also a comment
+
+### content/docs/scripting/comments.md [statements] expect=ok
+/* this comment
+   spans several lines */
+
+### content/docs/scripting/comments.md [methods] expect=ok
+// This method does nothing.
+void f() {
+}
+
+### content/docs/scripting/variables.md [statements] expect=not-standalone (prose reference or placeholder names)
+type variableName = value;
+
+### content/docs/scripting/variables.md [statements] expect=ok
+int a = 5;
+
+### content/docs/scripting/variables.md [call] expect=ok
+canHarvest()
+
+### content/docs/scripting/variables.md [statements] expect=ok
+boolean b = canHarvest();
+
+### content/docs/scripting/variables.md [statements] expect=ok
+int count = 0;
+double water = 0.25;
+boolean ready = canHarvest();
+String greeting = "hello";
+Entity nextPlant = Entities.Bush;
+Direction dir = North;
+
+### content/docs/scripting/variables.md [statements] expect=compile-error (intentional example of an error)
+int a = "hello";
+
+### content/docs/scripting/variables.md [statements] expect=ok
+double d = 5;
+int i = (int) 2.7;
+
+### content/docs/scripting/variables.md [statements] expect=ok
+var plantType = Entities.Carrot;
+
+### content/docs/scripting/variables.md [statements] expect=ok
+int a = 5;
+a = 7;
+
+### content/docs/scripting/variables.md [statements] expect=ok
+int a = 5;
+int i = 0;
+while (i < a) {
+    doAFlip();
+    i = i + 1;
+}
+
+### content/docs/scripting/variables.md [statements] expect=ok
+i = i + 1;
+
+### content/docs/scripting/variables.md [statements] expect=ok
+i += 1;
+
+### content/docs/scripting/variables.md [statements] expect=ok
+a = a / 3;
+
+### content/docs/scripting/variables.md [statements] expect=ok
+a /= 3;
+
+### content/docs/scripting/variables.md [statements] expect=ok
+i++;
+
+### content/docs/scripting/variables.md [statements] expect=ok
+i += 1;
+
+### content/docs/scripting/variables.md [statements] expect=ok
+i--;
+
+### content/docs/scripting/variables.md [statements] expect=ok
+i -= 1;
+
+### content/docs/scripting/variables.md [statements] expect=ok
+final int maxFlips = 3;
+
+### content/docs/scripting/operators.md [call] expect=not-standalone (prose reference or placeholder names)
+Math.pow(base, exponent)
+
+### content/docs/scripting/operators.md [call] expect=ok
+Math.pow(2, 3)
+
+### content/docs/scripting/operators.md [call] expect=not-standalone (prose reference or placeholder names)
+a.equals(b)
+
+### content/docs/scripting/operators.md [call] expect=ok
+canHarvest()
+
+### content/docs/scripting/operators.md [statements] expect=ok
+int flips = canHarvest() ? 1 : 2;
+
+### content/docs/scripting/functions.md [methods] expect=ok
+void f(int arg1, boolean arg2) {
+    // method code
+}
+
+### content/docs/scripting/functions.md [statements] expect=not-standalone (prose reference or placeholder names)
+f(42, false);
+
+### content/docs/scripting/functions.md [call] expect=ok
+harvest()
+
+### content/docs/scripting/functions.md [methods] expect=ok
+void moveNDir(int n, Direction dir) {
+    for (int i = 0; i < n; i++) {
+        move(dir);
+    }
+}
+
+### content/docs/scripting/functions.md [program] expect=ok
+void main() {
+    moveNDir(10, North);
+    moveNDir(2, West);
+}
+
+void moveNDir(int n, Direction dir) {
+    for (int i = 0; i < n; i++) {
+        move(dir);
+    }
+}
+
+### content/docs/scripting/functions.md [statements] expect=compile-error (intentional example of an error)
+moveNDir(North);
+
+### content/docs/scripting/functions.md [methods] expect=ok
+boolean xor(boolean a, boolean b) {
+    return a != b;
+}
+
+### content/docs/scripting/functions.md [program] expect=ok
+void main() {
+    if (xor(true, false)) {
+        doAFlip();
+    }
+}
+
+boolean xor(boolean a, boolean b) {
+    return a != b;
+}
+
+### content/docs/scripting/functions.md [statements] expect=ok
+return;
+
+### content/docs/scripting/functions.md [methods] expect=ok
+void flips(int n) {
+    for (int i = 0; i < n; i++) {
+        doAFlip();
+    }
+}
+
+void flipOnce() {
+    flips(1);
+}
+
+### content/docs/scripting/functions.md [call] expect=not-standalone (prose reference or placeholder names)
+flips()
+
+### content/docs/scripting/functions.md [call] expect=not-standalone (prose reference or placeholder names)
+flips(3)
+
+### content/docs/scripting/functions.md [program] expect=ok
+void main() {
+    Runnable flip = () -> doAFlip();
+    repeat(flip, 10);
+    repeat(this::harvestNorth, 10);
+}
+
+void harvestNorth() {
+    harvest();
+    move(North);
+}
+
+void repeat(Runnable task, int times) {
+    for (int i = 0; i < times; i++) {
+        task.run();
+    }
+}
+
+### content/docs/scripting/functions.md [statements] expect=ok
+Supplier<Entity> look = () -> getEntityType();
+
+### content/docs/scripting/functions.md [call] expect=not-standalone (prose reference or placeholder names)
+look.get()
+
+### content/docs/scripting/for.md [statements] expect=ok
+for (int i = 0; i < 5; i++) {
+    harvest();
+}
+
+### content/docs/scripting/for.md [statements] expect=ok
+int i = 0;
+while (i < 5) {
+    harvest();
+    i++;
+}
+
+### content/docs/scripting/for.md [call] expect=ok
+harvest()
+
+### content/docs/scripting/for.md [statements] expect=ok
+// 2, 4, 6, 8
+for (int i = 2; i < 10; i += 2) {
+    System.out.println(i);
+}
+
+// 10, 9, 8, ..., 1
+for (int i = 10; i > 0; i--) {
+    System.out.println(i);
+}
+
+### content/docs/scripting/for.md [statements] expect=not-standalone (prose reference or placeholder names)
+for (Type variableName : collection) {
+    // code block
+}
+
+### content/docs/scripting/for.md [statements] expect=ok
+int[] numbers = new int[]{4, 7, 2, 5};
+int sum = 0;
+for (int number : numbers) {
+    sum += number;
+}
+
+### content/docs/scripting/lists.md [statements] expect=ok
+int[] numbers = new int[]{2, 6, 12};
+
+### content/docs/scripting/lists.md [statements] expect=ok
+int[] counts = new int[10];
+
+### content/docs/scripting/lists.md [statements] expect=ok
+Entity[] plants = new Entity[]{Entities.Tree, Entities.Carrot, Entities.Pumpkin};
+plant(plants[1]);
+
+### content/docs/scripting/lists.md [statements] expect=ok
+numbers[0] = 5;
+
+### content/docs/scripting/lists.md [statements] expect=ok
+int size = getWorldSize();
+boolean[][] watered = new boolean[size][size];
+watered[getPosX()][getPosY()] = true;
+
+### content/docs/scripting/lists.md [statements] expect=ok
+int[] numbers = new int[]{4, 7, 2, 5};
+int sum = 0;
+for (int number : numbers) {
+    sum += number;
+}
+
+### content/docs/scripting/lists.md [statements] expect=ok
+for (int i = 0; i < numbers.length; i++) {
+    numbers[i] += 1;
+}
+
+### content/docs/scripting/lists.md [statements] expect=ok
+ArrayList<Integer> list = new ArrayList<>();
+
+### content/docs/scripting/lists.md [statements] expect=ok
+ArrayList<Integer> list = new ArrayList<>(List.of(2, 6, 12));
+
+### content/docs/scripting/lists.md [call] expect=ok
+List.of(2, 6, 12)
+
+### content/docs/scripting/lists.md [call] expect=ok
+list.get(index)
+
+### content/docs/scripting/lists.md [statements] expect=not-standalone (prose reference or placeholder names)
+list.set(index, elem);
+
+### content/docs/scripting/lists.md [call] expect=ok
+list.size()
+
+### content/docs/scripting/lists.md [call] expect=not-standalone (prose reference or placeholder names)
+list.add(elem)
+
+### content/docs/scripting/lists.md [statements] expect=ok
+ArrayList<Integer> list = new ArrayList<>(List.of(2, 6, 12));
+list.add(7);
+
+### content/docs/scripting/lists.md [call] expect=not-standalone (prose reference or placeholder names)
+list.add(index, elem)
+
+### content/docs/scripting/lists.md [statements] expect=ok
+ArrayList<Item> list = new ArrayList<>(List.of(Items.Hay, Items.Carrot));
+list.add(1, Items.Wood);
+
+### content/docs/scripting/lists.md [call] expect=ok
+list.remove(index)
+
+### content/docs/scripting/lists.md [statements] expect=ok
+ArrayList<Integer> list = new ArrayList<>(List.of(3, 5, 8, 25));
+list.remove(list.size() - 1);
+
+### content/docs/scripting/lists.md [statements] expect=ok
+list.remove(1);
+
+### content/docs/scripting/lists.md [call] expect=not-standalone (prose reference or placeholder names)
+list.remove(elem)
+
+### content/docs/scripting/lists.md [statements] expect=ok
+ArrayList<Entity> list = new ArrayList<>(List.of(Entities.Bush, Entities.Tree, Entities.Bush));
+list.remove(Entities.Bush);
+
+### content/docs/scripting/lists.md [call] expect=ok
+list.remove(2)
+
+### content/docs/scripting/lists.md [call] expect=not-standalone (prose reference or placeholder names)
+list.contains(elem)
+
+### content/docs/scripting/lists.md [call] expect=not-standalone (prose reference or placeholder names)
+list.indexOf(elem)
+
+### content/docs/scripting/lists.md [call] expect=ok
+list.isEmpty()
+
+### content/docs/scripting/lists.md [statements] expect=ok
+ArrayList<Entity> plants = new ArrayList<>(List.of(Entities.Bush, Entities.Tree));
+for (Entity p : plants) {
+    plant(p);
+    move(North);
+}
+
+### content/docs/scripting/lists.md [statements] expect=ok
+ArrayList<Integer> a = new ArrayList<>(List.of(1, 2));
+ArrayList<Integer> b = a;
+b.remove(1);
+
+### content/docs/scripting/lists.md [statements] expect=ok
+ArrayList<Integer> c = new ArrayList<>(a);
+
+### content/docs/scripting/dicts.md [statements] expect=ok
+HashMap<Direction, Direction> rightOf = new HashMap<>();
+rightOf.put(North, East);
+rightOf.put(East, South);
+rightOf.put(South, West);
+rightOf.put(West, North);
+
+### content/docs/scripting/dicts.md [statements] expect=ok
+Map<Direction, Direction> rightOf = Map.of(North, East, East, South, South, West, West, North);
+
+### content/docs/scripting/dicts.md [statements] expect=not-standalone (prose reference or placeholder names)
+Value value = map.get(key);
+
+### content/docs/scripting/dicts.md [statements] expect=ok
+Direction orientation = rightOf.get(South);
+
+### content/docs/scripting/dicts.md [call] expect=not-standalone (prose reference or placeholder names)
+map.getOrDefault(key, defaultValue)
+
+### content/docs/scripting/dicts.md [statements] expect=not-standalone (prose reference or placeholder names)
+map.put(key, value);
+
+### content/docs/scripting/dicts.md [statements] expect=ok
+HashMap<Integer, Entity> entities = new HashMap<>();
+int tile = getPosX() * getWorldSize() + getPosY();
+entities.put(tile, getEntityType());
+
+### content/docs/scripting/dicts.md [call] expect=not-standalone (prose reference or placeholder names)
+map.remove(key)
+
+### content/docs/scripting/dicts.md [call] expect=not-standalone (prose reference or placeholder names)
+map.containsKey(key)
+
+### content/docs/scripting/dicts.md [call] expect=not-standalone (prose reference or placeholder names)
+map.size()
+
+### content/docs/scripting/dicts.md [call] expect=not-standalone (prose reference or placeholder names)
+map.keySet()
+
+### content/docs/scripting/dicts.md [statements] expect=ok
+for (Direction key : rightOf.keySet()) {
+    Direction value = rightOf.get(key);
+}
+
+### content/docs/scripting/dicts.md [call] expect=not-standalone (prose reference or placeholder names)
+map.values()
+
+### content/docs/scripting/sets.md [statements] expect=ok
+HashSet<Direction> set = new HashSet<>();
+set.add(North);
+set.add(East);
+set.add(West);
+
+### content/docs/scripting/sets.md [statements] expect=ok
+HashSet<Direction> set = new HashSet<>(Set.of(North, East, West));
+
+### content/docs/scripting/sets.md [call] expect=not-standalone (prose reference or placeholder names)
+set.add(elem)
+
+### content/docs/scripting/sets.md [call] expect=not-standalone (prose reference or placeholder names)
+set.remove(elem)
+
+### content/docs/scripting/sets.md [call] expect=not-standalone (prose reference or placeholder names)
+set.size()
+
+### content/docs/scripting/tuples.md [call] expect=ok
+p.x()
+
+### content/docs/scripting/tuples.md [call] expect=ok
+p.y()
+
+### content/docs/scripting/tuples.md [call] expect=ok
+measure()
+
+### content/docs/scripting/tuples.md [call] expect=ok
+measure()
+
+### content/docs/scripting/tuples.md [statements] expect=ok
+Position treasure = (Position) measure();
+int treasureX = treasure.x();
+int treasureY = treasure.y();
+
+### content/docs/scripting/tuples.md [call] expect=ok
+getCompanion()
+
+### content/docs/scripting/tuples.md [call] expect=ok
+c.entity()
+
+### content/docs/scripting/tuples.md [call] expect=ok
+c.position()
+
+### content/docs/scripting/tuples.md [call] expect=ok
+c.x()
+
+### content/docs/scripting/tuples.md [call] expect=ok
+c.y()
+
+### content/docs/scripting/tuples.md [call] expect=ok
+c.position().x()
+
+### content/docs/scripting/tuples.md [call] expect=ok
+c.position().y()
+
+### content/docs/scripting/tuples.md [statements] expect=ok
+Companion c = getCompanion();
+if (c != null) {
+    Entity wanted = c.entity();
+    Position where = c.position();
+    System.out.println(wanted + " at " + where.x() + ", " + where.y());
+}
+
+### content/docs/scripting/tuples.md [program] expect=ok
+int[] currentPosition() {
+    return new int[]{getPosX(), getPosY()};
+}
+
+void main() {
+    int[] pos = currentPosition();
+    int x = pos[0];
+    int y = pos[1];
+}
+
+### content/docs/scripting/scopes.md [program] expect=compile-error (intentional example of an error)
+void main() {
+    int x = 1;
+    if (canHarvest()) {
+        int y = 2;
+        System.out.println(x + y);
+    }
+    System.out.println(y);
+}
+
+### content/docs/scripting/scopes.md [statements] expect=compile-error (intentional example of an error)
+for (int i = 0; i < 3; i++) {
+    doAFlip();
+}
+System.out.println(i);
+
+### content/docs/scripting/scopes.md [statements] expect=compile-error (intentional example of an error)
+int x = 1;
+int x = 2;
+
+### content/docs/scripting/scopes.md [statements] expect=ok
+x = 2;
+
+### content/docs/scripting/scopes.md [program] expect=ok
+int x = 0;
+
+void main() {
+    f();
+    System.out.println(x);
+}
+
+void f() {
+    x = 1;
+}
+
+### content/docs/scripting/scopes.md [program] expect=ok
+int x = 0;
+
+void main() {
+    f();
+    System.out.println(x);
+}
+
+void f() {
+    int x = 1;
+}
+
+### content/docs/scripting/scopes.md [program] expect=ok
+public class Counter {
+    static int count = 0;
+
+    static void increment() {
+        count++;
+    }
+}
+
+### content/docs/scripting/import.md [program] expect=ok
+public class Utils {
+    static void plantRow(Entity plantType) {
+        for (int i = 0; i < getWorldSize(); i++) {
+            plant(plantType);
+            move(East);
+        }
+    }
+}
+
+### content/docs/scripting/import.md [program] expect=ok
+void main() {
+    Utils.plantRow(Entities.Bush);
+}
+
+### content/docs/scripting/import.md [program] expect=ok
+public class Farm {
+    static int harvested = 0;
+
+    public static void main(String[] args) {
+        while (true) {
+            if (canHarvest()) {
+                harvest();
+                harvested++;
+            }
+        }
+    }
+}
+
+### content/docs/scripting/import.md [program] expect=ok
+public class A {
+    static int x = 0;
+
+    static void printB() {
+        System.out.println(B.y);
+    }
+}
+
+### content/docs/scripting/import.md [program] expect=ok
+public class B {
+    static int y = 1;
+
+    static void printA() {
+        System.out.println(A.x);
+    }
+}
+
+### content/docs/scripting/debug.md [call] expect=ok
+System.out.println()
+
+### content/docs/scripting/debug.md [statements] expect=ok
+System.out.println(0.24);
+
+### content/docs/scripting/debug.md [statements] expect=ok
+System.out.println(canHarvest());
+
+### content/docs/scripting/debug.md [statements] expect=ok
+System.out.println(getPosX() + ", " + getPosY());
+
+### content/docs/scripting/debug.md [call] expect=not-standalone (prose reference or placeholder names)
+quickPrint()
+
+### content/docs/scripting/debug.md [statements] expect=ok
+quickPrint("tile " + getPosX());
+
+### content/docs/scripting/debug.md [call] expect=not-standalone (prose reference or placeholder names)
+String.valueOf(value)
+
+### content/docs/unlocks/auto_unlock.md [call] expect=not-standalone (prose reference or placeholder names)
+unlock()
+
+### content/docs/unlocks/auto_unlock.md [statements] expect=ok
+unlock(Unlocks.Speed);
+
+### content/docs/unlocks/auto_unlock.md [statements] expect=ok
+unlock(Unlocks.Expand);
+
+### content/docs/unlocks/auto_unlock.md [call] expect=not-standalone (prose reference or placeholder names)
+getCost()
+
+### content/docs/unlocks/auto_unlock.md [call] expect=ok
+getCost(Unlocks.Loops)
+
+### content/docs/unlocks/cactus.md [call] expect=ok
+measure()
+
+### content/docs/unlocks/cactus.md [call] expect=ok
+measure()
+
+### content/docs/unlocks/cactus.md [statements] expect=ok
+int size = (int) measure();
+
+### content/docs/unlocks/cactus.md [call] expect=ok
+measure(direction)
+
+### content/docs/unlocks/cactus.md [statements] expect=ok
+int northSize = (int) measure(North);
+
+### content/docs/unlocks/cactus.md [call] expect=not-standalone (prose reference or placeholder names)
+swap()
+
+### content/docs/unlocks/cactus.md [call] expect=ok
+swap(direction)
+
+### content/docs/unlocks/cactus.md [statements] expect=ok
+if ((int) measure() > (int) measure(North)) {
+    swap(North);
+}
+
+### content/docs/unlocks/carrots.md [statements] expect=ok
+plant(Entities.Carrot);
+
+### content/docs/unlocks/carrots.md [statements] expect=ok
+till();
+
+### content/docs/unlocks/carrots.md [call] expect=ok
+till()
+
+### content/docs/unlocks/carrots.md [statements] expect=ok
+till();
+plant(Entities.Carrot);
+
+### content/docs/unlocks/carrots.md [call] expect=ok
+plant(Entities.Carrot)
+
+### content/docs/unlocks/costs.md [call] expect=not-standalone (prose reference or placeholder names)
+getCost()
+
+### content/docs/unlocks/costs.md [call] expect=ok
+getCost(Entities.Pumpkin)
+
+### content/docs/unlocks/costs.md [call] expect=not-standalone (prose reference or placeholder names)
+getCost()
+
+### content/docs/unlocks/costs.md [statements] expect=ok
+Map<Item, Double> cost = getCost(Unlocks.Carrots);
+if (cost != null) {
+    for (Item item : cost.keySet()) {
+        double amountOfThisItemNeeded = cost.get(item);
+    }
+}
+
+### content/docs/unlocks/debug2.md [call] expect=not-standalone (prose reference or placeholder names)
+setExecutionSpeed()
+
+### content/docs/unlocks/debug2.md [call] expect=not-standalone (prose reference or placeholder names)
+setWorldSize()
+
+### content/docs/unlocks/debug2.md [statements] expect=ok
+setWorldSize(3);
+setExecutionSpeed(1);
+
+### content/docs/unlocks/dinosaurs.md [statements] expect=ok
+changeHat(Hats.Dinosaur_Hat);
+
+### content/docs/unlocks/dinosaurs.md [call] expect=not-standalone (prose reference or placeholder names)
+move()
+
+### content/docs/unlocks/dinosaurs.md [call] expect=ok
+measure()
+
+### content/docs/unlocks/dinosaurs.md [statements] expect=ok
+Position next = (Position) measure();
+int nextX = next.x();
+int nextY = next.y();
+
+### content/docs/unlocks/dinosaurs.md [call] expect=not-standalone (prose reference or placeholder names)
+move()
+
+### content/docs/unlocks/dinosaurs.md [call] expect=not-standalone (prose reference or placeholder names)
+move()
+
+### content/docs/unlocks/dinosaurs.md [call] expect=not-standalone (prose reference or placeholder names)
+move()
+
+### content/docs/unlocks/dinosaurs.md [statements] expect=ok
+int ticks = 400;
+for (int i = 0; i < 100; i++) {
+    System.out.println("ticks after " + i + " apples: " + ticks);
+    ticks -= ticks * 3 / 100;
+}
+
+### content/docs/unlocks/dinosaurs.md [call] expect=not-standalone (prose reference or placeholder names)
+setWorldSize()
+
+### content/docs/unlocks/expand_1.md [call] expect=not-standalone (prose reference or placeholder names)
+move()
+
+### content/docs/unlocks/expand_1.md [call] expect=not-standalone (prose reference or placeholder names)
+move()
+
+### content/docs/unlocks/expand_1.md [statements] expect=ok
+move(North);
+
+### content/docs/unlocks/expand_1.md [program] expect=ok
+void main() {
+    while (true) {
+        move(North);
+    }
+}
+
+### content/docs/unlocks/expand_2.md [statements] expect=ok
+// do 5 flips
+for (int i = 0; i < 5; i++) {
+    doAFlip();
+}
+
+### content/docs/unlocks/expand_2.md [call] expect=ok
+doAFlip()
+
+### content/docs/unlocks/expand_2.md [call] expect=ok
+getWorldSize()
+
+### content/docs/unlocks/expand_2.md [statements] expect=ok
+for (int i = 0; i < getWorldSize(); i++) {
+    harvest();
+    move(North);
+}
+
+### content/docs/unlocks/expand_2.md [statements] expect=ok
+for (int i = 0; i < getWorldSize(); i++) {
+    for (int j = 0; j < getWorldSize(); j++) {
+        // do a flip on every tile
+        doAFlip();
+        move(North);
+    }
+    move(East);
+}
+
+### content/docs/unlocks/fertilizer.md [statements] expect=ok
+useItem(Items.Fertilizer);
+
+### content/docs/unlocks/fertilizer.md [statements] expect=ok
+useItem(Items.Weird_Substance);
+
+### content/docs/unlocks/hats.md [statements] expect=ok
+changeHat(Hats.Gray_Hat);
+doAFlip();
+changeHat(Hats.Purple_Hat);
+doAFlip();
+changeHat(Hats.Green_Hat);
+doAFlip();
+changeHat(Hats.Brown_Hat);
+doAFlip();
+
+### content/docs/unlocks/plant.md [call] expect=not-standalone (prose reference or placeholder names)
+plant()
+
+### content/docs/unlocks/plant.md [statements] expect=ok
+plant(Entities.Bush);
+
+### content/docs/unlocks/plant.md [statements] expect=ok
+clear();
+
+### content/docs/unlocks/polyculture.md [call] expect=ok
+getCompanion()
+
+### content/docs/unlocks/polyculture.md [call] expect=ok
+c.entity()
+
+### content/docs/unlocks/polyculture.md [call] expect=ok
+c.position()
+
+### content/docs/unlocks/polyculture.md [call] expect=ok
+c.x()
+
+### content/docs/unlocks/polyculture.md [call] expect=ok
+c.y()
+
+### content/docs/unlocks/polyculture.md [statements] expect=ok
+Companion c = getCompanion();
+Entity plantType = c.entity();
+int x = c.x();
+int y = c.y();
+
+### content/docs/unlocks/polyculture.md [call] expect=ok
+getCompanion()
+
+### content/docs/unlocks/polyculture.md [call] expect=ok
+getCompanion()
+
+### content/docs/unlocks/polyculture.md [statements] expect=ok
+Companion c = getCompanion();
+if (c != null) {
+    System.out.println(c.entity() + " at " + c.x() + ", " + c.y());
+}
+
+### content/docs/unlocks/pumpkins.md [call] expect=ok
+canHarvest()
+
+### content/docs/unlocks/pumpkins.md [statements] expect=ok
+if (getEntityType() == Entities.Dead_Pumpkin) {
+    plant(Entities.Pumpkin);
+}
+
+### content/docs/unlocks/senses.md [call] expect=ok
+getPosX()
+
+### content/docs/unlocks/senses.md [call] expect=ok
+getPosY()
+
+### content/docs/unlocks/senses.md [call] expect=ok
+numItems(item)
+
+### content/docs/unlocks/senses.md [call] expect=ok
+numItems(Items.Hay)
+
+### content/docs/unlocks/senses.md [call] expect=ok
+getEntityType()
+
+### content/docs/unlocks/senses.md [call] expect=ok
+getGroundType()
+
+### content/docs/unlocks/senses.md [statements] expect=ok
+if (getEntityType() == Entities.Bush) {
+    doAFlip();
+}
+
+### content/docs/unlocks/senses.md [call] expect=ok
+getEntityType()
+
+### content/docs/unlocks/senses.md [statements] expect=ok
+if (getEntityType() == null) {
+    plant(Entities.Bush);
+}
+
+### content/docs/unlocks/senses.md [call] expect=ok
+numUnlocked(unlock)
+
+### content/docs/unlocks/senses.md [call] expect=ok
+numUnlocked(Unlocks.Speed)
+
+### content/docs/unlocks/senses.md [call] expect=ok
+numUnlocked(Unlocks.Senses)
+
+### content/docs/unlocks/senses.md [call] expect=not-standalone (prose reference or placeholder names)
+numUnlocked()
+
+### content/docs/unlocks/senses.md [call] expect=ok
+numUnlocked(Unlocks.Carrots)
+
+### content/docs/unlocks/senses.md [call] expect=ok
+numUnlocked(Items.Carrot)
+
+### content/docs/unlocks/mazes.md [statements] expect=not-standalone (prose reference or placeholder names)
+useItem(Items.Weird_Substance, amount);
+
+### content/docs/unlocks/mazes.md [call] expect=not-standalone (prose reference or placeholder names)
+useItem()
+
+### content/docs/unlocks/mazes.md [statements] expect=ok
+plant(Entities.Bush);
+int substance = getWorldSize() * (int) Math.pow(2, numUnlocked(Unlocks.Mazes) - 1);
+useItem(Items.Weird_Substance, substance);
+
+### content/docs/unlocks/mazes.md [call] expect=ok
+harvest()
+
+### content/docs/unlocks/mazes.md [call] expect=ok
+harvest()
+
+### content/docs/unlocks/mazes.md [call] expect=ok
+getEntityType()
+
+### content/docs/unlocks/mazes.md [call] expect=not-standalone (prose reference or placeholder names)
+move()
+
+### content/docs/unlocks/mazes.md [call] expect=not-standalone (prose reference or placeholder names)
+canMove()
+
+### content/docs/unlocks/mazes.md [call] expect=ok
+measure()
+
+### content/docs/unlocks/mazes.md [statements] expect=ok
+Position treasure = (Position) measure();
+int x = treasure.x();
+int y = treasure.y();
+
+### content/docs/unlocks/mazes.md [statements] expect=ok
+Direction[] directions = new Direction[]{North, East, South, West};
+int index = 0;
+
+### content/docs/unlocks/mazes.md [statements] expect=ok
+// turn right
+index = (index + 1) % 4;
+
+### content/docs/unlocks/mazes.md [statements] expect=ok
+// turn left
+index = (index + 3) % 4;
+
+move(directions[index]);
+
+### content/docs/unlocks/megafarm.md [call] expect=ok
+spawnDrone(task)
+
+### content/docs/unlocks/megafarm.md [program] expect=ok
+void main() {
+    spawnDrone(this::droneTask);
+}
+
+void droneTask() {
+    move(North);
+    doAFlip();
+}
+
+### content/docs/unlocks/megafarm.md [call] expect=not-standalone (prose reference or placeholder names)
+spawnDrone()
+
+
+### content/docs/unlocks/megafarm.md [call] expect=ok
+maxDrones()
+
+### content/docs/unlocks/megafarm.md [call] expect=ok
+numDrones()
+
+### content/docs/unlocks/megafarm.md [program] expect=ok
+void main() {
+    while (true) {
+        if (spawnDrone(this::harvestColumn) != null) {
+            move(East);
+        }
+    }
+}
+
+void harvestColumn() {
+    for (int i = 0; i < getWorldSize(); i++) {
+        harvest();
+        move(North);
+    }
+}
+
+### content/docs/unlocks/megafarm.md [call] expect=not-standalone (prose reference or placeholder names)
+spawnDrone()
+
+### content/docs/unlocks/megafarm.md [statements] expect=ok
+for (Direction dir : List.of(North, East, South, West)) {
+    spawnDrone(() -> {
+        move(dir);
+        doAFlip();
+    });
+}
+
+### content/docs/unlocks/megafarm.md [statements] expect=ok
+int row = i;
+
+### content/docs/unlocks/megafarm.md [program] expect=ok
+void forAll(Runnable task) {
+    Runnable row = () -> {
+        for (int i = 0; i < getWorldSize() - 1; i++) {
+            task.run();
+            move(East);
+        }
+        task.run();
+    };
+    for (int i = 0; i < getWorldSize(); i++) {
+        if (spawnDrone(row) == null) {
+            row.run();
+        }
+        move(North);
+    }
+}
+
+void main() {
+    forAll(() -> harvest());
+}
+
+### content/docs/unlocks/megafarm.md [call] expect=ok
+task.run()
+
+### content/docs/unlocks/megafarm.md [statements] expect=ok
+if (spawnDrone(task) == null) {
+    task.run();
+}
+
+### content/docs/unlocks/megafarm.md [call] expect=ok
+waitFor(drone)
+
+### content/docs/unlocks/megafarm.md [call] expect=ok
+waitFor(drone)
+
+### content/docs/unlocks/megafarm.md [program] expect=ok
+Entity getEntityTypeInDirection(Direction dir) {
+    move(dir);
+    return getEntityType();
+}
+
+void main() {
+    Supplier<Entity> task = () -> getEntityTypeInDirection(North);
+    Drone drone = spawnDrone(task);
+    Entity result = (Entity) waitFor(drone);
+    System.out.println(result);
+}
+
+### content/docs/unlocks/megafarm.md [call] expect=ok
+hasFinished(drone)
+
+### content/docs/unlocks/megafarm.md [program] expect=ok
+int x = 0;
+
+void increment() {
+    x++;
+}
+
+void main() {
+    waitFor(spawnDrone(this::increment));
+    System.out.println(x);
+}
+
+### content/docs/unlocks/megafarm.md [statements] expect=ok
+useItem(Items.Fertilizer);
+
+### content/docs/unlocks/megafarm.md [statements] expect=ok
+harvest();
+
+### content/docs/unlocks/megafarm.md [statements] expect=ok
+if (getWater() < 0.5) {
+    useItem(Items.Water);
+}
+
+### content/docs/unlocks/megafarm.md [call] expect=ok
+getWater()
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(leaderboard, filename, speedup);
+
+### content/docs/unlocks/leaderboard.md [call] expect=not-standalone (prose reference or placeholder names)
+simulate()
+
+### content/docs/unlocks/leaderboard.md [program] expect=ok
+void main() {
+    while (numItems(Items.Hay) < 2000000000) {
+        if (canHarvest()) {
+            harvest();
+        }
+    }
+}
+
+### content/docs/unlocks/leaderboard.md [program] expect=ok
+void main() {
+    leaderboardRun(Leaderboards.Hay, "HayRun", 64);
+}
+
+### content/docs/unlocks/leaderboard.md [call] expect=not-standalone (prose reference or placeholder names)
+getCost()
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(Leaderboards.Fastest_Reset, filename, speedup);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+ArrayList<Unlock> unlocks = new ArrayList<>();
+HashMap<Item, Double> items = new HashMap<>();
+HashMap<String, Object> startGlobals = new HashMap<>();
+// a negative seed value means a random seed
+int seed = -1;
+simulate(filename, unlocks, items, startGlobals, seed, speedup);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(Leaderboards.Maze, filename, speedup);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+HashMap<Item, Double> items = new HashMap<>();
+items.put(Items.Weird_Substance, 1000000000.0);
+items.put(Items.Power, 1000000000.0);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(Leaderboards.Dinosaur, filename, speedup);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+HashMap<Item, Double> items = new HashMap<>();
+items.put(Items.Cactus, 1000000000.0);
+items.put(Items.Power, 1000000000.0);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(Leaderboards.Cactus, filename, speedup);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(Leaderboards.Sunflowers, filename, speedup);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(Leaderboards.Pumpkins, filename, speedup);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(Leaderboards.Wood, filename, speedup);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(Leaderboards.Carrots, filename, speedup);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(Leaderboards.Hay, filename, speedup);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(Leaderboards.Maze_Single, filename, speedup);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(Leaderboards.Cactus_Single, filename, speedup);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(Leaderboards.Sunflowers_Single, filename, speedup);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(Leaderboards.Pumpkins_Single, filename, speedup);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(Leaderboards.Wood_Single, filename, speedup);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(Leaderboards.Carrots_Single, filename, speedup);
+
+### content/docs/unlocks/leaderboard.md [statements] expect=ok
+leaderboardRun(Leaderboards.Hay_Single, filename, speedup);
+
+### content/docs/unlocks/simulation.md [call] expect=not-standalone (prose reference or placeholder names)
+simulate()
+
+### content/docs/unlocks/simulation.md [program] expect=ok
+void main() {
+    // the file the execution should start in
+    String filename = "f1";
+
+    // start with carrots and trees fully upgraded
+    ArrayList<Unlock> simUnlocks = new ArrayList<>(List.of(Unlocks.Carrots, Unlocks.Trees));
+
+    // start with 10000 carrots and 50 hay
+    HashMap<Item, Double> simItems = new HashMap<>();
+    simItems.put(Items.Carrot, 10000.0);
+    simItems.put(Items.Hay, 50.0);
+
+    // start with a global variable "a" with a value of 13
+    HashMap<String, Object> simGlobals = new HashMap<>();
+    simGlobals.put("a", 13);
+
+    // use a fixed random seed
+    int seed = 0;
+
+    // speed up the simulation by a factor 64
+    int speedup = 64;
+
+    // run the simulation
+    double runTime = simulate(filename, simUnlocks, simItems, simGlobals, seed, speedup);
+}
+
+### content/docs/unlocks/simulation.md [call] expect=not-standalone (prose reference or placeholder names)
+simulate()
+
+### content/docs/unlocks/simulation.md [statements] expect=ok
+HashMap<Unlock, Integer> simUnlocks = new HashMap<>();
+simUnlocks.put(Unlocks.Expand, 3);
+simUnlocks.put(Unlocks.Speed, -1);
+
+### content/docs/unlocks/simulation.md [statements] expect=ok
+int a = 0;
+
+### content/docs/unlocks/speed.md [call] expect=ok
+canHarvest()
+
+### content/docs/unlocks/speed.md [call] expect=ok
+canHarvest()
+
+### content/docs/unlocks/speed.md [statements] expect=ok
+if (canHarvest()) {
+    // do something
+}
+
+### content/docs/unlocks/speed.md [call] expect=ok
+canHarvest()
+
+### content/docs/unlocks/speed.md [call] expect=ok
+canHarvest()
+
+### content/docs/unlocks/speed.md [call] expect=ok
+canHarvest()
+
+### content/docs/unlocks/speed.md [program] expect=ok
+void main() {
+    while (true) {
+        if (canHarvest()) {
+            harvest();
+        }
+    }
+}
+
+### content/docs/unlocks/sunflowers.md [call] expect=ok
+measure()
+
+### content/docs/unlocks/sunflowers.md [statements] expect=ok
+int petals = (int) measure();
+
+### content/docs/unlocks/timing.md [call] expect=ok
+getTime()
+
+### content/docs/unlocks/timing.md [call] expect=ok
+getTickCount()
+
+### content/docs/unlocks/timing.md [statements] expect=ok
+double start = getTime();
+harvest();
+double timePassed = getTime() - start;
+
+### content/docs/unlocks/timing.md [call] expect=not-standalone (prose reference or placeholder names)
+quickPrint()
+
+### content/docs/unlocks/timing.md [call] expect=not-standalone (prose reference or placeholder names)
+Utils.plantRow()
+
+### content/docs/unlocks/timing.md [call] expect=ok
+list.get(i)
+
+### content/docs/unlocks/timing.md [call] expect=not-standalone (prose reference or placeholder names)
+map.get(key)
+
+### content/docs/unlocks/trees.md [methods] expect=ok
+boolean isEven(int n) {
+    return n % 2 == 0;
+}
+
+### content/docs/unlocks/watering.md [call] expect=ok
+getWater()
+
+### content/docs/unlocks/watering.md [statements] expect=ok
+useItem(Items.Water);
+
+### content/docs/unlocks/watering.md [statements] expect=ok
+if (getWater() < 0.5) {
+    useItem(Items.Water);
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_harvest [statements] expect=ok
+harvest();
+
+### content/Strings/code_tooltips.txt#code_tooltip_can_harvest [statements] expect=ok
+if (canHarvest()) {
+    harvest();
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_range [call] expect=not-standalone (prose reference or placeholder names)
+range()
+
+### content/Strings/code_tooltips.txt#code_tooltip_range [statements] expect=ok
+for (int i = 0; i < 10; i++) {
+    System.out.println(i);
+}
+
+for (int i = 2; i < 6; i++) {
+    System.out.println(i);
+}
+
+for (int i = 10; i > 0; i--) {
+    System.out.println(i);
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_plant [statements] expect=ok
+plant(Entities.Bush);
+
+### content/Strings/code_tooltips.txt#code_tooltip_move [statements] expect=ok
+move(North);
+
+### content/Strings/code_tooltips.txt#code_tooltip_can_move [statements] expect=ok
+if (canMove(North)) {
+    move(North);
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_swap [statements] expect=ok
+swap(North);
+
+### content/Strings/code_tooltips.txt#code_tooltip_till [statements] expect=ok
+till();
+
+### content/Strings/code_tooltips.txt#code_tooltip_get_pos_x [statements] expect=ok
+int x = getPosX();
+
+### content/Strings/code_tooltips.txt#code_tooltip_get_pos_y [statements] expect=ok
+int y = getPosY();
+
+### content/Strings/code_tooltips.txt#code_tooltip_get_world_size [statements] expect=ok
+for (int i = 0; i < getWorldSize(); i++) {
+    move(North);
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_get_entity_type [statements] expect=ok
+if (getEntityType() == Entities.Grass) {
+    harvest();
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_get_ground_type [statements] expect=ok
+if (getGroundType() != Grounds.Soil) {
+    till();
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_get_time [statements] expect=not-standalone (prose reference or placeholder names)
+double start = getTime();
+
+doSomething();
+
+double timePassed = getTime() - start;
+
+### content/Strings/code_tooltips.txt#code_tooltip_get_tick_count [statements] expect=not-standalone (prose reference or placeholder names)
+doSomething();
+
+System.out.println(getTickCount());
+
+### content/Strings/code_tooltips.txt#code_tooltip_use_item [statements] expect=ok
+useItem(Items.Fertilizer);
+
+### content/Strings/code_tooltips.txt#code_tooltip_get_water [statements] expect=ok
+if (getWater() < 0.5) {
+    useItem(Items.Water);
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_do_a_flip [statements] expect=ok
+while (true) {
+    doAFlip();
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_pet_the_piggy [statements] expect=ok
+while (true) {
+    petThePiggy();
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_print [call] expect=not-standalone (prose reference or placeholder names)
+System.out.println(value)
+
+### content/Strings/code_tooltips.txt#code_tooltip_print [call] expect=not-standalone (prose reference or placeholder names)
+System.out.print(value)
+
+### content/Strings/code_tooltips.txt#code_tooltip_print [statements] expect=ok
+System.out.println("ground: " + getGroundType());
+
+### content/Strings/code_tooltips.txt#code_tooltip_len [call] expect=not-standalone (prose reference or placeholder names)
+len()
+
+### content/Strings/code_tooltips.txt#code_tooltip_len [call] expect=ok
+list.size()
+
+### content/Strings/code_tooltips.txt#code_tooltip_len [call] expect=not-standalone (prose reference or placeholder names)
+text.length()
+
+### content/Strings/code_tooltips.txt#code_tooltip_len [statements] expect=ok
+for (int i = 0; i < numbers.length; i++) {
+    numbers[i] += 1;
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_list [statements] expect=ok
+ArrayList<Integer> newList = new ArrayList<>(List.of(1, 2, 3));
+
+### content/Strings/code_tooltips.txt#code_tooltip_dict [statements] expect=ok
+HashMap<Item, Integer> newMap = new HashMap<>();
+
+### content/Strings/code_tooltips.txt#code_tooltip_set [statements] expect=ok
+HashSet<Integer> newSet = new HashSet<>(List.of(1, 2, 3));
+
+### content/Strings/code_tooltips.txt#code_tooltip_str [call] expect=not-standalone (prose reference or placeholder names)
+String.valueOf(value)
+
+### content/Strings/code_tooltips.txt#code_tooltip_str [statements] expect=ok
+String text = String.valueOf(1000);
+
+### content/Strings/code_tooltips.txt#code_tooltip_set_execution_speed [statements] expect=ok
+setExecutionSpeed(1);
+
+### content/Strings/code_tooltips.txt#code_tooltip_set_world_size [statements] expect=ok
+setWorldSize(5);
+
+### content/Strings/code_tooltips.txt#code_tooltip_num_items [statements] expect=ok
+if (numItems(Items.Fertilizer) > 0) {
+    useItem(Items.Fertilizer);
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_get_cost [statements] expect=ok
+Map<Item, Double> cost = getCost(Unlocks.Carrots);
+for (Item item : cost.keySet()) {
+    if (numItems(item) < cost.get(item)) {
+        System.out.println("not enough items to unlock carrots");
+    }
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_clear [statements] expect=ok
+clear();
+
+### content/Strings/code_tooltips.txt#code_tooltip_get_companion [call] expect=ok
+c.entity()
+
+### content/Strings/code_tooltips.txt#code_tooltip_get_companion [call] expect=ok
+c.x()
+
+### content/Strings/code_tooltips.txt#code_tooltip_get_companion [call] expect=ok
+c.y()
+
+### content/Strings/code_tooltips.txt#code_tooltip_get_companion [call] expect=ok
+c.position()
+
+### content/Strings/code_tooltips.txt#code_tooltip_get_companion [statements] expect=ok
+Companion companion = getCompanion();
+if (companion != null) {
+    System.out.println(companion.entity());
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_unlock [statements] expect=ok
+unlock(Unlocks.Carrots);
+
+### content/Strings/code_tooltips.txt#code_tooltip_num_unlocked [statements] expect=ok
+plant(Entities.Bush);
+int substance = getWorldSize() * numUnlocked(Unlocks.Mazes);
+useItem(Items.Weird_Substance, substance);
+
+### content/Strings/code_tooltips.txt#code_tooltip_measure [statements] expect=ok
+int numPetals = (int) measure();
+Position treasure = (Position) measure();
+
+### content/Strings/code_tooltips.txt#code_tooltip_leaderboard_run [statements] expect=ok
+leaderboardRun(Leaderboards.Fastest_Reset, "FullRun", 256);
+
+### content/Strings/code_tooltips.txt#code_tooltip_simulate [statements] expect=ok
+HashMap<Item, Double> simItems = new HashMap<>();
+simItems.put(Items.Carrot, 10000.0);
+double runTime = simulate("f1", List.of(Unlocks.Carrots), simItems, new HashMap<>(), 0, 64);
+
+### content/Strings/code_tooltips.txt#code_tooltip_spawn_drone [call] expect=ok
+spawnDrone(task)
+
+### content/Strings/code_tooltips.txt#code_tooltip_spawn_drone [program] expect=ok
+void main() {
+    while (true) {
+        if (spawnDrone(this::harvestColumn) != null) {
+            move(East);
+        }
+    }
+}
+
+void harvestColumn() {
+    for (int i = 0; i < getWorldSize(); i++) {
+        harvest();
+        move(North);
+    }
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_wait_for [statements] expect=ok
+Supplier<Entity> task = () -> getEntityType();
+Drone handle = spawnDrone(task);
+Entity result = (Entity) waitFor(handle);
+
+### content/Strings/code_tooltips.txt#code_tooltip_has_finished [statements] expect=not-standalone (prose reference or placeholder names)
+Drone drone = spawnDrone(task);
+while (!hasFinished(drone)) {
+    doSomethingElse();
+}
+Object result = waitFor(drone);
+
+### content/Strings/code_tooltips.txt#code_tooltip_max_drones [statements] expect=ok
+while (numDrones() < maxDrones()) {
+    spawnDrone(() -> harvestColumn());
+    move(East);
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_num_drones [statements] expect=ok
+while (numDrones() < maxDrones()) {
+    spawnDrone(() -> harvestColumn());
+    move(East);
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_quick_print [call] expect=not-standalone (prose reference or placeholder names)
+System.out.println(value)
+
+### content/Strings/code_tooltips.txt#code_tooltip_quick_print [statements] expect=ok
+quickPrint("hi mom");
+
+### content/Strings/code_tooltips.txt#code_tooltip_change_hat [statements] expect=ok
+changeHat(Hats.Dinosaur_Hat);
+
+### content/Strings/code_tooltips.txt#code_tooltip_max [call] expect=not-standalone (prose reference or placeholder names)
+Math.max(a, b)
+
+### content/Strings/code_tooltips.txt#code_tooltip_max [statements] expect=ok
+int biggest = Math.max(3, Math.max(6, 34));
+
+### content/Strings/code_tooltips.txt#code_tooltip_min [call] expect=not-standalone (prose reference or placeholder names)
+Math.min(a, b)
+
+### content/Strings/code_tooltips.txt#code_tooltip_min [statements] expect=ok
+int smallest = Math.min(3, Math.min(6, 34));
+
+### content/Strings/code_tooltips.txt#code_tooltip_abs [call] expect=not-standalone (prose reference or placeholder names)
+Math.abs(number)
+
+### content/Strings/code_tooltips.txt#code_tooltip_abs [statements] expect=ok
+int distance = Math.abs(-69);
+
+### content/Strings/code_tooltips.txt#code_tooltip_random [methods] expect=ok
+Entity randomElem(ArrayList<Entity> list) {
+    int index = (int) (Math.random() * list.size());
+    return list.get(index);
+}
+
+### content/Strings/code_tooltips.txt#code_tooltip_append [call] expect=not-standalone (prose reference or placeholder names)
+list.add(element)
+
+### content/Strings/code_tooltips.txt#code_tooltip_append [statements] expect=ok
+ArrayList<Integer> list = new ArrayList<>();
+list.add(1);
+
+### content/Strings/code_tooltips.txt#code_tooltip_add [call] expect=not-standalone (prose reference or placeholder names)
+set.add(element)
+
+### content/Strings/code_tooltips.txt#code_tooltip_add [call] expect=not-standalone (prose reference or placeholder names)
+list.add(element)
+
+### content/Strings/code_tooltips.txt#code_tooltip_add [call] expect=not-standalone (prose reference or placeholder names)
+list.add(i, element)
+
+### content/Strings/code_tooltips.txt#code_tooltip_add [statements] expect=ok
+HashSet<Integer> set = new HashSet<>();
+set.add(1);
+
+### content/Strings/code_tooltips.txt#code_tooltip_remove [call] expect=not-standalone (prose reference or placeholder names)
+collection.remove(element)
+
+### content/Strings/code_tooltips.txt#code_tooltip_remove [call] expect=ok
+list.remove(i)
+
+### content/Strings/code_tooltips.txt#code_tooltip_remove [call] expect=not-standalone (prose reference or placeholder names)
+map.remove(key)
+
+### content/Strings/code_tooltips.txt#code_tooltip_remove [statements] expect=ok
+ArrayList<Entity> list = new ArrayList<>(List.of(Entities.Bush, Entities.Tree));
+list.remove(Entities.Tree);
+
+### content/Strings/code_tooltips.txt#code_tooltip_pop [call] expect=ok
+list.remove(i)
+
+### content/Strings/code_tooltips.txt#code_tooltip_pop [call] expect=ok
+list.remove(list.size() - 1)
+
+### content/Strings/code_tooltips.txt#code_tooltip_pop [call] expect=not-standalone (prose reference or placeholder names)
+map.remove(key)
+
+### content/Strings/code_tooltips.txt#code_tooltip_pop [statements] expect=ok
+ArrayList<Integer> list = new ArrayList<>(List.of(4, 5, 6));
+int first = list.remove(0);
+
+### content/Strings/code_tooltips.txt#code_tooltip_insert [call] expect=not-standalone (prose reference or placeholder names)
+list.add(i, element)
+
+### content/Strings/code_tooltips.txt#code_tooltip_insert [statements] expect=ok
+ArrayList<Integer> list = new ArrayList<>(List.of(1, 2));
+list.add(0, 0);
+
+### content/Strings/code_tooltips.txt#code_tooltip_return [statements] expect=not-standalone (prose reference or placeholder names)
+return value;
+
+### content/Strings/code_tooltips.txt#code_tooltip_return [statements] expect=ok
+return;
+
+### content/Strings/code_tooltips.txt#code_tooltip_import [call] expect=not-standalone (prose reference or placeholder names)
+FileName.method()
+
+### content/Strings/code_tooltips.txt#code_tooltip_var [statements] expect=ok
+var plantType = Entities.Carrot;
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_trees [statements] expect=ok
+plant(Entities.Tree);
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_plant [statements] expect=ok
+plant(Entities.Bush);
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_loops [statements] expect=ok
+while (true) {
+    harvest();
+}
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_hats [statements] expect=ok
+changeHat(Hats.Green_Hat);
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_senses [statements] expect=ok
+if (getPosX() < 5 && numItems(Items.Wood) < 200) {
+    plant(Entities.Bush);
+}
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_operators [statements] expect=ok
+if (!canHarvest() && (1 + 1 == 4 / 2)) {
+    doAFlip();
+}
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_pumpkin [statements] expect=ok
+plant(Entities.Pumpkin);
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_variables [statements] expect=ok
+Entity nextPlant = Entities.Bush;
+plant(nextPlant);
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_functions [methods] expect=ok
+void doTwoFlips() {
+    doAFlip();
+    doAFlip();
+}
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_watering [statements] expect=ok
+useItem(Items.Water);
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_carrots [statements] expect=ok
+till();
+plant(Entities.Carrot);
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_lists [statements] expect=ok
+Entity[] plants = new Entity[]{Entities.Grass, Entities.Bush, Entities.Tree};
+
+for (Entity p : plants) {
+    plant(p);
+    move(North);
+}
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_costs [statements] expect=ok
+Map<Item, Double> cost = getCost(Entities.Carrot);
+for (Item item : cost.keySet()) {
+    double amountNeeded = cost.get(item);
+}
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_fertilizer [statements] expect=ok
+useItem(Items.Fertilizer);
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_mazes [statements] expect=ok
+if (getEntityType() == Entities.Treasure) {
+    harvest();
+}
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_debug [statements] expect=ok
+System.out.println("hi");
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_debug2 [statements] expect=ok
+setWorldSize(3);
+setExecutionSpeed(1);
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_auto_unlock [statements] expect=ok
+unlock(Unlocks.Megafarm);
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_polyculture [statements] expect=ok
+Companion c = getCompanion();
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_sunflowers [statements] expect=ok
+plant(Entities.Sunflower);
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_leaderboard [statements] expect=ok
+leaderboardRun(Leaderboards.Hay, "HayFile", speedup);
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_dicts [statements] expect=ok
+Map<Direction, Direction> rightOf = Map.of(North, East, East, South, South, West, West, North);
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_utilities [call] expect=not-standalone (prose reference or placeholder names)
+Math.min()
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_utilities [call] expect=not-standalone (prose reference or placeholder names)
+Math.max()
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_utilities [call] expect=not-standalone (prose reference or placeholder names)
+Math.abs()
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_utilities [call] expect=ok
+Math.random()
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_utilities [statements] expect=ok
+int randomIndex = (int) (Math.random() * list.size());
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_cactus [statements] expect=ok
+plant(Entities.Cactus);
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_simulation [statements] expect=not-standalone (prose reference or placeholder names)
+double runTime = simulate(filename, simUnlocks, simItems, simGlobals, seed, speedup);
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_timing [statements] expect=ok
+double passedTime = getTime();
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_import [statements] expect=not-standalone (prose reference or placeholder names)
+OtherFile.method();
+
+### content/Strings/unlock_tooltips.txt#unlock_descr_megafarm [statements] expect=not-standalone (prose reference or placeholder names)
+spawnDrone(this::harvestColumn);
+
+### content/Strings/parse_errors.txt#error_no_statements [statements] expect=ok
+harvest();
+
+### content/Strings/execute_errors.txt#error_empty_print [call] expect=ok
+System.out.println()
+
+### content/Strings/execute_errors.txt#error_invalid_sim_unlocks [call] expect=ok
+List.of(Unlocks.Carrots)
+
+### content/Strings/execute_errors.txt#error_invalid_sim_items [call] expect=ok
+Map.of(Items.Hay, 100.0)
+
+### content/Strings/execute_errors.txt#error_invalid_sim_globals [call] expect=ok
+Map.of("x", 42)
+
+### content/Strings/execute_errors.txt#error_spawn_drone_builtin [call] expect=not-standalone (prose reference or placeholder names)
+spawnDrone()
+
+### content/Strings/execute_errors.txt#error_spawn_drone_builtin [call] expect=ok
+spawnDrone(() -> harvest())
+
+### content/Strings/warnings.txt#warning_weird_substance_not_divisible [statements] expect=ok
+plant(Entities.Bush);
+int substance = getWorldSize() * (int) Math.pow(2, numUnlocked(Unlocks.Mazes) - 1);
+useItem(Items.Weird_Substance, substance);
+
+### content/Strings/item_tooltips.txt#item_descr_fertilizer [statements] expect=ok
+useItem(Items.Fertilizer);
+
+### content/Strings/item_tooltips.txt#item_descr_weird_substance [statements] expect=ok
+useItem(Items.Weird_Substance);
+
+### content/Strings/item_tooltips.txt#item_descr_water [statements] expect=ok
+useItem(Items.Water);
+
+### content/unlock_display_code.txt [call] expect=not-standalone (prose reference or placeholder names)
+unlock()
+
+### content/unlock_display_code.txt [call] expect=not-standalone (prose reference or placeholder names)
+getCost()
+
+### content/unlock_display_code.txt [call] expect=not-standalone (prose reference or placeholder names)
+setExecutionSpeed()
+
+### content/unlock_display_code.txt [call] expect=not-standalone (prose reference or placeholder names)
+Utils.f()
+
+### content/unlock_display_code.txt [call] expect=ok
+List.of(1, 2, 3)
+
+### content/unlock_display_code.txt [call] expect=ok
+getPosX()
+
+### content/unlock_display_code.txt [call] expect=not-standalone (prose reference or placeholder names)
+simulate()
+
+### content/unlock_display_code.txt [call] expect=ok
+Math.random()
+
+### content/unlock_display_code.txt [call] expect=ok
+System.out.println()
+
+### content/unlock_display_code.txt [methods] expect=ok
+void f() { }
+
+### content/unlock_display_code.txt [call] expect=ok
+getTime()
+
+### content/unlock_display_code.txt [statements] expect=ok
+int a = 2;

@@ -1,0 +1,42 @@
+@error_wrong_number_args = {0} takes {1} arguments.
+@error_bool_op_not_used_on_bool = A logic operator can only be used on boolean expressions that evaluate to `true` or `false`.
+@error_index_on_tuple = You can't change a `Position` or `Companion`. They are immutable.
+@error_bad_key = {0} cannot be used as a key.
+@error_slice_dict = Can't slice maps.
+@error_key = {0} is not a key in the map.
+@error_condition_not_bool = {0} is not a valid condition. The condition must be a boolean value. This means it must be an expression that is always either `true` or `false`.
+@error_for_requires_iterable = {0} can't be iterated in a for loop. An enhanced for loop must be given an array or a collection to iterate over. Example:
+
+`for (Entity e : plants)`
+To count, use a classic for loop: `for (int i = 0; i < 5; i++)`
+@error_no_function_to_return_from = `return` can only be used inside a method.
+@error_name_not_defined = {0} has never been defined. You must assign a value to a variable before using it.
+@error_missing_import = {0} has never been defined. It does appear to be defined in the file {1}. Did you forget to write the file name in front of it, like {1}`.`{0}? 
+If you did, the two files might depend on each other while they are being loaded (see the Import doc page).
+@error_missing_import_before_unlock = {0} has never been defined. It does appear to be defined in the file {1}. You have to unlock imports to be able to use things from other files.
+@error_missing_module_access = {0} has never been defined. It does appear to be defined in the file {1}. You need to access it through the file name like this:
+
+{1}`.`{0}
+@error_call_before_def = {0} is not defined yet. It appears to be defined somewhere in this file, but that part of the file hasn't been loaded yet.
+@error_not_a_function = You tried to call something that is not a method. A common mistake that can cause this is having a variable with the same name as the method.
+@error_max_stack_size_reached = The maximum call stack size has been reached. This is most likely due to too many recursive method calls.
+@error_max_comparison_depth = The maximum comparison depth has been reached. This could happen, for example, if you are comparing lists that contain themselves.
+@error_assign_type_mismatch = The left hand side of the assignment didn't match the right hand side.
+@error_too_many_values_to_unpack = The right hand side doesn't contain enough values.
+@error_not_enough_values = The right side contains too many values.
+@error_empty_print = `System.out.println()` requires a value to print.
+@error_in_string = Cannot check if {0} is contained in a String.
+@error_collection_changed_size_during_iteration = The size of this collection cannot be changed within a for loop iterating over it. This is because changing the size of the collection would invalidate the iterator that the for loop is using.
+@error_function_as_condition = Trying to check if the method {0} is `true`. This is the method itself, not the method's return value. Did you mean to call the method with `()`? 
+
+This is a safeguard error message, you can turn it off in the options if it gets in your way.
+@error_function_in_operator = Trying to use {1} on the method {0}. This is the method itself, not the method's return value. Did you mean to call the method with `()`? 
+
+This is a safeguard error message, you can turn it off in the options if it gets in your way.
+@error_invalid_sim_unlocks = The starting unlocks were invalid. It needs to be a list of unlocks like `List.of(Unlocks.Carrots)` or a map from unlocks to levels.
+@error_invalid_sim_items = The starting items were invalid. It needs to be a map from items to numbers like `Map.of(Items.Hay, 100.0)`.
+@error_invalid_sim_globals = The starting globals were invalid. It needs to be a map from variable names to values like `Map.of("x", 42)`.
+@error_use_before_assign = Tried to read the variable {0} before a value was assigned to it.
+@error_attribute_on_non_module = You can't assign a field of {0}.
+@error_spawn_drone_builtin = You can't use `spawnDrone()` with built-in methods directly. Write your own method or a lambda, like `spawnDrone(() -> harvest())`.
+@error_syntax_error_in_import = The other file has an error. Fix the error in that file first.

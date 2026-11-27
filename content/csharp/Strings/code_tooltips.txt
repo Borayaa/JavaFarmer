@@ -1,0 +1,681 @@
+@code_tooltip_harvest = `bool Harvest()`
+Harvests the entity under the drone. 
+If you harvest an entity that can't be harvested, it will be destroyed.
+
+returns `true` if an entity was removed, `false` otherwise.
+
+takes `200` ticks to execute if an entity was removed, `1` tick otherwise.
+
+example:
+`Harvest();`
+@code_tooltip_can_harvest = `bool CanHarvest()`
+Used to find out if plants are fully grown.
+
+returns `true` if there is an entity under the drone that is ready to be harvested, `false` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`if (CanHarvest())
+{
+	Harvest();
+}`
+@code_tooltip_range = C# has no `range()`. To count from `start` up to (but not including) `end` in steps of `step`, use a `for` loop.
+
+takes `1` tick to start the loop.
+
+example:
+`for (int i = 0; i < 10; i++)
+{
+	Console.WriteLine(i);
+}
+
+for (int i = 2; i < 6; i++)
+{
+	Console.WriteLine(i);
+}
+
+for (int i = 10; i > 0; i--)
+{
+	Console.WriteLine(i);
+}`
+@code_tooltip_plant = `bool Plant(Entity entity)`
+Spends the cost of the specified `entity` and plants it under the drone.
+It fails if you can't afford the plant, the ground type is wrong or there's already a plant there.
+
+returns `true` if it succeeded, `false` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`Plant(Entities.Bush);`
+@code_tooltip_move = `bool Move(Direction direction)`
+Moves the drone into the specified `direction` by one tile.
+If the drone moves over the edge of the farm it wraps back to the other side of the farm.
+
+`East `  =  right
+`West `  =  left
+`North`  =  up
+`South`  =  down
+
+returns `true` if the drone has moved, `false` otherwise.
+
+takes `200` ticks to execute if the drone has moved, `1` tick otherwise.
+
+example:
+`Move(North);`
+@code_tooltip_can_move = `bool CanMove(Direction direction)`
+Checks if the drone can move in the specified `direction`.
+
+returns `true` if the drone can move, `false` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`if (CanMove(North))
+{
+	Move(North);
+}`
+@code_tooltip_swap = `bool Swap(Direction direction)`
+Swaps the entity under the drone with the entity next to the drone in the specified `direction`.
+Doesn't work on all entities.
+Also works if one (or both) of the entities are `null`.
+
+returns `true` if it succeeded, `false` otherwise.
+
+takes `200` ticks to execute on success, `1` tick otherwise.
+
+example:
+`Swap(North);`
+@code_tooltip_till = `void Till()`
+Tills the ground under the drone into `Grounds.Soil`. If it's already soil it will change the ground back to `Grounds.Grassland`.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`Till();`
+@code_tooltip_get_pos_x = `int GetPosX()`
+Gets the current x position of the drone.
+The x position starts at `0` in the west and increases in the east direction.
+
+returns a number representing the current x coordinate of the drone.
+
+takes `1` tick to execute.
+
+example:
+`int x = GetPosX();`
+@code_tooltip_get_pos_y = `int GetPosY()`
+Gets the current y position of the drone.
+The y position starts at `0` in the south and increases in the north direction.
+
+returns a number representing the current y coordinate of the drone.
+
+takes `1` tick to execute.
+
+example:
+`int y = GetPosY();`
+@code_tooltip_get_world_size = `int GetWorldSize()`
+Get the current size of the farm.
+
+returns the side length of the grid in the north to south direction.
+
+takes `1` tick to execute.
+
+example:
+`for (int i = 0; i < GetWorldSize(); i++)
+{
+	Move(North);
+}`
+@code_tooltip_get_entity_type = `Entity? GetEntityType()`
+Find out what kind of entity is under the drone.
+
+returns `null` if the tile is empty, otherwise returns the type of the entity under the drone.
+
+takes `1` tick to execute.
+
+example:
+`if (GetEntityType() == Entities.Grass)
+{
+	Harvest();
+}`
+@code_tooltip_get_ground_type = `Ground GetGroundType()`
+Find out what kind of ground is under the drone.
+
+returns the type of the ground under the drone.
+
+takes `1` tick to execute.
+
+example:
+`if (GetGroundType() != Grounds.Soil)
+{
+	Till();
+}`
+@code_tooltip_get_time = `double GetTime()`
+Get the current game time.
+
+returns the time in seconds since the start of the game.
+
+takes `1` tick to execute.
+
+example:
+`double start = GetTime();
+
+DoSomething();
+
+double timePassed = GetTime() - start;`
+@code_tooltip_get_tick_count = `double GetTickCount()`
+Used to measure the number of ticks performed.
+
+returns the number of ticks performed since the start of execution.
+
+takes `0` tick to execute.
+
+example:
+`DoSomething();
+
+Console.WriteLine(GetTickCount());`
+@code_tooltip_use_item = `bool UseItem(Item item)` or `bool UseItem(Item item, int n)`
+Attempts to use the specified `item` `n` times (`1` time if `n` is left out). Can only be used with some items including `Items.Water`, `Items.Fertilizer`.
+
+returns `true` if an item was used, `false` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`UseItem(Items.Fertilizer);`
+@code_tooltip_get_water = `double GetWater()`
+Get the current water level under the drone.
+
+returns the water level under the drone as a number between `0` and `1`.
+
+takes `1` tick to execute.
+
+example:
+`if (GetWater() < 0.5)
+{
+	UseItem(Items.Water);
+}`
+@code_tooltip_do_a_flip = `void DoAFlip()`
+Makes the drone do a flip! This action is not affected by speed upgrades.
+
+returns nothing (`void`)
+
+takes 1s to execute.
+
+example:
+`while (true)
+{
+	DoAFlip();
+}`
+@code_tooltip_pet_the_piggy = `void PetThePiggy()`
+Pets the piggy! This action is not affected by speed upgrades.
+
+returns nothing (`void`)
+
+takes 1s to execute.
+
+example:
+`while (true)
+{
+	PetThePiggy();
+}`
+@code_tooltip_print = `void Console.WriteLine(object value)`
+Prints `value` into the air above the drone using smoke. This action is not affected by speed upgrades.
+To print several values at once, put them into one string: `$"x = {x}"` or `"x = " + x`.
+`Console.Write(value)` adds text without printing it. The text is printed together with the next `Console.WriteLine`.
+
+returns nothing (`void`)
+
+takes 1s to execute.
+
+example:
+`Console.WriteLine($"ground: {GetGroundType()}");`
+@code_tooltip_len = C# has no `len()`. Use `list.Count` for lists, sets and dictionaries, `array.Length` for arrays and `text.Length` for strings.
+
+takes `1` tick to execute.
+
+example:
+`for (int i = 0; i < list.Count; i++)
+{
+	list[i] += 1;
+}`
+@code_tooltip_list = `new List<T>()` or `new List<T>(collection)`
+Creates a new list of elements of type `T`. 
+Without an argument, it creates an empty list.
+If `collection` is a list or set, it creates a new list with the elements of the collection.
+A collection expression like `[1, 2, 3]` also creates a list.
+
+returns a `List<T>`.
+
+takes `1 + collection.Count` ticks to execute.
+
+example:
+`List<int> newList = new List<int>(oldList);`
+@code_tooltip_dict = `new Dictionary<TKey, TValue>()`
+Creates a new, empty dictionary.
+You can fill it right away: `new Dictionary<Item, int> { [Items.Hay] = 1 }`
+
+returns a `Dictionary<TKey, TValue>`.
+
+takes `1` tick to execute.
+
+example:
+`Dictionary<Item, int> newDict = new Dictionary<Item, int>();`
+@code_tooltip_set = `new HashSet<T>()` or `new HashSet<T>(collection)`
+Creates a new set.
+Without an argument, it creates an empty set.
+If `collection` is a collection of values, it creates a new set with those values in it.
+
+returns a `HashSet<T>`.
+
+takes `1 + collection.Count` ticks to execute.
+
+example:
+`HashSet<int> newSet = [1, 2, 3];`
+@code_tooltip_str = `string value.ToString()`
+
+returns a `string` representation of `value`. `$"{value}"` and `"" + value` do the same.
+
+takes `1` ticks to execute.
+
+example:
+`string text = 1000.ToString();`
+@code_tooltip_set_execution_speed = `void SetExecutionSpeed(double speed)`
+Limits the speed at which the program is executed to better see what's happening.
+
+A `speed` of `1` is the speed the drone has without any speed upgrades.
+A `speed` of `10` makes the code execute `10` times faster and corresponds to the speed of the drone after `9` speed upgrades.
+A `speed` of `0.5` makes the code execute at half of the speed without speed upgrades. This can be useful to see what the code is doing.
+
+If `speed` is faster than the execution can currently go it will just go at max speed.
+
+If `speed` is `0` or negative, the speed is changed back to max speed.
+The effect will also stop when the execution stops.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`SetExecutionSpeed(1);`
+@code_tooltip_set_world_size = `void SetWorldSize(double size)`
+Limits the size of the farm to better see what's happening.
+Also clears the farm and resets the drone position.
+Sets the farm to a `size` x `size` grid.
+The smallest `size` possible is `3`.
+A `size` smaller than `3` will change the grid back to its full size.
+The effect will also stop when the execution stops.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`SetWorldSize(5);`
+@code_tooltip_num_items = `double NumItems(Item item)`
+Find out how much of `item` you currently have.
+
+returns the number of `item` currently in your inventory.
+
+takes `1` tick to execute.
+
+example:
+`if (NumItems(Items.Fertilizer) > 0)
+{
+	UseItem(Items.Fertilizer);
+}`
+@code_tooltip_get_cost = `Dictionary<Item, double>? GetCost(thing)` or `Dictionary<Item, double>? GetCost(Unlock thing, int level)`
+Gets the cost of a `thing` (an `Entity`, `Item` or `Unlock`).
+
+If `thing` is an entity get the cost of planting it.
+If `thing` is an unlock get the cost of unlocking it (of the given `level`, by default the current level).
+
+returns a dictionary with items as keys and numbers as values. Each item is mapped to how much of it is needed.
+returns an empty dictionary or `null` when used on an upgradeable unlock that is already at the max level.
+
+takes `1` tick to execute.
+
+example:
+`Dictionary<Item, double>? cost = GetCost(Unlocks.Carrots);
+if (cost is not null)
+{
+	foreach (var (item, amount) in cost)
+	{
+		if (NumItems(item) < amount)
+		{
+			Console.WriteLine("not enough items to unlock carrots");
+		}
+	}
+}`
+@code_tooltip_clear = `void Clear()`
+Removes everything from the farm, moves the drone back to position `(0, 0)` and changes the hat back to the straw hat.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`Clear();`
+@code_tooltip_get_companion = `Companion? GetCompanion()`
+Get the preferred companion of the plant under the drone.
+
+returns a `Companion`: `c.Entity` is the companion type and `c.X`, `c.Y` (or `c.Position`) is where it wants it. Returns `null` if there is no plant with a companion preference.
+
+takes `1` tick to execute.
+
+example:
+`Companion? companion = GetCompanion();
+if (companion is not null)
+{
+	var (plant, (x, y)) = companion;
+	Console.WriteLine(plant);
+}`
+@code_tooltip_unlock = `bool Unlock(Unlock unlock)`
+Has exactly the same effect as clicking the button corresponding to `unlock` in the research tree.
+
+returns `true` if the unlock was successful, `false` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`Unlock(Unlocks.Carrots);`
+@code_tooltip_num_unlocked = `int NumUnlocked(thing)`
+Used to check if an unlock, entity, ground or item is already unlocked.
+
+returns `1` plus the number of times `thing` has been upgraded if `thing` is upgradable. Otherwise returns `1` if `thing` is unlocked, `0` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`Plant(Entities.Bush);
+int substance = GetWorldSize() * NumUnlocked(Unlocks.Mazes);
+UseItem(Items.Weird_Substance, substance);`
+@code_tooltip_reset = `reset()`
+Resets the farm back to a 1x1 square, removes all resources and locks most unlocks.
+It doesn't remove any of your code.
+It is not available in C#.
+
+takes `200` ticks to execute.
+@code_tooltip_measure = `object? Measure()` or `object? Measure(Direction direction)`
+Can measure some values on some entities. The effect of this depends on the entity.
+
+With a `direction` it measures the neighboring entity in the given direction.
+
+returns the number of petals of a sunflower.
+returns the next `Position` for a treasure or apple.
+returns the size of a cactus.
+returns a mysterious number for a pumpkin.
+returns `null` for all other entities.
+The return type is `object`, so cast the result to what you expect.
+
+takes `1` tick to execute.
+
+example:
+`int numPetals = (int)Measure();
+var (x, y) = (Position)Measure();`
+@code_tooltip_leaderboard_run = `void LeaderboardRun(Leaderboard leaderboard, string fileName, double speedup)`
+Starts a timed simulation for the `leaderboard` using the specified `fileName` as a starting point.
+`speedup` sets the starting speedup.
+With JavaFarmer active, scores are not uploaded.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`LeaderboardRun(Leaderboards.Fastest_Reset, "FullRun", 256);`
+@code_tooltip_simulate = `double Simulate(string fileName, object simUnlocks, Dictionary<Item, double> simItems, Dictionary<string, object> simGlobals, double seed, double speedup)`
+Starts a simulation using the specified `fileName` as a starting point.
+
+`simUnlocks`: A list containing the starting unlocks, or a dictionary from unlocks to levels.
+`simItems`: A dictionary from items to amounts. The simulation starts with these items.
+`simGlobals`: A dictionary from variable names to values. The simulation starts with these variables in the global scope.
+`seed`: The random seed of the simulation. Must be a positive integer.
+`speedup`: The starting speedup.
+
+returns the time it took to run the simulation.
+
+takes `200` ticks to execute.
+
+example:
+`List<Unlock> simUnlocks = [Unlocks.Carrots];
+Dictionary<Item, double> simItems = new Dictionary<Item, double> { [Items.Carrot] = 10000 };
+double runTime = Simulate("f1", simUnlocks, simItems, new Dictionary<string, object>(), 0, 64);`
+@code_tooltip_spawn_drone = `Drone? SpawnDrone(Action task)` or `Drone? SpawnDrone(Func<T> task)`
+Spawns a new drone in the same position as the drone that ran the `SpawnDrone(task)` command. The new drone then begins executing the specified task. After it is done, it will disappear automatically.
+`task` can be the name of a method (`SpawnDrone(HarvestColumn)`, without `()`), a lambda (`() => ...`), or a variable of type `Action` or `Func<T>`.
+
+returns the handle of the new drone or `null` if all drones are already spawned.
+
+takes `200` ticks to execute if a drone was spawned, `1` otherwise.
+
+example:
+`while (true)
+{
+	if (SpawnDrone(HarvestColumn) != null)
+	{
+		Move(East);
+	}
+}
+
+void HarvestColumn()
+{
+	for (int i = 0; i < GetWorldSize(); i++)
+	{
+		Harvest();
+		Move(North);
+	}
+}`
+@code_tooltip_wait_for = `object? WaitFor(Drone drone)`
+Waits until the given `drone` terminates.
+
+returns the return value of the task that the `drone` was running. Cast it to the type you expect.
+
+takes `1` tick to execute if the awaited `drone` is already done.
+
+example:
+`Drone? handle = SpawnDrone(() => GetEntityType());
+if (handle != null)
+{
+	Entity? result = (Entity)WaitFor(handle);
+}`
+@code_tooltip_has_finished = `bool HasFinished(Drone drone)`
+Checks if the given `drone` has finished.
+
+returns `true` if the `drone` has finished, `false` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`Drone? drone = SpawnDrone(Task);
+if (drone != null)
+{
+	while (!HasFinished(drone))
+	{
+		DoSomethingElse();
+	}
+	object? result = WaitFor(drone);
+}`
+@code_tooltip_max_drones = `int MaxDrones()`
+
+returns the maximum number of drones that you can have in the farm.
+
+takes `1` tick to execute.
+
+example:
+`while (NumDrones() < MaxDrones())
+{
+	SpawnDrone(HarvestColumn);
+	Move(East);
+}`
+@code_tooltip_num_drones = `int NumDrones()`
+
+returns the number of drones currently in the farm.
+
+takes `1` tick to execute.
+
+example:
+`while (NumDrones() < MaxDrones())
+{
+	SpawnDrone(HarvestColumn);
+	Move(East);
+}`
+@code_tooltip_quick_print = `void QuickPrint(params object[] values)`
+Prints values just like `Console.WriteLine(value)` but it doesn't stop to write them into the air so they can only be found on the output page.
+Several values can be printed at once, separated by commas.
+
+returns nothing (`void`)
+
+takes `0` ticks to execute.
+
+example:
+`QuickPrint("hi mom");`
+@code_tooltip_change_hat = `void ChangeHat(Hat hat)`
+Changes the hat of the drone to `hat`.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`ChangeHat(Hats.Dinosaur_Hat);`
+@code_tooltip_max = `Math.Max(a, b)`
+Gets the larger of two numbers.
+The result is an `int` if both numbers are `int`s, otherwise a `double`.
+
+takes #comparisons ticks to execute.
+
+example:
+`int biggest = Math.Max(3, Math.Max(6, 34));`
+@code_tooltip_min = `Math.Min(a, b)`
+Gets the smaller of two numbers.
+The result is an `int` if both numbers are `int`s, otherwise a `double`.
+
+takes #comparisons ticks to execute.
+
+example:
+`int smallest = Math.Min(3, Math.Min(6, 34));`
+@code_tooltip_abs = `Math.Abs(number)`
+Computes the absolute value of a number.
+
+returns `number` if `number` is positive, `-number` otherwise.
+
+takes 1 tick to execute.
+
+example:
+`int distance = Math.Abs(-69);`
+@code_tooltip_random = `double Random()`
+Samples a random number between 0 (inclusive) and 1 (exclusive).
+(C#'s `System.Random` class is not available, use this method instead.)
+
+returns the random number.
+
+takes `1` ticks to execute.
+
+example:
+`Entity RandomElem(List<Entity> list)
+{
+	int index = (int)(Random() * list.Count);
+	return list[index];
+}`
+@code_tooltip_append = `list.Add(element)`
+Adds `element` to the end of the `list`.
+
+returns nothing. In JavaFarmer call it as a statement on its own.
+
+takes `1` ticks to execute.
+
+example:
+`List<int> list = [];
+list.Add(1);`
+@code_tooltip_add = `set.Add(element)` or `list.Add(element)`
+Adds `element` to the `set` or to the end of the `list`.
+`dict.Add(key, value)` adds a key and its value to a dictionary.
+
+takes `element size` ticks to execute on a set.
+
+example:
+`HashSet<int> set = [];
+set.Add(1);`
+@code_tooltip_remove = `collection.Remove(element)`
+Removes the first occurrence of `element` from the list or set.
+On a dictionary, `dict.Remove(key)` removes the key and its value.
+`list.RemoveAt(i)` removes the element at index `i` instead.
+
+takes `element size` ticks to execute on a set, #comparisions + #shifts ticks on a list.
+
+example:
+`List<Entity> list = [Entities.Bush, Entities.Tree];
+list.Remove(Entities.Tree);`
+@code_tooltip_pop = `list.RemoveAt(i)`
+Removes the element at index `i` from the `list`. Use `list.RemoveAt(list.Count - 1)` to remove the last element.
+To get the element too, read it first: `int last = list[^1];`
+`dict.Remove(key)` removes a key from a dictionary.
+
+takes `key size` ticks to execute on a dictionary, `list.Count - i + 1` ticks on a list.
+
+example:
+`List<int> list = [4, 5, 6];
+int first = list[0];
+list.RemoveAt(0);`
+@code_tooltip_insert = `list.Insert(i, element)`
+Inserts `element` into the `list` at index `i`.
+
+takes `list.Count - i + 1` ticks.
+
+example:
+`List<int> list = [1, 2];
+list.Insert(0, 0);`
+@code_tooltip_Items = Contains all items that can be in the inventory, like `Items.Hay`.
+@code_tooltip_Entities = Contains all plant types, like `Entities.Bush`.
+@code_tooltip_Grounds = Contains all possible ground types, like `Grounds.Soil`.
+@code_tooltip_Unlocks = Contains all the unlocks and upgrades in the research menu, like `Unlocks.Speed`.
+@code_tooltip_Hats = Contains all hat types, like `Hats.Straw_Hat`.
+@code_tooltip_Leaderboards = Contains all leaderboard categories, like `Leaderboards.Hay`.
+@code_tooltip_for = A loop. `for (int i = 0; i < n; i++)` counts from `0` to `n - 1`. To run once for every element of a collection, use `foreach (var x in collection)`.
+@code_tooltip_foreach = Runs the loop body once for every element of a collection: `foreach (Entity plant in plants)`. Works on arrays, lists, sets, strings, `dict.Keys`, `dict.Values` and dictionaries (`foreach (var (key, value) in dict)`).
+@code_tooltip_while = Loops as long as the condition is `true`.
+@code_tooltip_do = `do { ... } while (condition);` runs the body first and then repeats it as long as the condition is `true`.
+@code_tooltip_def = C# has no `def`. Define a method by writing its return type, name and parameters: `void F(int n) { ... }`
+@code_tooltip_True = C# writes `true` in lowercase.
+@code_tooltip_False = C# writes `false` in lowercase.
+@code_tooltip_None = C# writes `null` for "no value".
+@code_tooltip_if = Executes code if the condition is `true`.
+@code_tooltip_else = Executes code if the previous `if` condition was `false`.
+@code_tooltip_elif = `else if (condition)` does the same thing as:
+`else
+{
+	if (condition)
+	{
+		...
+	}
+}`
+@code_tooltip_continue = Immediately continue with the next loop iteration. If there are nested loops, this will always affect the innermost loop.
+@code_tooltip_break = Break out of a loop and continue executing the statements after the loop. If there are nested loops, this will always affect the innermost loop. In a `switch`, `break;` ends a `case` section.
+@code_tooltip_not = `!true` is `false` and `!false` is `true`.
+@code_tooltip_and = `a && b` is `true` only if both `a` and `b` are `true`. If `a` is `false`, `b` is not evaluated at all.
+@code_tooltip_or = `a || b` is `true` if at least one of `a` and `b` is `true`. If `a` is `true`, `b` is not evaluated at all.
+@code_tooltip_return = Used to leave a method and give back a value: `return value;` (or just `return;` in a `void` method).
+@code_tooltip_pass = C# has no `pass`. An empty block `{ }` is allowed.
+@code_tooltip_global = C# has no `global`. Top-level variables (and static fields of a class) can be changed from every method of the window.
+@code_tooltip_import = You don't need `import` for your own windows. Call the public static methods of another window with `WindowName.Method()`, for example `Utils.PlantRow()`.
+@code_tooltip_using = `using System;` and `using static System.Math;` are allowed but not needed: `Console`, `Math`, the collections and the game API are always available. Other windows don't need a `using` line.
+@code_tooltip_true = A `bool` value that is always true.
+@code_tooltip_false = A `bool` value that is always false.
+@code_tooltip_null = A value representing that there is no value. Types that can be `null` have a `?`, like `Entity?`.
+@code_tooltip_void = Written instead of a return type when a method doesn't return a value.
+@code_tooltip_int = A whole number like `5` or `-3`.
+@code_tooltip_double = A number with a decimal point like `0.25`.
+@code_tooltip_bool = `true` or `false`.
+@code_tooltip_string = A piece of text like `"hello"`.
+@code_tooltip_var = Declares a local variable whose type is taken from its value: `var plantType = Entities.Carrot;`
+@code_tooltip_static = Marks a field or method that belongs to the class itself. Other windows can use a `public static` member as `ClassName.Name`.
+@code_tooltip_public = Other windows can use a `public` member of a class: `public static void PlantRow()` is called as `Utils.PlantRow()`.
+@code_tooltip_const = A `const` variable can't be changed. Its value must be known before the program runs: `const int Size = 6;`
+@code_tooltip_new = Creates a new array or collection, like `new int[5]` or `new List<int>()`.
+@code_tooltip_class = A class groups static fields and methods. A library window is a `public static class` named like the window. `class Program { static void Main() { } }` is a program that starts at `Main`.
+@code_tooltip_switch = Chooses a block of code depending on a value: `switch (n) { case 1: ... break; default: ... break; }`. As an expression: `n switch { 1 => "one", _ => "many" }`.
+@code_tooltip_case = A label inside a `switch`: `case 1:` runs the section if the value is `1`. Each section ends with `break;`, `return` or `continue;`.
+@code_tooltip_default = The `default:` section of a `switch` runs if no `case` matches.

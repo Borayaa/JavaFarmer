@@ -1,0 +1,785 @@
+@code_tooltip_harvest = `farm.harvest() bool`
+Harvests the entity under the drone. 
+If you harvest an entity that can't be harvested, it will be destroyed.
+
+returns `true` if an entity was removed, `false` otherwise. Zig wants every result to be used, so write `_ = farm.harvest();` when you don't need it.
+
+takes `200` ticks to execute if an entity was removed, `1` tick otherwise.
+
+example:
+`_ = farm.harvest();`
+@code_tooltip_can_harvest = `farm.canHarvest() bool`
+Used to find out if plants are fully grown.
+
+returns `true` if there is an entity under the drone that is ready to be harvested, `false` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`if (farm.canHarvest()) {
+    _ = farm.harvest();
+}`
+@code_tooltip_range = Zig has no range function. A for loop counts over a range `start..end`: `for (0..n) |i| { }` counts from `start` up to (but not including) `end`. Both ends are `usize` numbers.
+To count down or take steps of another size, use a while loop with a continue expression: `while (i > 0) : (i -= 1) { }` runs `i -= 1` after every round.
+
+takes `1` tick to start the loop.
+
+example:
+`for (0..10) |i| {
+    std.debug.print("{d}\n", .{i});
+}
+
+for (2..6) |i| {
+    std.debug.print("{d}\n", .{i});
+}
+
+var n: i32 = 10;
+while (n > 0) : (n -= 1) {
+    std.debug.print("{d}\n", .{n});
+}`
+@code_tooltip_plant = `farm.plant(entity: farm.Entity) bool`
+Spends the cost of the specified `entity` and plants it under the drone.
+It fails if you can't afford the plant, the ground type is wrong or there's already a plant there.
+
+returns `true` if it succeeded, `false` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`_ = farm.plant(.Bush);`
+@code_tooltip_move = `farm.move(direction: farm.Direction) bool`
+Moves the drone into the specified `direction` by one tile.
+If the drone moves over the edge of the farm it wraps back to the other side of the farm.
+
+`.East `  =  right
+`.West `  =  left
+`.North`  =  up
+`.South`  =  down
+
+returns `true` if the drone has moved, `false` otherwise.
+
+takes `200` ticks to execute if the drone has moved, `1` tick otherwise.
+
+example:
+`_ = farm.move(.North);`
+@code_tooltip_can_move = `farm.canMove(direction: farm.Direction) bool`
+Checks if the drone can move in the specified `direction`.
+
+returns `true` if the drone can move, `false` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`if (farm.canMove(.North)) {
+    _ = farm.move(.North);
+}`
+@code_tooltip_swap = `farm.swap(direction: farm.Direction) bool`
+Swaps the entity under the drone with the entity next to the drone in the specified `direction`.
+Doesn't work on all entities.
+Also works if one (or both) of the tiles are empty (`null`).
+
+returns `true` if it succeeded, `false` otherwise.
+
+takes `200` ticks to execute on success, `1` tick otherwise.
+
+example:
+`_ = farm.swap(.North);`
+@code_tooltip_till = `farm.till() void`
+Tills the ground under the drone into `farm.Ground.Soil`. If it's already soil it will change the ground back to `farm.Ground.Grassland`.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`farm.till();`
+@code_tooltip_get_pos_x = `farm.getPosX() usize`
+Gets the current x position of the drone.
+The x position starts at `0` in the west and increases in the east direction.
+
+returns a number (a `usize`) representing the current x coordinate of the drone.
+
+takes `1` tick to execute.
+
+example:
+`const x = farm.getPosX();
+const y = farm.getPosY();
+std.debug.print("{d} {d}\n", .{ x, y });`
+@code_tooltip_get_pos_y = `farm.getPosY() usize`
+Gets the current y position of the drone.
+The y position starts at `0` in the south and increases in the north direction.
+
+returns a number (a `usize`) representing the current y coordinate of the drone.
+
+takes `1` tick to execute.
+
+example:
+`const x = farm.getPosX();
+const y = farm.getPosY();
+std.debug.print("{d} {d}\n", .{ x, y });`
+@code_tooltip_get_world_size = `farm.getWorldSize() usize`
+Get the current size of the farm.
+
+returns the side length of the grid in the north to south direction (a `usize`).
+
+takes `1` tick to execute.
+
+example:
+`for (0..farm.getWorldSize()) |_| {
+    _ = farm.move(.North);
+}`
+@code_tooltip_get_entity_type = `farm.getEntityType() ?farm.Entity`
+Find out what kind of entity is under the drone.
+
+returns `null` if the tile is empty, otherwise returns the type of the entity under the drone. The `?` in `?farm.Entity` means the result is an optional: unwrap it with `if (farm.getEntityType()) |e|` before you compare it.
+
+takes `1` tick to execute.
+
+example:
+`if (farm.getEntityType()) |e| {
+    if (e == .Grass) {
+        _ = farm.harvest();
+    }
+}`
+`if (farm.getEntityType() == null) {
+    _ = farm.plant(.Bush);
+}`
+@code_tooltip_get_ground_type = `farm.getGroundType() farm.Ground`
+Find out what kind of ground is under the drone.
+
+returns the type of the ground under the drone.
+
+takes `1` tick to execute.
+
+example:
+`if (farm.getGroundType() != .Soil) {
+    farm.till();
+}`
+@code_tooltip_get_time = `farm.getTime() f64`
+Get the current game time.
+
+returns the time in seconds since the start of the game.
+
+takes `1` tick to execute.
+
+example:
+`fn timeOfMove() f64 {
+    const start = farm.getTime();
+    _ = farm.move(.North);
+    return farm.getTime() - start;
+}`
+@code_tooltip_get_tick_count = `farm.getTickCount() f64`
+Used to measure the number of ticks performed.
+
+returns the number of ticks performed since the start of execution.
+
+takes `0` tick to execute.
+
+example:
+`_ = farm.harvest();
+std.debug.print("{d}\n", .{farm.getTickCount()});`
+@code_tooltip_use_item = `farm.useItem(item: farm.Item) bool` and `farm.useItemN(item: farm.Item, n: usize) bool`
+Attempts to use the specified `item` once (`farm.useItem`) or `n` times (`farm.useItemN`). Zig has no default arguments, so the game's optional `n` is the second function. Can only be used with some items including `farm.Item.Water`, `farm.Item.Fertilizer`.
+
+returns `true` if an item was used, `false` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`_ = farm.useItem(.Fertilizer);
+_ = farm.useItemN(.Water, 2);`
+@code_tooltip_get_water = `farm.getWater() f64`
+Get the current water level under the drone.
+
+returns the water level under the drone as a number between `0` and `1`.
+
+takes `1` tick to execute.
+
+example:
+`if (farm.getWater() < 0.5) {
+    _ = farm.useItem(.Water);
+}`
+@code_tooltip_do_a_flip = `farm.doAFlip() void`
+Makes the drone do a flip! This action is not affected by speed upgrades.
+
+returns nothing (`void`)
+
+takes 1s to execute.
+
+example:
+`while (true) {
+    farm.doAFlip();
+}`
+@code_tooltip_pet_the_piggy = `farm.petThePiggy() void`
+Pets the piggy! This action is not affected by speed upgrades.
+
+returns nothing (`void`)
+
+takes 1s to execute.
+
+example:
+`while (true) {
+    farm.petThePiggy();
+}`
+@code_tooltip_print = `std.debug.print(format, .{ values })`
+Prints the `values` into the air above the drone using smoke. This action is not affected by speed upgrades.
+The first argument is a format string: every placeholder in it is replaced by the next value of the tuple `.{ ... }`. Use `{d}` for numbers, `{s}` for strings, `{}` for `bool` values and game constants and `{any}` for anything else (optionals, arrays, lists). The format string must end with `\n`. With nothing to fill in, write `.{}`.
+
+returns nothing (`void`)
+
+takes 1s to execute.
+
+example:
+`std.debug.print("ground: {}\n", .{farm.getGroundType()});`
+`std.debug.print("x {d} y {d}\n", .{ farm.getPosX(), farm.getPosY() });`
+@code_tooltip_len = Zig has no len function. Arrays, slices and strings have a `.len` field: `xs.len`. For a `std.ArrayList` it is `list.items.len`, for a `std.AutoHashMap` it is `m.count()`.
+They are `usize` numbers: convert them with `@intCast` to compare them with an `i32`.
+
+takes `1` tick to execute.
+
+example:
+`var xs = [_]i32{ 1, 2, 3 };
+for (0..xs.len) |i| {
+    xs[i] += 1;
+}`
+@code_tooltip_list = `[_]T{ a, b, c }` (an array) or `std.ArrayList(T)` (a list that can grow)
+Zig has no list function. An array has a fixed length: `const xs = [_]i32{ 1, 2, 3 };`.
+A list that can grow is a `std.ArrayList`: `var list: std.ArrayList(i32) = .empty;` creates an empty list, and `list.append(farm.allocator, x)` adds to it. Free it with `defer list.deinit(farm.allocator);`.
+
+returns an array or a `std.ArrayList`.
+
+takes `1 + xs.len` ticks to execute.
+
+example:
+`const xs = [_]i32{ 1, 2, 3 };
+std.debug.print("{any}\n", .{xs});`
+`var list: std.ArrayList(i32) = .empty;
+defer list.deinit(farm.allocator);
+try list.append(farm.allocator, 1);
+try list.append(farm.allocator, 2);`
+@code_tooltip_dict = `std.AutoHashMap(K, V).init(farm.allocator)`
+Creates a new map (a dictionary). Dictionaries are called `std.AutoHashMap` in Zig: `K` is the type of the keys and `V` the type of the values. For string keys use `std.StringHashMap(V)`.
+`m.put(key, value)` sets a value, `m.get(key)` reads one (an optional: `null` if the key is missing). Free the map with `defer m.deinit();`.
+
+returns a `std.AutoHashMap`.
+
+takes `1 + m.count()` ticks to execute.
+
+example:
+`var right_of = std.AutoHashMap(farm.Direction, farm.Direction).init(farm.allocator);
+defer right_of.deinit();
+try right_of.put(.North, .East);
+try right_of.put(.East, .South);`
+@code_tooltip_set = `std.AutoHashMap(T, void).init(farm.allocator)`
+Creates a new set. Zig has no set type of its own: a set is a map whose values are `void` (nothing).
+`s.put(x, {})` adds a value, `s.contains(x)` checks for it and `s.remove(x)` removes it. Free the set with `defer s.deinit();`.
+
+returns a `std.AutoHashMap`.
+
+takes `1 + s.count()` ticks to execute.
+
+example:
+`var seen = std.AutoHashMap(i32, void).init(farm.allocator);
+defer seen.deinit();
+try seen.put(1, {});
+try seen.put(2, {});`
+@code_tooltip_str = Zig has no str function and builds no strings at runtime. To show a value as text, print it with a format string: `{d}` for numbers, `{}` for game constants, `{any}` for anything.
+
+takes `1` ticks to execute.
+
+example:
+`const n: i32 = 1000;
+std.debug.print("{d} items\n", .{n});`
+@code_tooltip_set_execution_speed = `farm.setExecutionSpeed(speed: f64) void`
+Limits the speed at which the program is executed to better see what's happening.
+
+A `speed` of `1` is the speed the drone has without any speed upgrades.
+A `speed` of `10` makes the code execute `10` times faster and corresponds to the speed of the drone after `9` speed upgrades.
+A `speed` of `0.5` makes the code execute at half of the speed without speed upgrades. This can be useful to see what the code is doing.
+
+If `speed` is faster than the execution can currently go it will just go at max speed.
+
+If `speed` is `0` or negative, the speed is changed back to max speed.
+The effect will also stop when the execution stops.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`farm.setExecutionSpeed(1);`
+@code_tooltip_set_world_size = `farm.setWorldSize(size: f64) void`
+Limits the size of the farm to better see what's happening.
+Also clears the farm and resets the drone position.
+Sets the farm to a `size` x `size` grid.
+The smallest `size` possible is `3`.
+A `size` smaller than `3` will change the grid back to its full size.
+The effect will also stop when the execution stops.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`farm.setWorldSize(5);`
+@code_tooltip_num_items = `farm.numItems(item: farm.Item) f64`
+Find out how much of `item` you currently have.
+
+returns the number of `item` currently in your inventory (an `f64`).
+
+takes `1` tick to execute.
+
+example:
+`if (farm.numItems(.Fertilizer) > 0) {
+    _ = farm.useItem(.Fertilizer);
+}`
+@code_tooltip_get_cost = `farm.getCost(thing: anytype) ?std.AutoHashMap(farm.Item, f64)` and `farm.getCostLevel(thing: anytype, level: usize) ?std.AutoHashMap(farm.Item, f64)`
+Gets the cost of a `thing` (a `farm.Entity`, `farm.Item` or `farm.Unlock`). `farm.getCostLevel` gets the cost of the given `level` of an unlock. Write the full name of the constant, like `farm.Unlock.Carrots`.
+
+If `thing` is an entity get the cost of planting it.
+If `thing` is an unlock get the cost of unlocking it.
+
+returns a map with items as keys and numbers as values. Each item is mapped to how much of it is needed.
+returns an empty map or `null` when used on an upgradeable unlock that is already at the max level.
+
+takes `1` tick to execute.
+
+example:
+`if (farm.getCost(farm.Unlock.Carrots)) |cost| {
+    var it = cost.iterator();
+    while (it.next()) |entry| {
+        if (farm.numItems(entry.key_ptr.*) < entry.value_ptr.*) {
+            std.debug.print("not enough items to unlock carrots\n", .{});
+        }
+    }
+}`
+@code_tooltip_clear = `farm.clear() void`
+Removes everything from the farm, moves the drone back to position `(0, 0)` and changes the hat back to the straw hat.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`farm.clear();`
+@code_tooltip_get_companion = `farm.getCompanion() ?farm.Companion`
+Get the preferred companion of the plant under the drone.
+
+returns a `farm.Companion` with the fields `.entity` (the companion type), `.x` and `.y` (its position), or `null` if there is no plant with a companion preference.
+
+takes `1` tick to execute.
+
+example:
+`if (farm.getCompanion()) |companion| {
+    std.debug.print("{} at {d} {d}\n", .{ companion.entity, companion.x, companion.y });
+}`
+@code_tooltip_unlock = `farm.unlock(unlock: farm.Unlock) bool`
+Has exactly the same effect as clicking the button corresponding to `unlock` in the research tree.
+
+returns `true` if the unlock was successful, `false` otherwise.
+
+takes `200` ticks to execute if it succeeded, `1` tick otherwise.
+
+example:
+`_ = farm.unlock(.Carrots);`
+@code_tooltip_num_unlocked = `farm.numUnlocked(thing: anytype) usize`
+Used to check if an unlock, entity, ground or item is already unlocked. Write the full name of the constant, like `farm.Unlock.Mazes`.
+
+returns `1` plus the number of times `thing` has been upgraded if `thing` is upgradable. Otherwise returns `1` if `thing` is unlocked, `0` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`_ = farm.plant(.Bush);
+const n_substance = farm.getWorldSize() * farm.numUnlocked(farm.Unlock.Mazes);
+_ = farm.useItemN(.Weird_Substance, n_substance);`
+@code_tooltip_reset = `reset` (not part of the farm module)
+In the game's own language, reset resets the farm back to a 1x1 square, removes all resources and locks most unlocks. It doesn't remove any of your code.
+JavaFarmer's Zig has no `farm.reset()`.
+
+takes `200` ticks to execute.
+@code_tooltip_measure = `farm.measure(comptime T: type) T` and `farm.measureDirection(comptime T: type, direction: farm.Direction) T`
+Can measure some values on some entities. The effect of this depends on the entity.
+
+`farm.measureDirection` measures the neighboring entity in the given `direction`.
+
+returns the number of petals of a sunflower.
+returns the next position for a treasure or apple.
+returns the size of a cactus.
+returns a mysterious number for a pumpkin.
+returns `null` for all other entities.
+The first argument tells Zig which type you expect: `i32` for petals and cactus sizes, `?f64` when there might be nothing, `?farm.Position` for the next treasure or apple position.
+
+takes `1` tick to execute.
+
+example:
+`const petals = farm.measure(i32);
+std.debug.print("{d}\n", .{petals});`
+`if (farm.measureDirection(?farm.Position, .North)) |next| {
+    std.debug.print("{d} {d}\n", .{ next.x, next.y });
+}`
+@code_tooltip_leaderboard_run = `farm.leaderboardRun(leaderboard: farm.Leaderboard, file_name: []const u8, speedup: f64) void`
+Starts a timed simulation for the `leaderboard` using the specified `file_name` as a starting point.
+`speedup` sets the starting speedup.
+With JavaFarmer active, scores are not uploaded.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`farm.leaderboardRun(.Fastest_Reset, "full_run", 256);`
+@code_tooltip_simulate = `farm.simulate(file_name: []const u8, sim_unlocks: anytype, sim_items: std.AutoHashMap(farm.Item, f64), sim_globals: anytype, seed: f64, speedup: f64) f64`
+Starts a simulation using the specified `file_name` as a starting point.
+
+`sim_unlocks`: An array of the starting unlocks, or a `std.AutoHashMap` from unlocks to levels.
+`sim_items`: A `std.AutoHashMap` from items to amounts. The simulation starts with these items.
+`sim_globals`: A `std.StringHashMap` from variable names to values. The simulation starts with these variables as top-level variables.
+`seed`: The random seed of the simulation. Must be a positive integer.
+`speedup`: The starting speedup.
+
+returns the time it took to run the simulation.
+
+takes `200` ticks to execute.
+
+example:
+`const sim_unlocks = [_]farm.Unlock{ .Carrots, .Loops };
+var sim_items = std.AutoHashMap(farm.Item, f64).init(farm.allocator);
+defer sim_items.deinit();
+try sim_items.put(.Carrot, 10000);
+try sim_items.put(.Hay, 50);
+var sim_globals = std.StringHashMap(i32).init(farm.allocator);
+defer sim_globals.deinit();
+try sim_globals.put("a", 13);
+std.debug.print("{d}\n", .{farm.simulate("f1", sim_unlocks, sim_items, sim_globals, 0, 64)});`
+@code_tooltip_spawn_drone = `farm.spawnDrone(task: fn () void) ?farm.Drone`
+Spawns a new drone in the same position as the drone that ran the `farm.spawnDrone(task)` command. The new drone then begins executing the specified function. After it is done, it will disappear automatically.
+`task` is the name of one of your functions without parameters. Zig has no closures: to give a drone a value, store it in a top-level `var` first.
+
+returns the handle of the new drone (a `farm.Drone`) or `null` if all drones are already spawned.
+
+takes `200` ticks to execute if a drone was spawned, `1` otherwise.
+
+example:
+`fn harvestColumn() void {
+    for (0..farm.getWorldSize()) |_| {
+        _ = farm.harvest();
+        _ = farm.move(.North);
+    }
+}
+
+while (true) {
+    if (farm.spawnDrone(harvestColumn) != null) {
+        _ = farm.move(.East);
+    }
+}`
+@code_tooltip_wait_for = `farm.waitFor(comptime T: type, drone: farm.Drone) T`
+Waits until the given `drone` terminates.
+
+returns the return value of the function that the `drone` was running. The first argument is the type of that value.
+
+takes `1` tick to execute if the awaited `drone` is already done.
+
+example:
+`fn entityNorth() ?farm.Entity {
+    _ = farm.move(.North);
+    return farm.getEntityType();
+}
+
+if (farm.spawnDrone(entityNorth)) |drone| {
+    std.debug.print("{any}\n", .{farm.waitFor(?farm.Entity, drone)});
+}`
+@code_tooltip_has_finished = `farm.hasFinished(drone: farm.Drone) bool`
+Checks if the given `drone` has finished.
+
+returns `true` if the `drone` has finished, `false` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`fn task() f64 {
+    _ = farm.harvest();
+    return farm.numItems(.Hay);
+}
+
+if (farm.spawnDrone(task)) |drone| {
+    while (!farm.hasFinished(drone)) {
+        farm.doAFlip();
+    }
+    const result = farm.waitFor(f64, drone);
+    std.debug.print("{d}\n", .{result});
+}`
+@code_tooltip_max_drones = `farm.maxDrones() usize`
+
+returns the maximum number of drones that you can have in the farm.
+
+takes `1` tick to execute.
+
+example:
+`fn harvestColumn() void {
+    for (0..farm.getWorldSize()) |_| {
+        _ = farm.harvest();
+        _ = farm.move(.North);
+    }
+}
+
+while (farm.numDrones() < farm.maxDrones()) {
+    _ = farm.spawnDrone(harvestColumn);
+    _ = farm.move(.East);
+}`
+@code_tooltip_num_drones = `farm.numDrones() usize`
+
+returns the number of drones currently in the farm.
+
+takes `1` tick to execute.
+
+example:
+`fn harvestColumn() void {
+    for (0..farm.getWorldSize()) |_| {
+        _ = farm.harvest();
+        _ = farm.move(.North);
+    }
+}
+
+while (farm.numDrones() < farm.maxDrones()) {
+    _ = farm.spawnDrone(harvestColumn);
+    _ = farm.move(.East);
+}`
+@code_tooltip_quick_print = `farm.quickPrint(format, .{ values })`
+Prints values just like `std.debug.print` but it doesn't stop to write them into the air so they can only be found on the output page. It takes the same format string, which must end with `\n`.
+
+returns nothing (`void`)
+
+takes `0` ticks to execute.
+
+example:
+`farm.quickPrint("hi mom\n", .{});`
+@code_tooltip_change_hat = `farm.changeHat(hat: farm.Hat) void`
+Changes the hat of the drone to `hat`.
+
+returns nothing (`void`)
+
+takes `200` ticks to execute.
+
+example:
+`farm.changeHat(.Dinosaur_Hat);`
+@code_tooltip_max = `@max(a, b, ...)`
+Gets the maximum of two or more numbers. `@max` is a builtin function of Zig (no `farm.` in front).
+For the largest value of an array or a list, loop over it.
+
+takes #comparisons ticks to execute.
+
+example:
+`const biggest = @max(3, 6, 34, 16);
+std.debug.print("{d}\n", .{biggest});`
+@code_tooltip_min = `@min(a, b, ...)`
+Gets the minimum of two or more numbers. `@min` is a builtin function of Zig (no `farm.` in front).
+For the smallest value of an array or a list, loop over it.
+
+takes #comparisons ticks to execute.
+
+example:
+`const smallest = @min(3, 6, 34, 16);
+std.debug.print("{d}\n", .{smallest});`
+@code_tooltip_abs = `@abs(number)`
+Computes the absolute value of a number. `@abs` is a builtin function of Zig (no `farm.` in front).
+
+returns `number` if `number` is positive, `-number` otherwise.
+
+takes 1 tick to execute.
+
+example:
+`const distance = @abs(-69);
+std.debug.print("{d}\n", .{distance});`
+@code_tooltip_random = `farm.random() f64`
+Samples a random number between 0 (inclusive) and 1 (exclusive).
+
+returns the random number.
+
+takes `1` ticks to execute.
+
+example:
+`fn randomElem(xs: []const farm.Entity) farm.Entity {
+    const index: usize = @intFromFloat(farm.random() * @as(f64, @floatFromInt(xs.len)));
+    return xs[index];
+}`
+@code_tooltip_append = `list.append(farm.allocator, element)`
+Adds `element` to the end of the `std.ArrayList` `list` (it must be a `var`).
+Adding can fail if there is no memory left, so the call returns an error union: write `try` in front of it (in a function that returns `!void`) or `catch unreachable` after it.
+
+returns nothing (`void`)
+
+takes `1` ticks to execute.
+
+example:
+`var list: std.ArrayList(i32) = .empty;
+defer list.deinit(farm.allocator);
+try list.append(farm.allocator, 1);`
+@code_tooltip_add = `s.put(element, {})`
+Zig has no add method. A set is a `std.AutoHashMap(T, void)`, and `s.put(element, {})` adds `element` to it (`{}` is the empty `void` value). Like `append`, it needs `try` or `catch unreachable`.
+
+takes `element size` ticks to execute.
+
+example:
+`var seen = std.AutoHashMap(i32, void).init(farm.allocator);
+defer seen.deinit();
+seen.put(0, {}) catch unreachable;
+seen.put(1, {}) catch unreachable;`
+@code_tooltip_remove = `list.orderedRemove(i)`, `s.remove(element)` or `m.remove(key)`
+`list.orderedRemove(i)` removes the element at index `i` from the `std.ArrayList` `list` and returns it. To remove a value, first find its index with a for loop.
+`s.remove(element)` removes `element` from a set, `m.remove(key)` removes the key and its value from a map. Both return `true` if something was removed.
+
+takes `element size` ticks to execute on a set, #comparisions + #shifts ticks on a list.
+
+example:
+`var list: std.ArrayList(farm.Entity) = .empty;
+defer list.deinit(farm.allocator);
+try list.append(farm.allocator, .Bush);
+try list.append(farm.allocator, .Tree);
+_ = list.orderedRemove(0);`
+@code_tooltip_pop = `list.pop()` or `list.orderedRemove(i)`
+`list.pop()` removes the last element of the `std.ArrayList` `list`. It returns an optional: the element, or `null` if the list was empty.
+`list.orderedRemove(i)` removes the element at the index `i` and returns it. `m.remove(key)` removes a key from a map.
+
+returns the removed element
+
+takes `key size` ticks to execute on a map, `list.items.len - i + 1` ticks on a list.
+
+example:
+`var list: std.ArrayList(i32) = .empty;
+defer list.deinit(farm.allocator);
+try list.append(farm.allocator, 4);
+try list.append(farm.allocator, 5);
+try list.append(farm.allocator, 6);
+if (list.pop()) |last| {
+    std.debug.print("{d}\n", .{last});
+}
+_ = list.orderedRemove(0);`
+@code_tooltip_insert = `list.insert(farm.allocator, i, element)`
+Inserts `element` into the `std.ArrayList` `list` at index `i` (a `usize`). Like `append`, it needs `try` or `catch unreachable`.
+On a map, `m.put(key, value)` sets the value of a key.
+
+returns nothing (`void`)
+
+takes `list.items.len - i + 1` ticks.
+
+example:
+`var list: std.ArrayList(i32) = .empty;
+defer list.deinit(farm.allocator);
+try list.append(farm.allocator, 1);
+try list.append(farm.allocator, 2);
+try list.insert(farm.allocator, 0, 0);`
+@code_tooltip_Items = The game's items, like `farm.Item.Hay`. In Zig the category is the enum `farm.Item`; where Zig knows the type (an argument, a comparison) write just `.Hay`.
+@code_tooltip_Entities = The game's plant types, like `farm.Entity.Bush`. In Zig the category is the enum `farm.Entity`; where Zig knows the type write just `.Bush`.
+@code_tooltip_Grounds = The game's ground types, like `farm.Ground.Soil`. In Zig the category is the enum `farm.Ground`; where Zig knows the type write just `.Soil`.
+@code_tooltip_Unlocks = The unlocks and upgrades in the research menu, like `farm.Unlock.Speed`. In Zig the category is the enum `farm.Unlock`; where Zig knows the type write just `.Speed`.
+@code_tooltip_Hats = The game's hat types, like `farm.Hat.Straw_Hat`. In Zig the category is the enum `farm.Hat`; where Zig knows the type write just `.Straw_Hat`.
+@code_tooltip_Leaderboards = The leaderboard categories, like `farm.Leaderboard.Hay`. In Zig the category is the enum `farm.Leaderboard`; where Zig knows the type write just `.Hay`.
+@code_tooltip_for = A loop. `for (0..n) |i| { }` counts from `0` to `n - 1`. `for (items) |x| { }` runs once for every element of an array or slice, `for (list.items) |x| { }` for a `std.ArrayList` (a "foreach" loop). `for (items, 0..) |x, i| { }` gives the index too.
+@code_tooltip_while = Loops as long as the condition is `true`: `while (c) { }`. `while (true) { }` loops forever (until `break`). `while (c) : (i += 1) { }` runs `i += 1` after every round, also after `continue`.
+@code_tooltip_def = Zig declares functions with `fn`, and every parameter needs a type: `farm.double(n: i32) i32 { return n * 2; }`. The return type comes after the parameters (`void` if it returns nothing).
+@code_tooltip_True = Zig writes `true` (lowercase): a boolean value that is always true.
+@code_tooltip_False = Zig writes `false` (lowercase): a boolean value that is always false.
+@code_tooltip_if = Executes code if the condition is `true`: `if (c) { } else { }`. The condition must be a `bool`: Zig has no "truthy" values, so write `if (list.items.len > 0)`. `if (opt) |v| { }` runs only if the optional `opt` is not `null`, with its value as `v`.
+@code_tooltip_else = Executes code if the previous `if` condition was `false`. `else if (c) { }` checks another condition.
+@code_tooltip_elif = Zig writes `else if (condition)`, which does the same thing as:
+`else {
+    if (condition) {
+        ...
+    }
+}`
+@code_tooltip_None = Zig writes `null`: the value of an optional (`?T`) that holds nothing. The game's functions that can give "no value" return an optional, like `farm.getEntityType()`.
+@code_tooltip_continue = Immediately continue with the next loop iteration. If there are nested loops, this will always affect the innermost loop.
+@code_tooltip_break = Break out of a loop and continue executing the statements after the loop. If there are nested loops, this will always affect the innermost loop.
+@code_tooltip_North = The up direction on the screen. Unless you turn your screen around. In Zig `farm.Direction.North`, or `.North` where Zig knows the type.
+@code_tooltip_East = The right direction on the screen. Unless you turn your screen around. In Zig `farm.Direction.East`, or `.East` where Zig knows the type.
+@code_tooltip_South = The down direction on the screen. Unless you turn your screen around. In Zig `farm.Direction.South`, or `.South` where Zig knows the type.
+@code_tooltip_West = The left direction on the screen. Unless you turn your screen around. In Zig `farm.Direction.West`, or `.West` where Zig knows the type.
+@code_tooltip_not = Zig writes `!` instead of not: `!true` is `false` and `!false` is `true`.
+@code_tooltip_and = `a and b` is `true` only if both `a` and `b` are `true`. Both must be `bool` values (Zig has no "truthy" values). If `a` is `false`, `b` is not evaluated at all.
+@code_tooltip_or = `a or b` is `true` if at least one of `a` and `b` is `true`. Both must be `bool` values (Zig has no "truthy" values). If `a` is `true`, `b` is not evaluated at all.
+@code_tooltip_return = Used to leave a function and give back a value: `return value;` (or just `return;` in a `void` function). The type of the value is written after the parameters: `farm.double(n: i32) i32`.
+@code_tooltip_pass = Zig needs no placeholder statement: an empty block `{}` is allowed and does nothing, like `while (!farm.canHarvest()) {}`.
+@code_tooltip_true = A boolean value (`bool`) that is always true.
+@code_tooltip_false = A boolean value (`bool`) that is always false.
+@code_tooltip_null = The value of an optional (`?T`) that holds nothing. `farm.getEntityType()` gives `null` on an empty tile. Check it with `if (x) |v| { }` or `x == null`, give a default with `x orelse default`, or unwrap it with `x.?` (an error if it is `null`).
+
+example:
+`if (farm.getEntityType() == null) {
+    _ = farm.plant(.Bush);
+}`
+@code_tooltip_fn = Declares a function: `farm.name(a: i32, dir: farm.Direction) bool { ... }`. Every parameter needs a type, and the return type comes after the parameters (`void` if it returns nothing). Functions are written in camelCase. Another code window can only use it if it is `pub fn`.
+
+example:
+`fn doTwoFlips() void {
+    farm.doAFlip();
+    farm.doAFlip();
+}`
+@code_tooltip_pub = Makes a declaration visible to other code windows: `pub fn goTo(x: usize, y: usize) void`, `pub var moves: i32 = 0;`. Without `pub` it is private to its window. The entry point is always `pub fn main() void`.
+@code_tooltip_const = Declares a name whose value never changes: `const size = farm.getWorldSize();`. Zig wants `const` for every variable that you never change.
+
+example:
+`const size = farm.getWorldSize();
+std.debug.print("{d}\n", .{size});`
+@code_tooltip_var = Declares a variable that can be changed: `var count: i32 = 0;` and then `count += 1;`. A number variable needs a type (`var x = 0;` is an error), and a `var` that is never changed is an error too: use `const` then.
+
+example:
+`var count: i32 = 0;
+count += 1;`
+@code_tooltip_void = The type of "nothing": a function that returns no value is declared `farm.f() void`. A set is a map with `void` values: `std.AutoHashMap(i32, void)`, filled with `put(x, {})`.
+@code_tooltip_orelse = Gives a default value if an optional is `null`: `const n = m.get(key) orelse 0;`. `const e = farm.getEntityType() orelse return;` leaves the function if there is no value; in a loop `orelse continue` and `orelse break` work too.
+
+example:
+`fn hayCount(counts: std.AutoHashMap(farm.Item, i32)) i32 {
+    return counts.get(.Hay) orelse 0;
+}`
+@code_tooltip_try = Calls something that can fail (an error union, like `list.append(farm.allocator, x)`) and leaves the function with the error if it fails. A function that uses `try` returns `!void` (or `!T`), like `pub fn main() !void`.
+
+example:
+`var list: std.ArrayList(i32) = .empty;
+defer list.deinit(farm.allocator);
+try list.append(farm.allocator, 5);`
+@code_tooltip_catch = Handles the error of a call that can fail. `list.append(farm.allocator, x) catch unreachable;` says that the call never fails here (the game never runs out of memory), so the function doesn't need `!void`. JavaFarmer does not support `catch |err|`.
+
+example:
+`var list: std.ArrayList(i32) = .empty;
+defer list.deinit(farm.allocator);
+list.append(farm.allocator, 5) catch unreachable;`
+@code_tooltip_defer = Runs a statement when the current block ends. It is used to free a list or a map right after creating it: `defer list.deinit(farm.allocator);` or `defer m.deinit();`. JavaFarmer supports `defer` only for `deinit` (the game frees memory by itself).
+@code_tooltip_switch = Chooses a branch depending on a value: `switch (dir) { .North => a(), .South, .East => b(), else => c(), }`. A switch on a game constant needs an `else =>` prong for all other values.
+
+example:
+`fn opposite(dir: farm.Direction) farm.Direction {
+    return switch (dir) {
+        .North => .South,
+        .South => .North,
+        .East => .West,
+        else => .East,
+    };
+}`
+@code_tooltip_unreachable = Tells Zig that this point can never be reached. It is used after `catch`: `list.append(farm.allocator, x) catch unreachable;`. JavaFarmer does not support `unreachable` as a statement of its own.
+@code_tooltip_undefined = A placeholder value that means "not set yet": `var x: i32 = undefined;`. Give the variable a real value before you read it. A top-level `var` with `undefined` gets no starting value at all in the game, so it keeps a value that `farm.simulate` passed in.
+@code_tooltip_std = Zig's standard library: `const std = @import("std");` at the top of a file. You use it to print (`std.debug.print`), for lists (`std.ArrayList`) and maps (`std.AutoHashMap`) and to compare strings (`std.mem.eql(u8, a, b)`).
+@code_tooltip_farm = The game's module: `const farm = @import("farm");` at the top of a file. It holds the game's functions in camelCase (`farm.harvest()`, `farm.getPosX()`), the game's constants as enums (`farm.Entity.Carrot`, `farm.Direction.North`) and `farm.allocator` for lists and maps.
+@code_tooltip_i32 = A whole number that can be negative, like `5` or `-3`: `var x: i32 = 0;`. To get an `i32` from a `usize` write `const n: i32 = @intCast(farm.getWorldSize());`. Divide signed numbers with `@divFloor(a, b)` and `@mod(a, b)`.
+@code_tooltip_usize = A whole number that can't be negative, used for indexes and lengths. `farm.getPosX()`, `farm.getPosY()`, `farm.getWorldSize()`, `farm.numDrones()` and `xs.len` are `usize`. `usize + i32` is an error: convert one side with `@intCast`.
+@code_tooltip_f64 = A number with a decimal point like `0.25`. `farm.numItems()`, `farm.getWater()`, `farm.getTime()` and `farm.random()` return `f64`. Convert with `@floatFromInt(n)` and `@intFromFloat(f)`.
+@code_tooltip_bool = `true` or `false`. The condition of `if` and `while` must be a `bool`.
+@code_tooltip_ArrayList = `std.ArrayList(T)` is a list of values of type `T` that can grow: `var list: std.ArrayList(i32) = .empty;`. `list.append(farm.allocator, x)`, `list.pop()`, `list.orderedRemove(i)`, `list.items[i]`, `list.items.len`. Free it with `defer list.deinit(farm.allocator);`.
+
+example:
+`var list: std.ArrayList(farm.Entity) = .empty;
+defer list.deinit(farm.allocator);
+try list.append(farm.allocator, .Bush);
+for (list.items) |e| {
+    _ = farm.plant(e);
+}`
+@code_tooltip_AutoHashMap = `std.AutoHashMap(K, V)` maps keys of type `K` to values of type `V`: `var m = std.AutoHashMap(farm.Item, i32).init(farm.allocator);`. `m.put(k, v)`, `m.get(k)` (an optional), `m.contains(k)`, `m.remove(k)`, `m.count()`, `m.iterator()`. With `void` values it is a set. Free it with `defer m.deinit();`.
+
+example:
+`var m = std.AutoHashMap(farm.Item, i32).init(farm.allocator);
+defer m.deinit();
+try m.put(.Hay, 3);
+if (m.get(.Hay)) |n| {
+    std.debug.print("{d}\n", .{n});
+}`

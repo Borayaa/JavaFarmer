@@ -1,0 +1,338 @@
+@code_tooltip_sample_count = `sample_count()`
+Gets the number of samples in the current dataset of the farm's records.
+
+returns the number of samples, from `20` to `40`.
+
+takes `1` tick to execute.
+
+example:
+`n = sample_count()`
+@code_tooltip_sample_x = `sample_x(i)`
+Gets the feature of sample `i`: the water given to that plot.
+Samples are numbered from `0` to `sample_count() - 1`.
+
+returns a number from `0` to `10`.
+
+takes `1` tick to execute.
+
+example:
+`water = sample_x(0)`
+@code_tooltip_sample_y = `sample_y(i)`
+Gets the target of sample `i`: the yield of that plot.
+This is the value your models try to predict.
+
+returns a number.
+
+takes `1` tick to execute.
+
+example:
+`total = 0
+for i in range(sample_count()):
+	total = total + sample_y(i)`
+@code_tooltip_new_dataset = `new_dataset()`
+Throws the current dataset away without scoring it and loads the next one.
+
+returns `None`
+
+takes `200` ticks to execute.
+
+example:
+`new_dataset()`
+@code_tooltip_submit_prediction = `submit_prediction(value)`
+Predicts `value` as the yield of every sample of the current dataset and pays `Items.Insight`: up to `10` for the exact mean.
+Then the next dataset is loaded.
+
+returns the mean squared error of the prediction.
+
+takes `200` ticks to execute.
+
+example:
+`mean = 0
+for i in range(sample_count()):
+	mean = mean + sample_y(i)
+error = submit_prediction(mean / sample_count())`
+@code_tooltip_submit_line = `submit_line(slope, intercept)`
+Predicts `slope * x + intercept` for every sample of the current dataset and pays `Items.Insight`: up to `40` for the least squares line.
+Then the next dataset is loaded.
+
+returns R squared of the line: `1` is perfect, `0` is no better than the mean.
+
+takes `200` ticks to execute.
+
+example:
+`r2 = submit_line(2.5, 10)`
+@code_tooltip_point_count = `point_count()`
+Gets the number of labelled training points of the current field of crops and weeds.
+
+returns the number of training points.
+
+takes `1` tick to execute.
+
+example:
+`n = point_count()`
+@code_tooltip_point_x = `point_x(i)`
+Gets the x position of training point `i`.
+
+returns a number from `0` to `10`.
+
+takes `1` tick to execute.
+
+example:
+`x = point_x(0)`
+@code_tooltip_point_y = `point_y(i)`
+Gets the y position of training point `i`.
+
+returns a number from `0` to `10`.
+
+takes `1` tick to execute.
+
+example:
+`y = point_y(0)`
+@code_tooltip_point_label = `point_label(i)`
+Gets the label of training point `i`. A few training labels are wrong on purpose.
+
+returns `1` for a crop, `-1` for a weed.
+
+takes `1` tick to execute.
+
+example:
+`if point_label(0) == 1:
+	print("crop")`
+@code_tooltip_submit_classifier = `submit_classifier(w_x, w_y, bias)`
+Classifies the hidden test points of the current field: a point is a crop if `w_x * x + w_y * y + bias >= 0`, otherwise a weed. Pays `Items.Insight`, up to `800`.
+Then the next field is loaded.
+
+returns the accuracy, the fraction of test points classified correctly, from `0` to `1`.
+
+takes `200` ticks to execute.
+
+example:
+`accuracy = submit_classifier(1, -1, 0)`
+@code_tooltip_cluster_k = `cluster_k()`
+Gets the number of clusters (drones) for the current field.
+
+returns a number from `3` to `5`.
+
+takes `1` tick to execute.
+
+example:
+`k = cluster_k()`
+@code_tooltip_cluster_point_count = `cluster_point_count()`
+Gets the number of points of the current field.
+
+returns the number of points.
+
+takes `1` tick to execute.
+
+example:
+`n = cluster_point_count()`
+@code_tooltip_cluster_point_x = `cluster_point_x(i)`
+Gets the x position of point `i`.
+
+returns a number.
+
+takes `1` tick to execute.
+
+example:
+`x = cluster_point_x(0)`
+@code_tooltip_cluster_point_y = `cluster_point_y(i)`
+Gets the y position of point `i`.
+
+returns a number.
+
+takes `1` tick to execute.
+
+example:
+`y = cluster_point_y(0)`
+@code_tooltip_submit_centroid = `submit_centroid(j, x, y)`
+Places centroid `j` (from `0` to `cluster_k() - 1`) at the position `x`, `y`. A centroid can be moved again before `evaluate_clusters()`.
+
+returns `None`
+
+takes `1` tick to execute.
+
+example:
+`for j in range(cluster_k()):
+	submit_centroid(j, cluster_point_x(j), cluster_point_y(j))`
+@code_tooltip_evaluate_clusters = `evaluate_clusters()`
+Scores the submitted centroids and pays `Items.Insight`, up to `1200`. Centroids that were not submitted are ignored; at least one is needed.
+Then the next field is loaded and the centroids are cleared.
+
+returns the inertia: the sum over all points of the squared distance to the nearest centroid. Smaller is better.
+
+takes `200` ticks to execute.
+
+example:
+`submit_centroid(0, 10, 10)
+inertia = evaluate_clusters()`
+@code_tooltip_env_reset = `env_reset()`
+Starts a new episode in the grid world, with the drone in the south-west corner.
+
+returns the start state, `0`.
+
+takes `1` tick to execute.
+
+example:
+`s = env_reset()`
+@code_tooltip_env_state = `env_state()`
+Gets the current state of the grid world: `y * 5 + x` for the cell the drone is on.
+
+returns a number from `0` to `24`.
+
+takes `1` tick to execute.
+
+example:
+`s = env_state()`
+@code_tooltip_env_state_count = `env_state_count()`
+Gets the number of states of the grid world.
+
+returns `25`
+
+takes `1` tick to execute.
+
+example:
+`q = []
+for i in range(env_state_count() * env_actions()):
+	q.append(0)`
+@code_tooltip_env_actions = `env_actions()`
+Gets the number of actions: `0` North, `1` East, `2` South, `3` West.
+
+returns `4`
+
+takes `1` tick to execute.
+
+example:
+`for a in range(env_actions()):
+	print(a)`
+@code_tooltip_env_step = `env_step(a)`
+Takes action `a` in the grid world. Sometimes the drone slips and takes a random action instead.
+It is an error to call it when the episode is over.
+
+returns the reward of the step: `20` for the goal, `-20` for a pond, `-1` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`env_reset()
+while not env_done():
+	r = env_step(1)`
+@code_tooltip_env_done = `env_done()`
+Checks if the current episode is over (goal, pond or `50` steps).
+
+returns `True` if the episode is over, `False` otherwise.
+
+takes `1` tick to execute.
+
+example:
+`if env_done():
+	env_reset()`
+@code_tooltip_submit_policy_action = `submit_policy_action(state, a)`
+Sets the action of the policy in `state`. States that are never set use action `0`.
+
+returns `None`
+
+takes `1` tick to execute.
+
+example:
+`for s in range(env_state_count()):
+	submit_policy_action(s, 1)`
+@code_tooltip_evaluate_policy = `evaluate_policy()`
+Runs the policy for `50` episodes and pays `Items.Insight`, up to `8000`.
+Then a new world is made and the policy is reset.
+
+returns the average return of the policy.
+
+takes `200` ticks to execute.
+
+example:
+`score = evaluate_policy()`
+@code_tooltip_nn_point_count = `nn_point_count()`
+Gets the number of training points of the current XOR task.
+
+returns the number of training points.
+
+takes `1` tick to execute.
+
+example:
+`n = nn_point_count()`
+@code_tooltip_nn_point_x = `nn_point_x(i)`
+Gets the x position of training point `i` of the XOR task.
+
+returns a number.
+
+takes `1` tick to execute.
+
+example:
+`x = nn_point_x(0)`
+@code_tooltip_nn_point_y = `nn_point_y(i)`
+Gets the y position of training point `i` of the XOR task.
+
+returns a number.
+
+takes `1` tick to execute.
+
+example:
+`y = nn_point_y(0)`
+@code_tooltip_nn_point_label = `nn_point_label(i)`
+Gets the label of training point `i` of the XOR task.
+
+returns `0` or `1`.
+
+takes `1` tick to execute.
+
+example:
+`label = nn_point_label(0)`
+@code_tooltip_nn_sigmoid = `nn_sigmoid(x)`
+Computes the logistic function `1 / (1 + 2.718281828 ** -x)`, the activation of every neuron of the network.
+
+returns a number between `0` and `1`; `0.5` for `x = 0`.
+
+takes `1` tick to execute.
+
+example:
+`h = nn_sigmoid(2 * x - 1)`
+@code_tooltip_nn_submit_weight = `nn_submit_weight(layer, i, j, w)`
+Sets a weight of the network.
+Layer `0`: from input `i` (`0` = x, `1` = y) to hidden neuron `j` (`0` or `1`). Layer `1`: from hidden neuron `i` to the output, with `j = 0`.
+
+returns `None`
+
+takes `1` tick to execute.
+
+example:
+`nn_submit_weight(0, 1, 0, 2.5)
+nn_submit_weight(1, 0, 0, 4)`
+@code_tooltip_nn_submit_bias = `nn_submit_bias(layer, j, b)`
+Sets a bias of the network.
+Layer `0`: hidden neuron `j` (`0` or `1`). Layer `1`: the output, with `j = 0`.
+
+returns `None`
+
+takes `1` tick to execute.
+
+example:
+`nn_submit_bias(0, 1, -3)
+nn_submit_bias(1, 0, -2)`
+@code_tooltip_nn_output = `nn_output(x, y)`
+Runs the network with the submitted weights on the input `x`, `y`.
+The network predicts label `1` when the output is at least `0.5`.
+
+returns a number between `0` and `1`.
+
+takes `5` ticks to execute.
+
+example:
+`correct = 0
+for i in range(nn_point_count()):
+	if (nn_output(nn_point_x(i), nn_point_y(i)) >= 0.5) == (nn_point_label(i) == 1):
+		correct = correct + 1`
+@code_tooltip_nn_evaluate = `nn_evaluate()`
+Tests the network on hidden test points and pays `Items.Insight`, up to `300`.
+Then the next XOR task is loaded: the same square, moved a little. The weights stay.
+
+returns the accuracy, the fraction of test points classified correctly, from `0` to `1`.
+
+takes `200` ticks to execute.
+
+example:
+`accuracy = nn_evaluate()`
